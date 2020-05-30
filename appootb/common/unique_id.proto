@@ -1,0 +1,25 @@
+syntax = "proto2";
+
+package appootb.common;
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Common";
+option go_package = ".;common";
+option java_multiple_files = true;
+option java_outer_classname = "UniqueIdProto";
+option java_package = "com.appootb.common";
+option objc_class_prefix = "CPB";
+option php_namespace = "Proto\\Common";
+
+
+// Unique ID (uint64 type).
+message UniqueId {
+  required uint64 id = 1; // ID value
+}
+
+// Unique IDs (uint64 array).
+message UniqueIds {
+  repeated uint64 ids = 1; // ID list
+}

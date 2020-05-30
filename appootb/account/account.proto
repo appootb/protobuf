@@ -1,0 +1,58 @@
+syntax = "proto2";
+
+package appootb.account;
+
+import "appootb/common/unique_id.proto";
+import "appootb/permission/method.proto";
+import "google/api/annotations.proto";
+
+import "common.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Account";
+option go_package = ".;account";
+option java_multiple_files = true;
+option java_outer_classname = "AccountProto";
+option java_package = "com.appootb.account";
+option objc_class_prefix = "CPB";
+option php_namespace = "Proto\\Account";
+
+
+// Update account info request.
+message VariableInfo {
+  optional string nickname  = 1; // Nickname
+  optional string avatar    = 2; // Avatar
+  optional string signature = 3; // Signature
+  optional Gender gender    = 4; // Gender
+}
+
+
+// Account info service.
+service Account {
+  // Get account info.
+  rpc GetInfo(appootb.common.UniqueId) returns (AccountInfo) {
+    option (google.api.http) = {
+      get: "/account/info/{id}"
+    };
+  }
+
+  // Get account infos.
+  rpc GetInfos(appootb.common.UniqueIds) returns (AccountInfos) {
+    option (google.api.http) = {
+      get: "/account/infos"
+    };
+  }
+
+  // Update account info.
+  rpc UpdateInfo(VariableInfo) returns (AccountInfo) {
+    option (appootb.permission.method.token) = {
+      required: LOW_TOKEN
+    };
+    option (google.api.http) = {
+      patch: "/account/info"
+      body: "*"
+    };
+  }
+}

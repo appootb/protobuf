@@ -1,0 +1,66 @@
+syntax = "proto2";
+
+package appootb.account;
+
+import "appootb/permission/method.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Account";
+option go_package = ".;account";
+option java_multiple_files = true;
+option java_outer_classname = "ProfileProto";
+option java_package = "com.appootb.account";
+option objc_class_prefix = "CPB";
+option php_namespace = "Proto\\Account";
+
+
+// Account profile.
+message AccountProfile {
+  required string name = 1; // Profile name
+
+  optional google.protobuf.Struct value = 2; // Profile value
+}
+
+// Account profiles.
+message AccountProfiles {
+  map<string, google.protobuf.Struct> profiles = 1; // Profiles
+}
+
+// Account profile service.
+service Profile {
+  // Set or update account profile.
+  rpc Set(AccountProfile) returns (google.protobuf.Empty) {
+    option (appootb.permission.method.token) = {
+      required: LOW_TOKEN
+    };
+    option (google.api.http) = {
+      put: "/account/profile/{name}"
+      body: "*"
+    };
+  }
+
+  // Get account profile.
+  rpc Get(AccountProfile) returns (AccountProfile) {
+    option (appootb.permission.method.token) = {
+      required: LOW_TOKEN
+    };
+    option (google.api.http) = {
+      get: "/account/profile/{name}"
+    };
+  }
+
+  // Get account all profiles.
+  rpc Gets(google.protobuf.Empty) returns (AccountProfiles) {
+    option (appootb.permission.method.token) = {
+      required: LOW_TOKEN
+    };
+    option (google.api.http) = {
+      get: "/account/profiles"
+    };
+  }
+}

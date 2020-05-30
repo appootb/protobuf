@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package appootb.permission.method;
+
+import "google/protobuf/descriptor.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Permission";
+option go_package = ".;permission";
+option java_multiple_files = true;
+option java_outer_classname = "MethodProto";
+option java_package = "com.appootb.permission";
+option objc_class_prefix = "CPB";
+option php_namespace = "Proto\\Permission";
+
+
+// Method token level.
+enum TokenLevel {
+  NONE_TOKEN   = 0;   // Public access
+  GUEST_TOKEN  = 100; // Guest token
+  LOW_TOKEN    = 200; // Lower token, for h5, web
+  MIDDLE_TOKEN = 300; // Middle token, for pc
+  HIGH_TOKEN   = 400; // High token, for native app
+  INNER_TOKEN  = 999; // For server internal
+}
+
+// Method token.
+message Token {
+  TokenLevel required = 1; // Token level
+}
+
+// ProtoBuffer method extend.
+extend google.protobuf.MethodOptions {
+  // ID assigned by protobuf-global-extension-registry@google.com for grpc-gateway project.
+  //
+  // All IDs are the same, as assigned. It is okay that they are the same, as they extend
+  // different descriptor messages.
+  Token token = 2507; // Method option
+}

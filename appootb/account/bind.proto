@@ -1,0 +1,73 @@
+syntax = "proto2";
+
+package appootb.account;
+
+import "appootb/permission/method.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "common.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Account";
+option go_package = ".;account";
+option java_multiple_files = true;
+option java_outer_classname = "BindProto";
+option java_package = "com.appootb.account";
+option objc_class_prefix = "CPB";
+option php_namespace = "Proto\\Account";
+
+
+// Account bind information.
+message BindInfo {
+  required AuthType source_type = 1; // Auth source type
+  required string   source_id   = 2; // Source ID or OAuth open ID
+}
+
+// Account bind request.
+message BindRequest {
+  required BindInfo bind = 1; // Bind information
+  optional string   code = 2; // Verification code
+}
+
+// Account binds information.
+message AccountBinds {
+  repeated BindInfo binds = 1; // Account bind info list
+}
+
+
+// Account bind service.
+service Bind {
+  // Apply account bind.
+  rpc Apply(BindRequest) returns (google.protobuf.Empty) {
+    option (appootb.permission.method.token) = {
+      required: MIDDLE_TOKEN
+    };
+    option (google.api.http) = {
+      post: "/account/bind"
+      body: "*"
+    };
+  }
+
+  // Cancel account bind.
+  rpc Cancel(BindRequest) returns (google.protobuf.Empty) {
+    option (appootb.permission.method.token) = {
+      required: MIDDLE_TOKEN
+    };
+    option (google.api.http) = {
+      delete: "/account/bind"
+    };
+  }
+
+  // Get all bind info.
+  rpc Gets(google.protobuf.Empty) returns (AccountBinds) {
+    option (appootb.permission.method.token) = {
+      required: MIDDLE_TOKEN
+    };
+    option (google.api.http) = {
+      get: "/account/binds"
+    };
+  }
+}

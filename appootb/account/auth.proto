@@ -1,0 +1,97 @@
+syntax = "proto2";
+
+package appootb.account;
+
+import "appootb/captcha/common.proto";
+import "appootb/permission/method.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "common.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Account";
+option go_package = ".;account";
+option java_multiple_files = true;
+option java_outer_classname = "AuthProto";
+option java_package = "com.appootb.account";
+option objc_class_prefix = "CPB";
+option php_namespace = "Proto\\Account";
+
+
+// Login request.
+message LoginRequest {
+  required string relate_id = 1; // Relate ID of the account, mobile or email
+  oneof secure {
+    string code     = 2; // Random verification code
+    string password = 3; // Account password
+  }
+}
+
+// OAuth request.
+message OAuthRequest {
+  required AuthType type = 1; // Auth type
+
+  required string open_id      = 2; // Authentication ID
+  required string access_token = 3; // Authorization token
+}
+
+// Region.
+message Region {
+  required string name  = 1; // Region name
+  required string local = 2; // Local name
+  required string abbr  = 3; // Abbreviation of region name
+  required string code  = 4; // Region code
+}
+
+// Regions.
+message Regions {
+  repeated Region regions = 1; // Regions
+}
+
+
+// Authentication service.
+service Auth {
+  // Get auth code.
+  rpc GetCode(appootb.captcha.CodeRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      get: "/account/auth/code"
+    };
+  }
+
+  // Login.
+  rpc Login(LoginRequest) returns (AccountInfo) {
+    option (google.api.http) = {
+      post: "/account/auth/login"
+      body: "*"
+    };
+  }
+
+  // OAuth.
+  rpc OAuth(OAuthRequest) returns (AccountInfo) {
+    option (google.api.http) = {
+      post: "/account/auth/oauth"
+      body: "*"
+    };
+  }
+
+  // Get regions.
+  rpc GetRegions(google.protobuf.Empty) returns (Regions) {
+    option (google.api.http) = {
+      get: "/account/auth/regions"
+    };
+  }
+
+  // Refresh account token.
+  rpc Refresh(google.protobuf.Empty) returns (AccountInfo) {
+    option (appootb.permission.method.token) = {
+      required: LOW_TOKEN
+    };
+    option (google.api.http) = {
+      put: "/account/auth/refresh"
+      body: "*"
+    };
+  }
+}

@@ -1,0 +1,40 @@
+syntax = "proto2";
+
+package appootb.strainer;
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Strainer";
+option go_package = ".;strainer";
+option java_multiple_files = true;
+option java_outer_classname = "CommonProto";
+option java_package = "com.appootb.strainer";
+option objc_class_prefix = "CPB";
+option php_namespace = "Proto\\Strainer";
+
+
+// Strainer channel enums.
+enum Channel {
+  CHANNEL_UNSPECIFIED = 0; // Unspecified
+}
+
+// Target type enums.
+enum Target {
+  TARGET_UNSPECIFIED = 0; // Unspecified
+
+  TARGET_NICKNAME  = 1; // Account nickname
+  TARGET_AVATAR    = 2; // Account avatar
+  TARGET_SIGNATURE = 3; // Account signature
+  TARGET_TEXT      = 4; // Text
+  TARGET_IMAGE     = 5; // Image
+  TARGET_VIDEO     = 6; // Video
+  TARGET_AUDIO     = 7; // Audio
+}
+
+// Filter request.
+message FilterRequest {
+  optional Channel channel = 1; // Strainer channel
+  required Target  type    = 2; // Target type
+  required string  data    = 3; // Strainer data
+}

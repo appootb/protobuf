@@ -1,0 +1,43 @@
+syntax = "proto2";
+
+package appootb.common;
+
+import "network.proto";
+import "platform.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Common";
+option go_package = ".;common";
+option java_multiple_files = true;
+option java_outer_classname = "MetadataProto";
+option java_package = "com.appootb.common";
+option objc_class_prefix = "CPB";
+option php_namespace = "Proto\\Common";
+
+
+// Request metadata.
+message Metadata {
+  optional uint64 account = 1; // Account ID
+  optional string token   = 2; // Account token
+
+  required Platform platform = 3; // Device platform, ios or android
+  optional Network  network  = 4; // Device network type, wifi or 4g
+
+  optional string package     = 5;  // Application package name
+  required string version     = 6;  // Application version
+  optional string os_version  = 7;  // Platform os version
+  optional string brand       = 8;  // Device brand or manufacturer
+  optional string model       = 9;  // Device model
+  required string device_id   = 10; // Device ID
+  required int64  timestamp   = 11; // Local device timestamp
+  optional bool   is_emulator = 12 [default = true]; // If running in an emulator
+
+  optional string latitude  = 13; // Device location latitude
+  optional string longitude = 14; // Device location longitude
+  optional string locale    = 15; // Device locale
+  optional string client_ip = 16; // Client IP
+  optional string channel   = 17; // Distribution channel
+  optional string product   = 18; // Product name
+}

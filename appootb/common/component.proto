@@ -1,0 +1,24 @@
+syntax = "proto2";
+
+package appootb.common;
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Common";
+option go_package = ".;common";
+option java_multiple_files = true;
+option java_outer_classname = "ComponentProto";
+option java_package = "com.appootb.common";
+option objc_class_prefix = "CPB";
+option php_namespace = "Proto\\Common";
+
+
+// Component enums.
+enum Component {
+  COMPONENT_UNSPECIFIED = 0; // Unspecified
+
+  COMPONENT_CAPTCHA  = 1; // Captcha
+  COMPONENT_ACCOUNT  = 2; // Account
+  COMPONENT_STRAINER = 3; // Strainer
+}

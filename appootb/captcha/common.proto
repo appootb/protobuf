@@ -1,0 +1,43 @@
+syntax = "proto2";
+
+package appootb.captcha;
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Captcha";
+option go_package = ".;captcha";
+option java_multiple_files = true;
+option java_outer_classname = "CommonProto";
+option java_package = "com.appootb.captcha";
+option objc_class_prefix = "CPB";
+option php_namespace = "Proto\\Captcha";
+
+
+// Captcha code channel enums.
+enum Channel {
+  CHANNEL_UNSPECIFIED = 0; // Unspecified
+
+  CHANNEL_EMAIL = 1; // Email
+  CHANNEL_SMS   = 2; // Mobile SMS
+  CHANNEL_PHONE = 3; // Phone call
+  CHANNEL_OTP   = 4; // One-Time password
+}
+
+// Captcha code category enums.
+enum Category {
+  CATEGORY_UNSPECIFIED = 0; // Unspecified
+
+  CATEGORY_REGISTER  = 1; // Register
+  CATEGORY_LOGIN     = 2; // Login
+  CATEGORY_RESET_PWD = 3; // Reset password
+}
+
+// Captcha code request.
+message CodeRequest {
+  required Channel  channel  = 1; // Code channel
+  required Category category = 2; // Code category
+
+  required string target = 3; // Target, e.g. email address, phone number
+  optional string value  = 4; // Code value for verification
+}
