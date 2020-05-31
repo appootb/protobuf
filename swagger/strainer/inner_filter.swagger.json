@@ -1,0 +1,121 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "inner_filter.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/strainer/inner/filter": {
+      "post": {
+        "summary": "Filter.",
+        "operationId": "InnerFilter_Filter",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/strainerFilterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InnerFilter"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "strainerChannel": {
+      "type": "string",
+      "enum": [
+        "CHANNEL_UNSPECIFIED"
+      ],
+      "default": "CHANNEL_UNSPECIFIED",
+      "description": "Strainer channel enums."
+    },
+    "strainerFilterRequest": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "$ref": "#/definitions/strainerChannel"
+        },
+        "type": {
+          "$ref": "#/definitions/strainerTarget"
+        },
+        "data": {
+          "type": "string"
+        }
+      },
+      "description": "Filter request."
+    },
+    "strainerTarget": {
+      "type": "string",
+      "enum": [
+        "TARGET_UNSPECIFIED",
+        "TARGET_NICKNAME",
+        "TARGET_AVATAR",
+        "TARGET_SIGNATURE",
+        "TARGET_TEXT",
+        "TARGET_IMAGE",
+        "TARGET_VIDEO",
+        "TARGET_AUDIO"
+      ],
+      "default": "TARGET_UNSPECIFIED",
+      "description": "Target type enums."
+    }
+  }
+}

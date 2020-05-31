@@ -1,0 +1,157 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "inner_code.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/captcha/inner/code/launch": {
+      "post": {
+        "summary": "Launch verification code process.",
+        "operationId": "InnerCode_Launch",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/captchaCodeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InnerCode"
+        ]
+      }
+    },
+    "/captcha/inner/code/verify": {
+      "post": {
+        "summary": "Check the verification code.",
+        "operationId": "InnerCode_Verify",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/captchaCodeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InnerCode"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "captchaCategory": {
+      "type": "string",
+      "enum": [
+        "CATEGORY_UNSPECIFIED",
+        "CATEGORY_REGISTER",
+        "CATEGORY_LOGIN",
+        "CATEGORY_RESET_PWD"
+      ],
+      "default": "CATEGORY_UNSPECIFIED",
+      "description": "Captcha code category enums."
+    },
+    "captchaChannel": {
+      "type": "string",
+      "enum": [
+        "CHANNEL_UNSPECIFIED",
+        "CHANNEL_EMAIL",
+        "CHANNEL_SMS",
+        "CHANNEL_PHONE",
+        "CHANNEL_OTP"
+      ],
+      "default": "CHANNEL_UNSPECIFIED",
+      "description": "Captcha code channel enums."
+    },
+    "captchaCodeRequest": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "$ref": "#/definitions/captchaChannel"
+        },
+        "category": {
+          "$ref": "#/definitions/captchaCategory"
+        },
+        "target": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "description": "Captcha code request."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

@@ -12,7 +12,7 @@ option cc_enable_arenas = true;
 option optimize_for = SPEED;
 
 option csharp_namespace = "Account";
-option go_package = ".;account";
+option go_package = "github.com/appootb/protobuf/go/account";
 option java_multiple_files = true;
 option java_outer_classname = "BindProto";
 option java_package = "com.appootb.account";
