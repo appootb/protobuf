@@ -136,7 +136,6 @@ func local_request_Password_Reset_0(ctx context.Context, marshaler runtime.Marsh
 // RegisterPasswordHandlerServer registers the http handlers for service Password to "mux".
 // UnaryRPC     :call PasswordServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features (such as grpc.SendHeader, etc) to stop working. Consider using RegisterPasswordHandlerFromEndpoint instead.
 func RegisterPasswordHandlerServer(ctx context.Context, mux *runtime.ServeMux, server PasswordServer) error {
 
 	mux.Handle("POST", pattern_Password_Set_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

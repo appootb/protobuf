@@ -192,7 +192,6 @@ func local_request_Auth_Refresh_0(ctx context.Context, marshaler runtime.Marshal
 // RegisterAuthHandlerServer registers the http handlers for service Auth to "mux".
 // UnaryRPC     :call AuthServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features (such as grpc.SendHeader, etc) to stop working. Consider using RegisterAuthHandlerFromEndpoint instead.
 func RegisterAuthHandlerServer(ctx context.Context, mux *runtime.ServeMux, server AuthServer) error {
 
 	mux.Handle("GET", pattern_Auth_GetCode_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

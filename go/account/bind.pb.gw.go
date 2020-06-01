@@ -123,7 +123,6 @@ func local_request_Bind_Gets_0(ctx context.Context, marshaler runtime.Marshaler,
 // RegisterBindHandlerServer registers the http handlers for service Bind to "mux".
 // UnaryRPC     :call BindServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features (such as grpc.SendHeader, etc) to stop working. Consider using RegisterBindHandlerFromEndpoint instead.
 func RegisterBindHandlerServer(ctx context.Context, mux *runtime.ServeMux, server BindServer) error {
 
 	mux.Handle("POST", pattern_Bind_Apply_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

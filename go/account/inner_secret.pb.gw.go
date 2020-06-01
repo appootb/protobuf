@@ -70,7 +70,6 @@ func local_request_InnerSecret_GetSecretInfo_0(ctx context.Context, marshaler ru
 // RegisterInnerSecretHandlerServer registers the http handlers for service InnerSecret to "mux".
 // UnaryRPC     :call InnerSecretServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features (such as grpc.SendHeader, etc) to stop working. Consider using RegisterInnerSecretHandlerFromEndpoint instead.
 func RegisterInnerSecretHandlerServer(ctx context.Context, mux *runtime.ServeMux, server InnerSecretServer) error {
 
 	mux.Handle("GET", pattern_InnerSecret_GetSecretInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

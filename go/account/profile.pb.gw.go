@@ -195,7 +195,6 @@ func local_request_Profile_Gets_0(ctx context.Context, marshaler runtime.Marshal
 // RegisterProfileHandlerServer registers the http handlers for service Profile to "mux".
 // UnaryRPC     :call ProfileServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features (such as grpc.SendHeader, etc) to stop working. Consider using RegisterProfileHandlerFromEndpoint instead.
 func RegisterProfileHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ProfileServer) error {
 
 	mux.Handle("PUT", pattern_Profile_Set_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

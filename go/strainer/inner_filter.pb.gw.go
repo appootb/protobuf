@@ -68,7 +68,6 @@ func local_request_InnerFilter_Filter_0(ctx context.Context, marshaler runtime.M
 // RegisterInnerFilterHandlerServer registers the http handlers for service InnerFilter to "mux".
 // UnaryRPC     :call InnerFilterServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features (such as grpc.SendHeader, etc) to stop working. Consider using RegisterInnerFilterHandlerFromEndpoint instead.
 func RegisterInnerFilterHandlerServer(ctx context.Context, mux *runtime.ServeMux, server InnerFilterServer) error {
 
 	mux.Handle("POST", pattern_InnerFilter_Filter_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
