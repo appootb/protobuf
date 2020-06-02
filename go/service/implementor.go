@@ -21,6 +21,17 @@ type Implementor interface {
 	RegisterGateway(scope permission.VisibleScope, handler GatewayHandler) error
 }
 
+// The secret information of the account token.
+type Authorization struct {
+	Account  uint64                 // Account ID
+	Device   string                 // Account device ID
+	Issuer   string                 // Token issuer
+	Level    permission.TokenLevel  // Token access level
+	Secret   []byte                 // Token secret data
+	Roles    []string               // Roles associated with the token
+	Metadata map[string]interface{} // Any other associated metadata
+}
+
 // Server authenticator interface.
 type Authenticator interface {
 	// Register required token level of the service.
@@ -28,18 +39,21 @@ type Authenticator interface {
 	RegisterServiceTokenLevel(fullMethodTokenLevels map[string]permission.TokenLevel)
 
 	// Authenticate a request specified by the full url path of the method.
-	Authenticate(ctx context.Context, fullMethod string) error
+	Authenticate(ctx context.Context, fullMethod string) (*Authorization, error)
 }
+
+type authenticatorKey struct{}
 
 // UnaryServerInterceptor returns a new unary server interceptor that authenticates incoming messages.
 //
 // Invalid messages will be rejected with `PermissionDenied` before reaching any userspace handlers.
 func UnaryServerInterceptor(v Authenticator) grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
-		if err := v.Authenticate(ctx, info.FullMethod); err != nil {
+		data, err := v.Authenticate(ctx, info.FullMethod)
+		if err != nil {
 			return nil, status.Errorf(codes.PermissionDenied, err.Error())
 		}
-		return handler(ctx, req)
+		return handler(context.WithValue(ctx, authenticatorKey{}, data), req)
 	}
 }
 
@@ -51,9 +65,28 @@ func UnaryServerInterceptor(v Authenticator) grpc.UnaryServerInterceptor {
 // calls to `stream.Recv()`.
 func StreamServerInterceptor(v Authenticator) grpc.StreamServerInterceptor {
 	return func(srv interface{}, stream grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
-		if err := v.Authenticate(stream.Context(), info.FullMethod); err != nil {
+		data, err := v.Authenticate(stream.Context(), info.FullMethod)
+		if err != nil {
 			return status.Errorf(codes.PermissionDenied, err.Error())
 		}
-		return handler(srv, stream)
+		wrapper := &ctxWrapper{stream, data}
+		return handler(srv, wrapper)
 	}
+}
+
+type ctxWrapper struct {
+	grpc.ServerStream
+	data *Authorization
+}
+
+func (s *ctxWrapper) Context() context.Context {
+	ctx := s.ServerStream.Context()
+	return context.WithValue(ctx, authenticatorKey{}, s.data)
+}
+
+func RequestAuthorization(ctx context.Context) *Authorization {
+	if data := ctx.Value(authenticatorKey{}); data != nil {
+		return data.(*Authorization)
+	}
+	return nil
 }
