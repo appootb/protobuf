@@ -13,7 +13,7 @@ option java_multiple_files = true;
 option java_outer_classname = "MethodProto";
 option java_package = "com.appootb.permission";
 option objc_class_prefix = "CPB";
-option php_namespace = "Proto\\Permission";
+option php_namespace = "Appootb\\Proto\\Permission";
 
 
 // Method token level.

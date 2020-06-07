@@ -7,8 +7,8 @@
 package account
 
 import (
-	_ "."
 	context "context"
+	common "github.com/appootb/protobuf/go/common"
 	_ "github.com/appootb/protobuf/go/permission"
 	proto "github.com/golang/protobuf/proto"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -144,14 +144,15 @@ var file_account_proto_rawDesc = []byte{
 	0x62, 0x2e, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x2e, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e,
 	0x74, 0x49, 0x6e, 0x66, 0x6f, 0x22, 0x1f, 0xda, 0x9c, 0x01, 0x03, 0x08, 0xc8, 0x01, 0x82, 0xd3,
 	0xe4, 0x93, 0x02, 0x12, 0x32, 0x0d, 0x2f, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x2f, 0x69,
-	0x6e, 0x66, 0x6f, 0x3a, 0x01, 0x2a, 0x42, 0x72, 0x0a, 0x13, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x70,
+	0x6e, 0x66, 0x6f, 0x3a, 0x01, 0x2a, 0x42, 0x7a, 0x0a, 0x13, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x70,
 	0x70, 0x6f, 0x6f, 0x74, 0x62, 0x2e, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x42, 0x0c, 0x41,
 	0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x48, 0x01, 0x50, 0x01, 0x5a,
 	0x26, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x61, 0x70, 0x70, 0x6f,
 	0x6f, 0x74, 0x62, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x67, 0x6f, 0x2f,
 	0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0xf8, 0x01, 0x01, 0xa2, 0x02, 0x03, 0x43, 0x50, 0x42,
-	0xaa, 0x02, 0x07, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0xca, 0x02, 0x0d, 0x50, 0x72, 0x6f,
-	0x74, 0x6f, 0x5c, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74,
+	0xaa, 0x02, 0x07, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0xca, 0x02, 0x15, 0x41, 0x70, 0x70,
+	0x6f, 0x6f, 0x74, 0x62, 0x5c, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x5c, 0x41, 0x63, 0x63, 0x6f, 0x75,
+	0x6e, 0x74,
 }
 
 var (
@@ -168,12 +169,12 @@ func file_account_proto_rawDescGZIP() []byte {
 
 var file_account_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_account_proto_goTypes = []interface{}{
-	(*VariableInfo)(nil), // 0: appootb.account.VariableInfo
-	(Gender)(0),          // 1: appootb.account.Gender
-	(*_.UniqueId)(nil),   // 2: appootb.common.UniqueId
-	(*_.UniqueIds)(nil),  // 3: appootb.common.UniqueIds
-	(*AccountInfo)(nil),  // 4: appootb.account.AccountInfo
-	(*AccountInfos)(nil), // 5: appootb.account.AccountInfos
+	(*VariableInfo)(nil),     // 0: appootb.account.VariableInfo
+	(Gender)(0),              // 1: appootb.account.Gender
+	(*common.UniqueId)(nil),  // 2: appootb.common.UniqueId
+	(*common.UniqueIds)(nil), // 3: appootb.common.UniqueIds
+	(*AccountInfo)(nil),      // 4: appootb.account.AccountInfo
+	(*AccountInfos)(nil),     // 5: appootb.account.AccountInfos
 }
 var file_account_proto_depIdxs = []int32{
 	1, // 0: appootb.account.VariableInfo.gender:type_name -> appootb.account.Gender
@@ -243,9 +244,9 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type AccountClient interface {
 	// Get account info.
-	GetInfo(ctx context.Context, in *_.UniqueId, opts ...grpc.CallOption) (*AccountInfo, error)
+	GetInfo(ctx context.Context, in *common.UniqueId, opts ...grpc.CallOption) (*AccountInfo, error)
 	// Get account infos.
-	GetInfos(ctx context.Context, in *_.UniqueIds, opts ...grpc.CallOption) (*AccountInfos, error)
+	GetInfos(ctx context.Context, in *common.UniqueIds, opts ...grpc.CallOption) (*AccountInfos, error)
 	// Update account info.
 	UpdateInfo(ctx context.Context, in *VariableInfo, opts ...grpc.CallOption) (*AccountInfo, error)
 }
@@ -258,7 +259,7 @@ func NewAccountClient(cc grpc.ClientConnInterface) AccountClient {
 	return &accountClient{cc}
 }
 
-func (c *accountClient) GetInfo(ctx context.Context, in *_.UniqueId, opts ...grpc.CallOption) (*AccountInfo, error) {
+func (c *accountClient) GetInfo(ctx context.Context, in *common.UniqueId, opts ...grpc.CallOption) (*AccountInfo, error) {
 	out := new(AccountInfo)
 	err := c.cc.Invoke(ctx, "/appootb.account.Account/GetInfo", in, out, opts...)
 	if err != nil {
@@ -267,7 +268,7 @@ func (c *accountClient) GetInfo(ctx context.Context, in *_.UniqueId, opts ...grp
 	return out, nil
 }
 
-func (c *accountClient) GetInfos(ctx context.Context, in *_.UniqueIds, opts ...grpc.CallOption) (*AccountInfos, error) {
+func (c *accountClient) GetInfos(ctx context.Context, in *common.UniqueIds, opts ...grpc.CallOption) (*AccountInfos, error) {
 	out := new(AccountInfos)
 	err := c.cc.Invoke(ctx, "/appootb.account.Account/GetInfos", in, out, opts...)
 	if err != nil {
@@ -288,9 +289,9 @@ func (c *accountClient) UpdateInfo(ctx context.Context, in *VariableInfo, opts .
 // AccountServer is the server API for Account service.
 type AccountServer interface {
 	// Get account info.
-	GetInfo(context.Context, *_.UniqueId) (*AccountInfo, error)
+	GetInfo(context.Context, *common.UniqueId) (*AccountInfo, error)
 	// Get account infos.
-	GetInfos(context.Context, *_.UniqueIds) (*AccountInfos, error)
+	GetInfos(context.Context, *common.UniqueIds) (*AccountInfos, error)
 	// Update account info.
 	UpdateInfo(context.Context, *VariableInfo) (*AccountInfo, error)
 }
@@ -299,10 +300,10 @@ type AccountServer interface {
 type UnimplementedAccountServer struct {
 }
 
-func (*UnimplementedAccountServer) GetInfo(context.Context, *_.UniqueId) (*AccountInfo, error) {
+func (*UnimplementedAccountServer) GetInfo(context.Context, *common.UniqueId) (*AccountInfo, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInfo not implemented")
 }
-func (*UnimplementedAccountServer) GetInfos(context.Context, *_.UniqueIds) (*AccountInfos, error) {
+func (*UnimplementedAccountServer) GetInfos(context.Context, *common.UniqueIds) (*AccountInfos, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInfos not implemented")
 }
 func (*UnimplementedAccountServer) UpdateInfo(context.Context, *VariableInfo) (*AccountInfo, error) {
@@ -314,7 +315,7 @@ func RegisterAccountServer(s *grpc.Server, srv AccountServer) {
 }
 
 func _Account_GetInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(_.UniqueId)
+	in := new(common.UniqueId)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -326,13 +327,13 @@ func _Account_GetInfo_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: "/appootb.account.Account/GetInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).GetInfo(ctx, req.(*_.UniqueId))
+		return srv.(AccountServer).GetInfo(ctx, req.(*common.UniqueId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Account_GetInfos_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(_.UniqueIds)
+	in := new(common.UniqueIds)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -344,7 +345,7 @@ func _Account_GetInfos_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/appootb.account.Account/GetInfos",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).GetInfos(ctx, req.(*_.UniqueIds))
+		return srv.(AccountServer).GetInfos(ctx, req.(*common.UniqueIds))
 	}
 	return interceptor(ctx, in, info, handler)
 }

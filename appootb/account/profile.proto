@@ -16,7 +16,7 @@ option java_multiple_files = true;
 option java_outer_classname = "ProfileProto";
 option java_package = "com.appootb.account";
 option objc_class_prefix = "CPB";
-option php_namespace = "Proto\\Account";
+option php_namespace = "Appootb\\Proto\\Account";
 
 
 // Account profile.

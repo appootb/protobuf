@@ -6,12 +6,12 @@ option cc_enable_arenas = true;
 option optimize_for = SPEED;
 
 option csharp_namespace = "Error";
-option go_package = ".;error";
+option go_package = "github.com/appootb/protobuf/go/error";
 option java_multiple_files = true;
 option java_outer_classname = "ErrorCodeProto";
 option java_package = "com.appootb.error";
 option objc_class_prefix = "CPB";
-option php_namespace = "Proto\\Error";
+option php_namespace = "Appootb\\Proto\\Error";
 
 
 // Service error code.

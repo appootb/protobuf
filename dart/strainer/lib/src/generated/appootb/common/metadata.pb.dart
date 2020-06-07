@@ -15,7 +15,7 @@ import 'network.pbenum.dart' as $1;
 
 class Metadata extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Metadata', package: const $pb.PackageName('appootb.common'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, 'account', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$fixnum.Int64>(1, 'account', $pb.PbFieldType.QU6, defaultOrMaker: $fixnum.Int64.ZERO)
     ..aOS(2, 'token')
     ..e<$0.Platform>(3, 'platform', $pb.PbFieldType.QE, defaultOrMaker: $0.Platform.PLATFORM_UNSPECIFIED, valueOf: $0.Platform.valueOf, enumValues: $0.Platform.values)
     ..e<$1.Network>(4, 'network', $pb.PbFieldType.OE, defaultOrMaker: $1.Network.NETWORK_UNSPECIFIED, valueOf: $1.Network.valueOf, enumValues: $1.Network.values)
@@ -32,7 +32,8 @@ class Metadata extends $pb.GeneratedMessage {
     ..aOS(15, 'locale')
     ..aOS(16, 'clientIp')
     ..aOS(17, 'channel')
-    ..aOS(18, 'product')
+    ..aOS(18, 'category')
+    ..aOS(19, 'traceId')
   ;
 
   Metadata._() : super();
@@ -204,12 +205,21 @@ class Metadata extends $pb.GeneratedMessage {
   void clearChannel() => clearField(17);
 
   @$pb.TagNumber(18)
-  $core.String get product => $_getSZ(17);
+  $core.String get category => $_getSZ(17);
   @$pb.TagNumber(18)
-  set product($core.String v) { $_setString(17, v); }
+  set category($core.String v) { $_setString(17, v); }
   @$pb.TagNumber(18)
-  $core.bool hasProduct() => $_has(17);
+  $core.bool hasCategory() => $_has(17);
   @$pb.TagNumber(18)
-  void clearProduct() => clearField(18);
+  void clearCategory() => clearField(18);
+
+  @$pb.TagNumber(19)
+  $core.String get traceId => $_getSZ(18);
+  @$pb.TagNumber(19)
+  set traceId($core.String v) { $_setString(18, v); }
+  @$pb.TagNumber(19)
+  $core.bool hasTraceId() => $_has(18);
+  @$pb.TagNumber(19)
+  void clearTraceId() => clearField(19);
 }
 

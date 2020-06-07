@@ -8,7 +8,7 @@
 const Metadata$json = const {
   '1': 'Metadata',
   '2': const [
-    const {'1': 'account', '3': 1, '4': 1, '5': 4, '10': 'account'},
+    const {'1': 'account', '3': 1, '4': 2, '5': 4, '10': 'account'},
     const {'1': 'token', '3': 2, '4': 1, '5': 9, '10': 'token'},
     const {'1': 'platform', '3': 3, '4': 2, '5': 14, '6': '.appootb.common.Platform', '10': 'platform'},
     const {'1': 'network', '3': 4, '4': 1, '5': 14, '6': '.appootb.common.Network', '10': 'network'},
@@ -25,7 +25,8 @@ const Metadata$json = const {
     const {'1': 'locale', '3': 15, '4': 1, '5': 9, '10': 'locale'},
     const {'1': 'client_ip', '3': 16, '4': 1, '5': 9, '10': 'clientIp'},
     const {'1': 'channel', '3': 17, '4': 1, '5': 9, '10': 'channel'},
-    const {'1': 'product', '3': 18, '4': 1, '5': 9, '10': 'product'},
+    const {'1': 'category', '3': 18, '4': 1, '5': 9, '10': 'category'},
+    const {'1': 'trace_id', '3': 19, '4': 1, '5': 9, '10': 'traceId'},
   ],
 };
 

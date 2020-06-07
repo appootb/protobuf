@@ -9,12 +9,12 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/struct.pb.dart' as $13;
+import 'google/protobuf/struct.pb.dart' as $12;
 
 class AccountProfile extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('AccountProfile', package: const $pb.PackageName('appootb.account'), createEmptyInstance: create)
     ..aQS(1, 'name')
-    ..aOM<$13.Struct>(2, 'value', subBuilder: $13.Struct.create)
+    ..aOM<$12.Struct>(2, 'value', subBuilder: $12.Struct.create)
   ;
 
   AccountProfile._() : super();
@@ -42,20 +42,20 @@ class AccountProfile extends $pb.GeneratedMessage {
   void clearName() => clearField(1);
 
   @$pb.TagNumber(2)
-  $13.Struct get value => $_getN(1);
+  $12.Struct get value => $_getN(1);
   @$pb.TagNumber(2)
-  set value($13.Struct v) { setField(2, v); }
+  set value($12.Struct v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasValue() => $_has(1);
   @$pb.TagNumber(2)
   void clearValue() => clearField(2);
   @$pb.TagNumber(2)
-  $13.Struct ensureValue() => $_ensure(1);
+  $12.Struct ensureValue() => $_ensure(1);
 }
 
 class AccountProfiles extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('AccountProfiles', package: const $pb.PackageName('appootb.account'), createEmptyInstance: create)
-    ..m<$core.String, $13.Struct>(1, 'profiles', entryClassName: 'AccountProfiles.ProfilesEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $13.Struct.create, packageName: const $pb.PackageName('appootb.account'))
+    ..m<$core.String, $12.Struct>(1, 'profiles', entryClassName: 'AccountProfiles.ProfilesEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $12.Struct.create, packageName: const $pb.PackageName('appootb.account'))
     ..hasRequiredFields = false
   ;
 
@@ -75,6 +75,6 @@ class AccountProfiles extends $pb.GeneratedMessage {
   static AccountProfiles _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.Map<$core.String, $13.Struct> get profiles => $_getMap(0);
+  $core.Map<$core.String, $12.Struct> get profiles => $_getMap(0);
 }
 

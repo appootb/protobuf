@@ -225,7 +225,7 @@
           "type": "string"
         },
         "secret": {
-          "$ref": "#/definitions/accountSecret"
+          "$ref": "#/definitions/appootbaccountSecret"
         },
         "create_at": {
           "type": "string",
@@ -321,7 +321,7 @@
       },
       "description": "Regions."
     },
-    "accountSecret": {
+    "appootbaccountSecret": {
       "type": "object",
       "properties": {
         "token": {

@@ -17,7 +17,7 @@ option java_multiple_files = true;
 option java_outer_classname = "InnerCodeProto";
 option java_package = "com.appootb.captcha";
 option objc_class_prefix = "CPB";
-option php_namespace = "Proto\\Captcha";
+option php_namespace = "Appootb\\Proto\\Captcha";
 
 
 // InnerCode service.

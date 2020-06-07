@@ -77,7 +77,9 @@ func (m *Metadata) Validate() error {
 
 	// no validation rules for Channel
 
-	// no validation rules for Product
+	// no validation rules for Category
+
+	// no validation rules for TraceId
 
 	return nil
 }

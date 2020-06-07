@@ -140,7 +140,7 @@
           "type": "string"
         },
         "secret": {
-          "$ref": "#/definitions/accountSecret"
+          "$ref": "#/definitions/appootbaccountSecret"
         },
         "create_at": {
           "type": "string",
@@ -175,15 +175,6 @@
       "default": "GENDER_UNSPECIFIED",
       "description": "Account gender enums."
     },
-    "accountSecret": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
-        }
-      },
-      "description": "Account secret."
-    },
     "accountVariableInfo": {
       "type": "object",
       "properties": {
@@ -201,6 +192,15 @@
         }
       },
       "description": "Update account info request."
+    },
+    "appootbaccountSecret": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "description": "Account secret."
     },
     "protobufAny": {
       "type": "object",

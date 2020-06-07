@@ -12,12 +12,12 @@ option cc_enable_arenas = true;
 option optimize_for = SPEED;
 
 option csharp_namespace = "Strainer";
-option go_package = ".;strainer";
+option go_package = "github.com/appootb/protobuf/go/strainer";
 option java_multiple_files = true;
 option java_outer_classname = "InnerFilterProto";
 option java_package = "com.appootb.strainer";
 option objc_class_prefix = "CPB";
-option php_namespace = "Proto\\Strainer";
+option php_namespace = "Appootb\\Proto\\Strainer";
 
 
 // InnerFilter service.

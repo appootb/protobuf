@@ -9,18 +9,18 @@ option cc_enable_arenas = true;
 option optimize_for = SPEED;
 
 option csharp_namespace = "Common";
-option go_package = ".;common";
+option go_package = "github.com/appootb/protobuf/go/common";
 option java_multiple_files = true;
 option java_outer_classname = "MetadataProto";
 option java_package = "com.appootb.common";
 option objc_class_prefix = "CPB";
-option php_namespace = "Proto\\Common";
+option php_namespace = "Appootb\\Proto\\Common";
 
 
 // Request metadata.
 message Metadata {
-  optional uint64 account = 1; // Account ID
-  optional string token   = 2; // Account token
+  required uint64 account = 1; // Account ID, app_id for server internal usage
+  optional string token   = 2; // Account token, empty for guest account
 
   required Platform platform = 3; // Device platform, ios or android
   optional Network  network  = 4; // Device network type, wifi or 4g
@@ -31,13 +31,15 @@ message Metadata {
   optional string brand       = 8;  // Device brand or manufacturer
   optional string model       = 9;  // Device model
   required string device_id   = 10; // Device ID
-  required int64  timestamp   = 11; // Local device timestamp
+  required int64  timestamp   = 11; // Local device timestamp (in millisecond)
   optional bool   is_emulator = 12 [default = true]; // If running in an emulator
 
   optional string latitude  = 13; // Device location latitude
   optional string longitude = 14; // Device location longitude
   optional string locale    = 15; // Device locale
   optional string client_ip = 16; // Client IP
+
   optional string channel   = 17; // Distribution channel
-  optional string product   = 18; // Product name
+  optional string category  = 18; // Product category name
+  optional string trace_id  = 19; // Trace ID
 }

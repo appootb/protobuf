@@ -9,11 +9,11 @@ It translates gRPC into RESTful JSON APIs.
 package account
 
 import (
-	"appootb/common"
 	"context"
 	"io"
 	"net/http"
 
+	"github.com/appootb/protobuf/go/common"
 	"github.com/golang/protobuf/descriptor"
 	"github.com/golang/protobuf/proto"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
