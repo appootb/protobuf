@@ -12,6 +12,9 @@ import (
 
 // Service implementor interface.
 type Implementor interface {
+	// Get server context.
+	Context() context.Context
+
 	// Get gRPC server of the specified visible scope.
 	GetScopedGRPCServer(scope permission.VisibleScope) []*grpc.Server
 
