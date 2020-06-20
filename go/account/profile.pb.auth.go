@@ -26,6 +26,12 @@ func RegisterProfileScopeServer(auth service.Authenticator, impl service.Impleme
 	for _, grpc := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
 		RegisterProfileServer(grpc, srv)
 	}
-	// Register scoped gateway handler.
-	return impl.RegisterGateway(permission.VisibleScope_DEFAULT_SCOPE, RegisterProfileHandler)
+	// Register scoped gateway handler server.
+	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_DEFAULT_SCOPE) {
+		err := RegisterProfileHandlerServer(impl.Context(), mux, srv)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

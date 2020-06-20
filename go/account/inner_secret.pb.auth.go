@@ -24,6 +24,12 @@ func RegisterInnerSecretScopeServer(auth service.Authenticator, impl service.Imp
 	for _, grpc := range impl.GetScopedGRPCServer(permission.VisibleScope_INNER_SCOPE) {
 		RegisterInnerSecretServer(grpc, srv)
 	}
-	// Register scoped gateway handler.
-	return impl.RegisterGateway(permission.VisibleScope_INNER_SCOPE, RegisterInnerSecretHandler)
+	// Register scoped gateway handler server.
+	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_INNER_SCOPE) {
+		err := RegisterInnerSecretHandlerServer(impl.Context(), mux, srv)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

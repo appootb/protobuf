@@ -28,6 +28,12 @@ func RegisterAuthScopeServer(auth service.Authenticator, impl service.Implemento
 	for _, grpc := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
 		RegisterAuthServer(grpc, srv)
 	}
-	// Register scoped gateway handler.
-	return impl.RegisterGateway(permission.VisibleScope_DEFAULT_SCOPE, RegisterAuthHandler)
+	// Register scoped gateway handler server.
+	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_DEFAULT_SCOPE) {
+		err := RegisterAuthHandlerServer(impl.Context(), mux, srv)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

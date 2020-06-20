@@ -25,7 +25,7 @@ const Metadata$json = const {
     const {'1': 'locale', '3': 15, '4': 1, '5': 9, '10': 'locale'},
     const {'1': 'client_ip', '3': 16, '4': 1, '5': 9, '10': 'clientIp'},
     const {'1': 'channel', '3': 17, '4': 1, '5': 9, '10': 'channel'},
-    const {'1': 'category', '3': 18, '4': 1, '5': 9, '10': 'category'},
+    const {'1': 'product', '3': 18, '4': 1, '5': 9, '10': 'product'},
     const {'1': 'trace_id', '3': 19, '4': 1, '5': 9, '10': 'traceId'},
   ],
 };

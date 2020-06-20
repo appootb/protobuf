@@ -32,7 +32,7 @@ class Metadata extends $pb.GeneratedMessage {
     ..aOS(15, 'locale')
     ..aOS(16, 'clientIp')
     ..aOS(17, 'channel')
-    ..aOS(18, 'category')
+    ..aOS(18, 'product')
     ..aOS(19, 'traceId')
   ;
 
@@ -205,13 +205,13 @@ class Metadata extends $pb.GeneratedMessage {
   void clearChannel() => clearField(17);
 
   @$pb.TagNumber(18)
-  $core.String get category => $_getSZ(17);
+  $core.String get product => $_getSZ(17);
   @$pb.TagNumber(18)
-  set category($core.String v) { $_setString(17, v); }
+  set product($core.String v) { $_setString(17, v); }
   @$pb.TagNumber(18)
-  $core.bool hasCategory() => $_has(17);
+  $core.bool hasProduct() => $_has(17);
   @$pb.TagNumber(18)
-  void clearCategory() => clearField(18);
+  void clearProduct() => clearField(18);
 
   @$pb.TagNumber(19)
   $core.String get traceId => $_getSZ(18);
