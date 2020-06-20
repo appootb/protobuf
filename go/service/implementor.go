@@ -10,15 +10,13 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-type GatewayHandler func(context.Context, *runtime.ServeMux, *grpc.ClientConn) error
-
 // Service implementor interface.
 type Implementor interface {
 	// Get gRPC server of the specified visible scope.
 	GetScopedGRPCServer(scope permission.VisibleScope) []*grpc.Server
 
-	// Register gateway handler to the specified visible scope.
-	RegisterGateway(scope permission.VisibleScope, handler GatewayHandler) error
+	// Get gateway mux of the specified visible scope.
+	GetScopedGatewayMux(scope permission.VisibleScope) []*runtime.ServeMux
 }
 
 // Server authenticator interface.
@@ -40,6 +38,11 @@ func UnaryServerInterceptor(v Authenticator) grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 		secret, err := v.Authenticate(ctx, info.FullMethod)
 		if err != nil {
+			if _, ok := err.(interface {
+				GRPCStatus() *status.Status
+			}); ok {
+				return nil, err
+			}
 			return nil, status.Errorf(codes.PermissionDenied, err.Error())
 		}
 		return handler(context.WithValue(ctx, secretKey{}, secret), req)
@@ -56,6 +59,11 @@ func StreamServerInterceptor(v Authenticator) grpc.StreamServerInterceptor {
 	return func(srv interface{}, stream grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
 		secret, err := v.Authenticate(stream.Context(), info.FullMethod)
 		if err != nil {
+			if _, ok := err.(interface {
+				GRPCStatus() *status.Status
+			}); ok {
+				return err
+			}
 			return status.Errorf(codes.PermissionDenied, err.Error())
 		}
 		wrapper := &ctxWrapper{stream, secret}

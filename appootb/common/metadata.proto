@@ -39,7 +39,7 @@ message Metadata {
   optional string locale    = 15; // Device locale
   optional string client_ip = 16; // Client IP
 
-  optional string channel   = 17; // Distribution channel
-  optional string category  = 18; // Product category name
-  optional string trace_id  = 19; // Trace ID
+  optional string channel  = 17; // Distribution channel
+  optional string product  = 18; // Product name
+  optional string trace_id = 19; // Trace ID
 }
