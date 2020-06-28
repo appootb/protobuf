@@ -15,6 +15,12 @@ type Implementor interface {
 	// Get server context.
 	Context() context.Context
 
+	// Get UnaryServerInterceptor of the specified visible scope.
+	UnaryServerInterceptor() grpc.UnaryServerInterceptor
+
+	// Get StreamServerInterceptor of the specified visible scope.
+	StreamServerInterceptor() grpc.StreamServerInterceptor
+
 	// Get gRPC server of the specified visible scope.
 	GetScopedGRPCServer(scope permission.VisibleScope) []*grpc.Server
 

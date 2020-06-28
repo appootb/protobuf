@@ -3,11 +3,17 @@
 package captcha
 
 import (
+	"context"
+
 	"github.com/appootb/protobuf/go/permission"
 	"github.com/appootb/protobuf/go/service"
+	"github.com/golang/protobuf/ptypes/empty"
+	"google.golang.org/grpc"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
+var _ = context.TODO()
+var _ = grpc.ServiceDesc{}
 var _ = permission.TokenLevel_NONE_TOKEN
 var _ = service.UnaryServerInterceptor
 
@@ -16,21 +22,67 @@ var _levelInnerCode = map[string]permission.TokenLevel{
 	"/appootb.captcha.InnerCode/Verify": permission.TokenLevel_INNER_TOKEN,
 }
 
+type wrapperInnerCodeServer struct {
+	InnerCodeServer
+	service.Implementor
+}
+
+func (w *wrapperInnerCodeServer) Launch(ctx context.Context, req *CodeRequest) (*empty.Empty, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.InnerCodeServer.Launch(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.InnerCodeServer,
+		FullMethod: "/appootb.captcha.InnerCode/Launch",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.InnerCodeServer.Launch(ctx, req.(*CodeRequest))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*empty.Empty), nil
+}
+
+func (w *wrapperInnerCodeServer) Verify(ctx context.Context, req *CodeRequest) (*empty.Empty, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.InnerCodeServer.Verify(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.InnerCodeServer,
+		FullMethod: "/appootb.captcha.InnerCode/Verify",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.InnerCodeServer.Verify(ctx, req.(*CodeRequest))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*empty.Empty), nil
+}
+
 // Register scoped server.
 func RegisterInnerCodeScopeServer(auth service.Authenticator, impl service.Implementor, srv InnerCodeServer) error {
 	// Register service required token level.
 	auth.RegisterServiceTokenLevel(_levelInnerCode)
 
 	// Register scoped gRPC server.
-	for _, grpc := range impl.GetScopedGRPCServer(permission.VisibleScope_INNER_SCOPE) {
-		RegisterInnerCodeServer(grpc, srv)
+	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_INNER_SCOPE) {
+		RegisterInnerCodeServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
+	wrapper := wrapperInnerCodeServer{
+		InnerCodeServer: srv,
+		Implementor:     impl,
+	}
 	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_INNER_SCOPE) {
-		err := RegisterInnerCodeHandlerServer(impl.Context(), mux, srv)
+		err := RegisterInnerCodeHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }

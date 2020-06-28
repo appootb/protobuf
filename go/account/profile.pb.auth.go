@@ -3,11 +3,17 @@
 package account
 
 import (
+	"context"
+
 	"github.com/appootb/protobuf/go/permission"
 	"github.com/appootb/protobuf/go/service"
+	"github.com/golang/protobuf/ptypes/empty"
+	"google.golang.org/grpc"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
+var _ = context.TODO()
+var _ = grpc.ServiceDesc{}
 var _ = permission.TokenLevel_NONE_TOKEN
 var _ = service.UnaryServerInterceptor
 
@@ -17,21 +23,85 @@ var _levelProfile = map[string]permission.TokenLevel{
 	"/appootb.account.Profile/Set":  permission.TokenLevel_LOW_TOKEN,
 }
 
+type wrapperProfileServer struct {
+	ProfileServer
+	service.Implementor
+}
+
+func (w *wrapperProfileServer) Set(ctx context.Context, req *AccountProfile) (*empty.Empty, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.ProfileServer.Set(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.ProfileServer,
+		FullMethod: "/appootb.account.Profile/Set",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.ProfileServer.Set(ctx, req.(*AccountProfile))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*empty.Empty), nil
+}
+
+func (w *wrapperProfileServer) Get(ctx context.Context, req *AccountProfile) (*AccountProfile, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.ProfileServer.Get(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.ProfileServer,
+		FullMethod: "/appootb.account.Profile/Get",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.ProfileServer.Get(ctx, req.(*AccountProfile))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*AccountProfile), nil
+}
+
+func (w *wrapperProfileServer) Gets(ctx context.Context, req *empty.Empty) (*AccountProfiles, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.ProfileServer.Gets(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.ProfileServer,
+		FullMethod: "/appootb.account.Profile/Gets",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.ProfileServer.Gets(ctx, req.(*empty.Empty))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*AccountProfiles), nil
+}
+
 // Register scoped server.
 func RegisterProfileScopeServer(auth service.Authenticator, impl service.Implementor, srv ProfileServer) error {
 	// Register service required token level.
 	auth.RegisterServiceTokenLevel(_levelProfile)
 
 	// Register scoped gRPC server.
-	for _, grpc := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
-		RegisterProfileServer(grpc, srv)
+	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
+		RegisterProfileServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
+	wrapper := wrapperProfileServer{
+		ProfileServer: srv,
+		Implementor:   impl,
+	}
 	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_DEFAULT_SCOPE) {
-		err := RegisterProfileHandlerServer(impl.Context(), mux, srv)
+		err := RegisterProfileHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }

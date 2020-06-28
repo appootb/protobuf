@@ -3,16 +3,44 @@
 package account
 
 import (
+	"context"
+
 	"github.com/appootb/protobuf/go/permission"
 	"github.com/appootb/protobuf/go/service"
+	"google.golang.org/grpc"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
+var _ = context.TODO()
+var _ = grpc.ServiceDesc{}
 var _ = permission.TokenLevel_NONE_TOKEN
 var _ = service.UnaryServerInterceptor
 
 var _levelInnerSecret = map[string]permission.TokenLevel{
 	"/appootb.account.InnerSecret/GetSecretInfo": permission.TokenLevel_INNER_TOKEN,
+}
+
+type wrapperInnerSecretServer struct {
+	InnerSecretServer
+	service.Implementor
+}
+
+func (w *wrapperInnerSecretServer) GetSecretInfo(ctx context.Context, req *Secret) (*permission.Secret, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.InnerSecretServer.GetSecretInfo(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.InnerSecretServer,
+		FullMethod: "/appootb.account.InnerSecret/GetSecretInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.InnerSecretServer.GetSecretInfo(ctx, req.(*Secret))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*permission.Secret), nil
 }
 
 // Register scoped server.
@@ -21,15 +49,20 @@ func RegisterInnerSecretScopeServer(auth service.Authenticator, impl service.Imp
 	auth.RegisterServiceTokenLevel(_levelInnerSecret)
 
 	// Register scoped gRPC server.
-	for _, grpc := range impl.GetScopedGRPCServer(permission.VisibleScope_INNER_SCOPE) {
-		RegisterInnerSecretServer(grpc, srv)
+	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_INNER_SCOPE) {
+		RegisterInnerSecretServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
+	wrapper := wrapperInnerSecretServer{
+		InnerSecretServer: srv,
+		Implementor:       impl,
+	}
 	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_INNER_SCOPE) {
-		err := RegisterInnerSecretHandlerServer(impl.Context(), mux, srv)
+		err := RegisterInnerSecretHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }

@@ -3,11 +3,17 @@
 package account
 
 import (
+	"context"
+
+	"github.com/appootb/protobuf/go/common"
 	"github.com/appootb/protobuf/go/permission"
 	"github.com/appootb/protobuf/go/service"
+	"google.golang.org/grpc"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
+var _ = context.TODO()
+var _ = grpc.ServiceDesc{}
 var _ = permission.TokenLevel_NONE_TOKEN
 var _ = service.UnaryServerInterceptor
 
@@ -17,21 +23,85 @@ var _levelAccount = map[string]permission.TokenLevel{
 	"/appootb.account.Account/UpdateInfo": permission.TokenLevel_LOW_TOKEN,
 }
 
+type wrapperAccountServer struct {
+	AccountServer
+	service.Implementor
+}
+
+func (w *wrapperAccountServer) GetInfo(ctx context.Context, req *common.UniqueId) (*AccountInfo, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.AccountServer.GetInfo(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.AccountServer,
+		FullMethod: "/appootb.account.Account/GetInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.AccountServer.GetInfo(ctx, req.(*common.UniqueId))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*AccountInfo), nil
+}
+
+func (w *wrapperAccountServer) GetInfos(ctx context.Context, req *common.UniqueIds) (*AccountInfos, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.AccountServer.GetInfos(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.AccountServer,
+		FullMethod: "/appootb.account.Account/GetInfos",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.AccountServer.GetInfos(ctx, req.(*common.UniqueIds))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*AccountInfos), nil
+}
+
+func (w *wrapperAccountServer) UpdateInfo(ctx context.Context, req *VariableInfo) (*AccountInfo, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.AccountServer.UpdateInfo(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.AccountServer,
+		FullMethod: "/appootb.account.Account/UpdateInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.AccountServer.UpdateInfo(ctx, req.(*VariableInfo))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*AccountInfo), nil
+}
+
 // Register scoped server.
 func RegisterAccountScopeServer(auth service.Authenticator, impl service.Implementor, srv AccountServer) error {
 	// Register service required token level.
 	auth.RegisterServiceTokenLevel(_levelAccount)
 
 	// Register scoped gRPC server.
-	for _, grpc := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
-		RegisterAccountServer(grpc, srv)
+	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
+		RegisterAccountServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
+	wrapper := wrapperAccountServer{
+		AccountServer: srv,
+		Implementor:   impl,
+	}
 	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_DEFAULT_SCOPE) {
-		err := RegisterAccountHandlerServer(impl.Context(), mux, srv)
+		err := RegisterAccountHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }

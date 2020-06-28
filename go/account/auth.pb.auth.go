@@ -3,11 +3,18 @@
 package account
 
 import (
+	"context"
+
+	"github.com/appootb/protobuf/go/captcha"
 	"github.com/appootb/protobuf/go/permission"
 	"github.com/appootb/protobuf/go/service"
+	"github.com/golang/protobuf/ptypes/empty"
+	"google.golang.org/grpc"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
+var _ = context.TODO()
+var _ = grpc.ServiceDesc{}
 var _ = permission.TokenLevel_NONE_TOKEN
 var _ = service.UnaryServerInterceptor
 
@@ -19,21 +26,121 @@ var _levelAuth = map[string]permission.TokenLevel{
 	"/appootb.account.Auth/Refresh":    permission.TokenLevel_LOW_TOKEN,
 }
 
+type wrapperAuthServer struct {
+	AuthServer
+	service.Implementor
+}
+
+func (w *wrapperAuthServer) GetCode(ctx context.Context, req *captcha.CodeRequest) (*empty.Empty, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.AuthServer.GetCode(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.AuthServer,
+		FullMethod: "/appootb.account.Auth/GetCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.AuthServer.GetCode(ctx, req.(*captcha.CodeRequest))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*empty.Empty), nil
+}
+
+func (w *wrapperAuthServer) Login(ctx context.Context, req *LoginRequest) (*AccountInfo, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.AuthServer.Login(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.AuthServer,
+		FullMethod: "/appootb.account.Auth/Login",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.AuthServer.Login(ctx, req.(*LoginRequest))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*AccountInfo), nil
+}
+
+func (w *wrapperAuthServer) OAuth(ctx context.Context, req *OAuthRequest) (*AccountInfo, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.AuthServer.OAuth(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.AuthServer,
+		FullMethod: "/appootb.account.Auth/OAuth",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.AuthServer.OAuth(ctx, req.(*OAuthRequest))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*AccountInfo), nil
+}
+
+func (w *wrapperAuthServer) GetRegions(ctx context.Context, req *empty.Empty) (*Regions, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.AuthServer.GetRegions(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.AuthServer,
+		FullMethod: "/appootb.account.Auth/GetRegions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.AuthServer.GetRegions(ctx, req.(*empty.Empty))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*Regions), nil
+}
+
+func (w *wrapperAuthServer) Refresh(ctx context.Context, req *empty.Empty) (*AccountInfo, error) {
+	if w.UnaryServerInterceptor() == nil {
+		return w.AuthServer.Refresh(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.AuthServer,
+		FullMethod: "/appootb.account.Auth/Refresh",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.AuthServer.Refresh(ctx, req.(*empty.Empty))
+	}
+	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*AccountInfo), nil
+}
+
 // Register scoped server.
 func RegisterAuthScopeServer(auth service.Authenticator, impl service.Implementor, srv AuthServer) error {
 	// Register service required token level.
 	auth.RegisterServiceTokenLevel(_levelAuth)
 
 	// Register scoped gRPC server.
-	for _, grpc := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
-		RegisterAuthServer(grpc, srv)
+	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
+		RegisterAuthServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
+	wrapper := wrapperAuthServer{
+		AuthServer:  srv,
+		Implementor: impl,
+	}
 	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_DEFAULT_SCOPE) {
-		err := RegisterAuthHandlerServer(impl.Context(), mux, srv)
+		err := RegisterAuthHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
