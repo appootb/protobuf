@@ -18,17 +18,13 @@ option php_namespace = "Appootb\\Proto\\Permission";
 
 // Service visible scope.
 enum VisibleScope {
-  DEFAULT_SCOPE = 0;   // Default service scope
-  INNER_SCOPE   = 100; // Inner service scope
-  ALL_SCOPES    = 999; // All scopes
-}
+  CLIENT = 0;   // Client visible scope [Default]
+  SERVER = 256; // Server visible scope
 
-// Service visible.
-message ServiceVisible {
-  VisibleScope scope = 1; // Visible scope
+  ALL = 0xffff; // All scopes
 }
 
 // ProtoBuffer service extend.
 extend google.protobuf.ServiceOptions {
-  ServiceVisible visible = 1507; // Service option
+  VisibleScope visible = 1507; // Service option
 }
