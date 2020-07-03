@@ -13,5 +13,5 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.TokenLevel_NONE_TOKEN
+var _ = permission.Audience_NONE
 var _ = service.UnaryServerInterceptor

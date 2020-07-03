@@ -22,9 +22,8 @@ option php_namespace = "Appootb\\Proto\\Captcha";
 
 // InnerCode service.
 service InnerCode {
-  option (appootb.permission.service.visible) = {
-    scope: INNER_SCOPE
-  };
+  // Visible for server side.
+  option (appootb.permission.service.visible) = SERVER;
 
   // Launch verification code process.
   rpc Launch(CodeRequest) returns (google.protobuf.Empty) {

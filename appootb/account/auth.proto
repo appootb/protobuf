@@ -86,9 +86,8 @@ service Auth {
 
   // Refresh account token.
   rpc Refresh(google.protobuf.Empty) returns (AccountInfo) {
-    option (appootb.permission.method.token) = {
-      required: LOW_TOKEN
-    };
+    option (appootb.permission.method.token) = LOGGED_IN;
+
     option (google.api.http) = {
       put: "/account/auth/refresh"
       body: "*"

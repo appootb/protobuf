@@ -13,11 +13,13 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.TokenLevel_NONE_TOKEN
+var _ = permission.Audience_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelInnerSecret = map[string]permission.TokenLevel{
-	"/appootb.account.InnerSecret/GetSecretInfo": permission.TokenLevel_INNER_TOKEN,
+var _levelInnerSecret = map[string][]permission.Audience{
+	"/appootb.account.InnerSecret/GetSecretInfo": {
+		permission.Audience_SERVER,
+	},
 }
 
 type wrapperInnerSecretServer struct {
@@ -49,7 +51,7 @@ func RegisterInnerSecretScopeServer(auth service.Authenticator, impl service.Imp
 	auth.RegisterServiceTokenLevel(_levelInnerSecret)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_INNER_SCOPE) {
+	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_SERVER) {
 		RegisterInnerSecretServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -57,7 +59,7 @@ func RegisterInnerSecretScopeServer(auth service.Authenticator, impl service.Imp
 		InnerSecretServer: srv,
 		Implementor:       impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_INNER_SCOPE) {
+	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_SERVER) {
 		err := RegisterInnerSecretHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

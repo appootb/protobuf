@@ -9,26 +9,32 @@
 import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class TokenLevel extends $pb.ProtobufEnum {
-  static const TokenLevel NONE_TOKEN = TokenLevel._(0, 'NONE_TOKEN');
-  static const TokenLevel GUEST_TOKEN = TokenLevel._(100, 'GUEST_TOKEN');
-  static const TokenLevel LOW_TOKEN = TokenLevel._(200, 'LOW_TOKEN');
-  static const TokenLevel MIDDLE_TOKEN = TokenLevel._(300, 'MIDDLE_TOKEN');
-  static const TokenLevel HIGH_TOKEN = TokenLevel._(400, 'HIGH_TOKEN');
-  static const TokenLevel INNER_TOKEN = TokenLevel._(999, 'INNER_TOKEN');
+class Audience extends $pb.ProtobufEnum {
+  static const Audience NONE = Audience._(0, 'NONE');
+  static const Audience GUEST = Audience._(1, 'GUEST');
+  static const Audience WEB = Audience._(8, 'WEB');
+  static const Audience PC = Audience._(64, 'PC');
+  static const Audience MOBILE = Audience._(512, 'MOBILE');
+  static const Audience LOGGED_IN = Audience._(584, 'LOGGED_IN');
+  static const Audience CLIENT = Audience._(585, 'CLIENT');
+  static const Audience SERVER = Audience._(4096, 'SERVER');
+  static const Audience ANY = Audience._(65535, 'ANY');
 
-  static const $core.List<TokenLevel> values = <TokenLevel> [
-    NONE_TOKEN,
-    GUEST_TOKEN,
-    LOW_TOKEN,
-    MIDDLE_TOKEN,
-    HIGH_TOKEN,
-    INNER_TOKEN,
+  static const $core.List<Audience> values = <Audience> [
+    NONE,
+    GUEST,
+    WEB,
+    PC,
+    MOBILE,
+    LOGGED_IN,
+    CLIENT,
+    SERVER,
+    ANY,
   ];
 
-  static final $core.Map<$core.int, TokenLevel> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static TokenLevel valueOf($core.int value) => _byValue[value];
+  static final $core.Map<$core.int, Audience> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static Audience valueOf($core.int value) => _byValue[value];
 
-  const TokenLevel._($core.int v, $core.String n) : super(v, n);
+  const Audience._($core.int v, $core.String n) : super(v, n);
 }
 

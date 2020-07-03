@@ -16,7 +16,7 @@ class Secret extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Secret', package: const $pb.PackageName('appootb.permission.account'), createEmptyInstance: create)
     ..aQS(1, 'issuer')
     ..aQS(2, 'subject')
-    ..a<$fixnum.Int64>(3, 'accountId', $pb.PbFieldType.QU6, defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$fixnum.Int64>(3, 'account', $pb.PbFieldType.QU6, defaultOrMaker: $fixnum.Int64.ZERO)
     ..aQS(4, 'keyId')
     ..pPS(5, 'roles')
     ..m<$core.String, $core.String>(6, 'metadata', entryClassName: 'Secret.MetadataEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS, packageName: const $pb.PackageName('appootb.permission.account'))
@@ -58,13 +58,13 @@ class Secret extends $pb.GeneratedMessage {
   void clearSubject() => clearField(2);
 
   @$pb.TagNumber(3)
-  $fixnum.Int64 get accountId => $_getI64(2);
+  $fixnum.Int64 get account => $_getI64(2);
   @$pb.TagNumber(3)
-  set accountId($fixnum.Int64 v) { $_setInt64(2, v); }
+  set account($fixnum.Int64 v) { $_setInt64(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasAccountId() => $_has(2);
+  $core.bool hasAccount() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAccountId() => clearField(3);
+  void clearAccount() => clearField(3);
 
   @$pb.TagNumber(4)
   $core.String get keyId => $_getSZ(3);

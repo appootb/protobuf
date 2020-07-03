@@ -22,9 +22,8 @@ option php_namespace = "Appootb\\Proto\\Strainer";
 
 // InnerFilter service.
 service InnerFilter {
-  option (appootb.permission.service.visible) = {
-    scope: INNER_SCOPE
-  };
+  // Visible for server side.
+  option (appootb.permission.service.visible) = SERVER;
 
   // Filter.
   rpc Filter(FilterRequest) returns (google.protobuf.Empty) {

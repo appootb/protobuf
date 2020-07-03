@@ -10,7 +10,7 @@ const Secret$json = const {
   '2': const [
     const {'1': 'issuer', '3': 1, '4': 2, '5': 9, '10': 'issuer'},
     const {'1': 'subject', '3': 2, '4': 2, '5': 9, '10': 'subject'},
-    const {'1': 'account_id', '3': 3, '4': 2, '5': 4, '10': 'accountId'},
+    const {'1': 'account', '3': 3, '4': 2, '5': 4, '10': 'account'},
     const {'1': 'key_id', '3': 4, '4': 2, '5': 9, '10': 'keyId'},
     const {'1': 'roles', '3': 5, '4': 3, '5': 9, '10': 'roles'},
     const {'1': 'metadata', '3': 6, '4': 3, '5': 11, '6': '.appootb.permission.account.Secret.MetadataEntry', '10': 'metadata'},

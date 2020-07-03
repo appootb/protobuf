@@ -14,12 +14,16 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.TokenLevel_NONE_TOKEN
+var _ = permission.Audience_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelInnerCode = map[string]permission.TokenLevel{
-	"/appootb.captcha.InnerCode/Launch": permission.TokenLevel_INNER_TOKEN,
-	"/appootb.captcha.InnerCode/Verify": permission.TokenLevel_INNER_TOKEN,
+var _levelInnerCode = map[string][]permission.Audience{
+	"/appootb.captcha.InnerCode/Launch": {
+		permission.Audience_SERVER,
+	},
+	"/appootb.captcha.InnerCode/Verify": {
+		permission.Audience_SERVER,
+	},
 }
 
 type wrapperInnerCodeServer struct {
@@ -69,7 +73,7 @@ func RegisterInnerCodeScopeServer(auth service.Authenticator, impl service.Imple
 	auth.RegisterServiceTokenLevel(_levelInnerCode)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_INNER_SCOPE) {
+	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_SERVER) {
 		RegisterInnerCodeServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -77,7 +81,7 @@ func RegisterInnerCodeScopeServer(auth service.Authenticator, impl service.Imple
 		InnerCodeServer: srv,
 		Implementor:     impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_INNER_SCOPE) {
+	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_SERVER) {
 		err := RegisterInnerCodeHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

@@ -10,14 +10,14 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class VisibleScope extends $pb.ProtobufEnum {
-  static const VisibleScope DEFAULT_SCOPE = VisibleScope._(0, 'DEFAULT_SCOPE');
-  static const VisibleScope INNER_SCOPE = VisibleScope._(100, 'INNER_SCOPE');
-  static const VisibleScope ALL_SCOPES = VisibleScope._(999, 'ALL_SCOPES');
+  static const VisibleScope CLIENT = VisibleScope._(0, 'CLIENT');
+  static const VisibleScope SERVER = VisibleScope._(256, 'SERVER');
+  static const VisibleScope ALL = VisibleScope._(65535, 'ALL');
 
   static const $core.List<VisibleScope> values = <VisibleScope> [
-    DEFAULT_SCOPE,
-    INNER_SCOPE,
-    ALL_SCOPES,
+    CLIENT,
+    SERVER,
+    ALL,
   ];
 
   static final $core.Map<$core.int, VisibleScope> _byValue = $pb.ProtobufEnum.initByValue(values);

@@ -54,7 +54,7 @@
 |---|---|---|---|---|---|
 |issuer|string|string| Secret issuer|-|true|
 |subject|string|string| Secret subject|-|true|
-|account_id|int64|string| Account ID|-|true|
+|account|int64|string| Account ID|-|true|
 |key_id|string|string| Key ID|-|true|
 |roles|array [string]|string| Account roles|-|false|
 |metadata|map\<string, string\>|object| Secret token metadata|-|false|
@@ -69,7 +69,7 @@
 {
   "issuer": "string",
   "subject": "string",
-  "account_id": "string($int64)",
+  "account": "string($int64)",
   "key_id": "string",
   "roles": [
     "string"

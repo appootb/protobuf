@@ -12,13 +12,13 @@ import (
 
 // Service implementor interface.
 type Implementor interface {
-	// Get server context.
+	// Return server context.
 	Context() context.Context
 
-	// Get UnaryServerInterceptor of the specified visible scope.
+	// Return the unary server interceptor for local gateway handler server.
 	UnaryServerInterceptor() grpc.UnaryServerInterceptor
 
-	// Get StreamServerInterceptor of the specified visible scope.
+	// Return the stream server interceptor for local gateway handler server.
 	StreamServerInterceptor() grpc.StreamServerInterceptor
 
 	// Get gRPC server of the specified visible scope.
@@ -32,7 +32,7 @@ type Implementor interface {
 type Authenticator interface {
 	// Register required token level of the service.
 	// The map key of the parameter is the full url path of the method.
-	RegisterServiceTokenLevel(fullMethodTokenLevels map[string]permission.TokenLevel)
+	RegisterServiceTokenLevel(fullMethodTokenLevels map[string][]permission.Audience)
 
 	// Authenticate a request specified by the full url path of the method.
 	Authenticate(ctx context.Context, fullMethod string) (*permission.Secret, error)

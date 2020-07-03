@@ -14,13 +14,25 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.TokenLevel_NONE_TOKEN
+var _ = permission.Audience_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelProfile = map[string]permission.TokenLevel{
-	"/appootb.account.Profile/Get":  permission.TokenLevel_LOW_TOKEN,
-	"/appootb.account.Profile/Gets": permission.TokenLevel_LOW_TOKEN,
-	"/appootb.account.Profile/Set":  permission.TokenLevel_LOW_TOKEN,
+var _levelProfile = map[string][]permission.Audience{
+	"/appootb.account.Profile/Get": {
+		permission.Audience_WEB,
+		permission.Audience_PC,
+		permission.Audience_MOBILE,
+	},
+	"/appootb.account.Profile/Gets": {
+		permission.Audience_PC,
+		permission.Audience_MOBILE,
+		permission.Audience_WEB,
+	},
+	"/appootb.account.Profile/Set": {
+		permission.Audience_WEB,
+		permission.Audience_PC,
+		permission.Audience_MOBILE,
+	},
 }
 
 type wrapperProfileServer struct {
@@ -88,7 +100,7 @@ func RegisterProfileScopeServer(auth service.Authenticator, impl service.Impleme
 	auth.RegisterServiceTokenLevel(_levelProfile)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
+	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_CLIENT) {
 		RegisterProfileServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -96,7 +108,7 @@ func RegisterProfileScopeServer(auth service.Authenticator, impl service.Impleme
 		ProfileServer: srv,
 		Implementor:   impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_DEFAULT_SCOPE) {
+	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_CLIENT) {
 		err := RegisterProfileHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

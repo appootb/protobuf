@@ -14,13 +14,22 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.TokenLevel_NONE_TOKEN
+var _ = permission.Audience_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelBind = map[string]permission.TokenLevel{
-	"/appootb.account.Bind/Apply":  permission.TokenLevel_MIDDLE_TOKEN,
-	"/appootb.account.Bind/Cancel": permission.TokenLevel_MIDDLE_TOKEN,
-	"/appootb.account.Bind/Gets":   permission.TokenLevel_MIDDLE_TOKEN,
+var _levelBind = map[string][]permission.Audience{
+	"/appootb.account.Bind/Apply": {
+		permission.Audience_PC,
+		permission.Audience_MOBILE,
+	},
+	"/appootb.account.Bind/Cancel": {
+		permission.Audience_PC,
+		permission.Audience_MOBILE,
+	},
+	"/appootb.account.Bind/Gets": {
+		permission.Audience_PC,
+		permission.Audience_MOBILE,
+	},
 }
 
 type wrapperBindServer struct {
@@ -88,7 +97,7 @@ func RegisterBindScopeServer(auth service.Authenticator, impl service.Implemento
 	auth.RegisterServiceTokenLevel(_levelBind)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
+	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_CLIENT) {
 		RegisterBindServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -96,7 +105,7 @@ func RegisterBindScopeServer(auth service.Authenticator, impl service.Implemento
 		BindServer:  srv,
 		Implementor: impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_DEFAULT_SCOPE) {
+	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_CLIENT) {
 		err := RegisterBindHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

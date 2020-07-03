@@ -42,9 +42,9 @@ message AccountBinds {
 service Bind {
   // Apply account bind.
   rpc Apply(BindRequest) returns (google.protobuf.Empty) {
-    option (appootb.permission.method.token) = {
-      required: MIDDLE_TOKEN
-    };
+    option (appootb.permission.method.token) = PC;
+    option (appootb.permission.method.token) = MOBILE;
+
     option (google.api.http) = {
       post: "/account/bind"
       body: "*"
@@ -53,9 +53,9 @@ service Bind {
 
   // Cancel account bind.
   rpc Cancel(BindRequest) returns (google.protobuf.Empty) {
-    option (appootb.permission.method.token) = {
-      required: MIDDLE_TOKEN
-    };
+    option (appootb.permission.method.token) = PC;
+    option (appootb.permission.method.token) = MOBILE;
+
     option (google.api.http) = {
       delete: "/account/bind"
     };
@@ -63,9 +63,9 @@ service Bind {
 
   // Get all bind info.
   rpc Gets(google.protobuf.Empty) returns (AccountBinds) {
-    option (appootb.permission.method.token) = {
-      required: MIDDLE_TOKEN
-    };
+    option (appootb.permission.method.token) = PC;
+    option (appootb.permission.method.token) = MOBILE;
+
     option (google.api.http) = {
       get: "/account/binds"
     };

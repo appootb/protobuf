@@ -14,13 +14,21 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.TokenLevel_NONE_TOKEN
+var _ = permission.Audience_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelAccount = map[string]permission.TokenLevel{
-	"/appootb.account.Account/GetInfo":    permission.TokenLevel_NONE_TOKEN,
-	"/appootb.account.Account/GetInfos":   permission.TokenLevel_NONE_TOKEN,
-	"/appootb.account.Account/UpdateInfo": permission.TokenLevel_LOW_TOKEN,
+var _levelAccount = map[string][]permission.Audience{
+	"/appootb.account.Account/GetInfo": {
+		permission.Audience_NONE,
+	},
+	"/appootb.account.Account/GetInfos": {
+		permission.Audience_NONE,
+	},
+	"/appootb.account.Account/UpdateInfo": {
+		permission.Audience_MOBILE,
+		permission.Audience_WEB,
+		permission.Audience_PC,
+	},
 }
 
 type wrapperAccountServer struct {
@@ -88,7 +96,7 @@ func RegisterAccountScopeServer(auth service.Authenticator, impl service.Impleme
 	auth.RegisterServiceTokenLevel(_levelAccount)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
+	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_CLIENT) {
 		RegisterAccountServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -96,7 +104,7 @@ func RegisterAccountScopeServer(auth service.Authenticator, impl service.Impleme
 		AccountServer: srv,
 		Implementor:   impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_DEFAULT_SCOPE) {
+	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_CLIENT) {
 		err := RegisterAccountHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

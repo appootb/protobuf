@@ -35,9 +35,8 @@ message AccountProfiles {
 service Profile {
   // Set or update account profile.
   rpc Set(AccountProfile) returns (google.protobuf.Empty) {
-    option (appootb.permission.method.token) = {
-      required: LOW_TOKEN
-    };
+    option (appootb.permission.method.token) = LOGGED_IN;
+
     option (google.api.http) = {
       put: "/account/profile/{name}"
       body: "*"
@@ -46,9 +45,8 @@ service Profile {
 
   // Get account profile.
   rpc Get(AccountProfile) returns (AccountProfile) {
-    option (appootb.permission.method.token) = {
-      required: LOW_TOKEN
-    };
+    option (appootb.permission.method.token) = LOGGED_IN;
+
     option (google.api.http) = {
       get: "/account/profile/{name}"
     };
@@ -56,9 +54,8 @@ service Profile {
 
   // Get account all profiles.
   rpc Gets(google.protobuf.Empty) returns (AccountProfiles) {
-    option (appootb.permission.method.token) = {
-      required: LOW_TOKEN
-    };
+    option (appootb.permission.method.token) = LOGGED_IN;
+
     option (google.api.http) = {
       get: "/account/profiles"
     };

@@ -13,13 +13,22 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.TokenLevel_NONE_TOKEN
+var _ = permission.Audience_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelPassword = map[string]permission.TokenLevel{
-	"/appootb.account.Password/Reset":  permission.TokenLevel_MIDDLE_TOKEN,
-	"/appootb.account.Password/Set":    permission.TokenLevel_MIDDLE_TOKEN,
-	"/appootb.account.Password/Update": permission.TokenLevel_MIDDLE_TOKEN,
+var _levelPassword = map[string][]permission.Audience{
+	"/appootb.account.Password/Reset": {
+		permission.Audience_PC,
+		permission.Audience_MOBILE,
+	},
+	"/appootb.account.Password/Set": {
+		permission.Audience_PC,
+		permission.Audience_MOBILE,
+	},
+	"/appootb.account.Password/Update": {
+		permission.Audience_PC,
+		permission.Audience_MOBILE,
+	},
 }
 
 type wrapperPasswordServer struct {
@@ -87,7 +96,7 @@ func RegisterPasswordScopeServer(auth service.Authenticator, impl service.Implem
 	auth.RegisterServiceTokenLevel(_levelPassword)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_DEFAULT_SCOPE) {
+	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_CLIENT) {
 		RegisterPasswordServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -95,7 +104,7 @@ func RegisterPasswordScopeServer(auth service.Authenticator, impl service.Implem
 		PasswordServer: srv,
 		Implementor:    impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_DEFAULT_SCOPE) {
+	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_CLIENT) {
 		err := RegisterPasswordHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

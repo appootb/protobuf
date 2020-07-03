@@ -8,16 +8,9 @@
 const VisibleScope$json = const {
   '1': 'VisibleScope',
   '2': const [
-    const {'1': 'DEFAULT_SCOPE', '2': 0},
-    const {'1': 'INNER_SCOPE', '2': 100},
-    const {'1': 'ALL_SCOPES', '2': 999},
-  ],
-};
-
-const ServiceVisible$json = const {
-  '1': 'ServiceVisible',
-  '2': const [
-    const {'1': 'scope', '3': 1, '4': 1, '5': 14, '6': '.appootb.permission.service.VisibleScope', '10': 'scope'},
+    const {'1': 'CLIENT', '2': 0},
+    const {'1': 'SERVER', '2': 256},
+    const {'1': 'ALL', '2': 65535},
   ],
 };
 
