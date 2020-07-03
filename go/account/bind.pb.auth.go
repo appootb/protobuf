@@ -73,7 +73,7 @@ func (w *wrapperBindServer) Cancel(ctx context.Context, req *BindRequest) (*empt
 	return resp.(*empty.Empty), nil
 }
 
-func (w *wrapperBindServer) Gets(ctx context.Context, req *empty.Empty) (*AccountBinds, error) {
+func (w *wrapperBindServer) Gets(ctx context.Context, req *empty.Empty) (*Bindings, error) {
 	if w.UnaryServerInterceptor() == nil {
 		return w.BindServer.Gets(ctx, req)
 	}
@@ -88,7 +88,7 @@ func (w *wrapperBindServer) Gets(ctx context.Context, req *empty.Empty) (*Accoun
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*AccountBinds), nil
+	return resp.(*Bindings), nil
 }
 
 // Register scoped server.

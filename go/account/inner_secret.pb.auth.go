@@ -6,6 +6,7 @@ import (
 	"context"
 
 	"github.com/appootb/protobuf/go/permission"
+	"github.com/appootb/protobuf/go/secret"
 	"github.com/appootb/protobuf/go/service"
 	"google.golang.org/grpc"
 )
@@ -27,7 +28,7 @@ type wrapperInnerSecretServer struct {
 	service.Implementor
 }
 
-func (w *wrapperInnerSecretServer) GetSecretInfo(ctx context.Context, req *Secret) (*permission.Secret, error) {
+func (w *wrapperInnerSecretServer) GetSecretInfo(ctx context.Context, req *Secret) (*secret.Info, error) {
 	if w.UnaryServerInterceptor() == nil {
 		return w.InnerSecretServer.GetSecretInfo(ctx, req)
 	}
@@ -42,7 +43,7 @@ func (w *wrapperInnerSecretServer) GetSecretInfo(ctx context.Context, req *Secre
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*permission.Secret), nil
+	return resp.(*secret.Info), nil
 }
 
 // Register scoped server.

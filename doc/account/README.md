@@ -92,13 +92,13 @@
 >  Account profile service.
 
 
-* [Set (/account/profile/{name})](profile.proto.md#set) - Set or update account profile.
+* [Set (/account/profile/{name})](profile.proto.md#set) - Set or update account property.
 
 
-* [Get (/account/profile/{name})](profile.proto.md#get) - Get account profile.
+* [Get (/account/profile/{name})](profile.proto.md#get) - Get account property.
 
 
-* [Gets (/account/profiles)](profile.proto.md#gets) - Get account all profiles.
+* [Gets (/account/profiles)](profile.proto.md#gets) - Get account all properties.
 
 
 

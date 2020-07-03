@@ -36,10 +36,9 @@ var (
 // define the regex for a UUID once up-front
 var _profile_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
 
-// Validate checks the field values on AccountProfile with the rules defined in
-// the proto definition for this message. If any rules are violated, an error
-// is returned.
-func (m *AccountProfile) Validate() error {
+// Validate checks the field values on Property with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *Property) Validate() error {
 	if m == nil {
 		return nil
 	}
@@ -48,7 +47,7 @@ func (m *AccountProfile) Validate() error {
 
 	if v, ok := interface{}(m.GetValue()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return AccountProfileValidationError{
+			return PropertyValidationError{
 				field:  "Value",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -59,9 +58,9 @@ func (m *AccountProfile) Validate() error {
 	return nil
 }
 
-// AccountProfileValidationError is the validation error returned by
-// AccountProfile.Validate if the designated constraints aren't met.
-type AccountProfileValidationError struct {
+// PropertyValidationError is the validation error returned by
+// Property.Validate if the designated constraints aren't met.
+type PropertyValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -69,22 +68,22 @@ type AccountProfileValidationError struct {
 }
 
 // Field function returns field value.
-func (e AccountProfileValidationError) Field() string { return e.field }
+func (e PropertyValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e AccountProfileValidationError) Reason() string { return e.reason }
+func (e PropertyValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e AccountProfileValidationError) Cause() error { return e.cause }
+func (e PropertyValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e AccountProfileValidationError) Key() bool { return e.key }
+func (e PropertyValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e AccountProfileValidationError) ErrorName() string { return "AccountProfileValidationError" }
+func (e PropertyValidationError) ErrorName() string { return "PropertyValidationError" }
 
 // Error satisfies the builtin error interface
-func (e AccountProfileValidationError) Error() string {
+func (e PropertyValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -96,14 +95,14 @@ func (e AccountProfileValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sAccountProfile.%s: %s%s",
+		"invalid %sProperty.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = AccountProfileValidationError{}
+var _ error = PropertyValidationError{}
 
 var _ interface {
 	Field() string
@@ -111,25 +110,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = AccountProfileValidationError{}
+} = PropertyValidationError{}
 
-// Validate checks the field values on AccountProfiles with the rules defined
-// in the proto definition for this message. If any rules are violated, an
-// error is returned.
-func (m *AccountProfiles) Validate() error {
+// Validate checks the field values on Properties with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *Properties) Validate() error {
 	if m == nil {
 		return nil
 	}
 
-	for key, val := range m.GetProfiles() {
+	for key, val := range m.GetKvs() {
 		_ = val
 
-		// no validation rules for Profiles[key]
+		// no validation rules for Kvs[key]
 
 		if v, ok := interface{}(val).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return AccountProfilesValidationError{
-					field:  fmt.Sprintf("Profiles[%v]", key),
+				return PropertiesValidationError{
+					field:  fmt.Sprintf("Kvs[%v]", key),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -141,9 +139,9 @@ func (m *AccountProfiles) Validate() error {
 	return nil
 }
 
-// AccountProfilesValidationError is the validation error returned by
-// AccountProfiles.Validate if the designated constraints aren't met.
-type AccountProfilesValidationError struct {
+// PropertiesValidationError is the validation error returned by
+// Properties.Validate if the designated constraints aren't met.
+type PropertiesValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -151,22 +149,22 @@ type AccountProfilesValidationError struct {
 }
 
 // Field function returns field value.
-func (e AccountProfilesValidationError) Field() string { return e.field }
+func (e PropertiesValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e AccountProfilesValidationError) Reason() string { return e.reason }
+func (e PropertiesValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e AccountProfilesValidationError) Cause() error { return e.cause }
+func (e PropertiesValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e AccountProfilesValidationError) Key() bool { return e.key }
+func (e PropertiesValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e AccountProfilesValidationError) ErrorName() string { return "AccountProfilesValidationError" }
+func (e PropertiesValidationError) ErrorName() string { return "PropertiesValidationError" }
 
 // Error satisfies the builtin error interface
-func (e AccountProfilesValidationError) Error() string {
+func (e PropertiesValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -178,14 +176,14 @@ func (e AccountProfilesValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sAccountProfiles.%s: %s%s",
+		"invalid %sProperties.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = AccountProfilesValidationError{}
+var _ error = PropertiesValidationError{}
 
 var _ interface {
 	Field() string
@@ -193,4 +191,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = AccountProfilesValidationError{}
+} = PropertiesValidationError{}

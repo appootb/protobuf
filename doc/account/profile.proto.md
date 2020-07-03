@@ -9,13 +9,13 @@
 * [Profile](#profile) - Account profile service.
 
 
-	* [Set (/account/profile/{name})](#set) - Set or update account profile.
+	* [Set (/account/profile/{name})](#set) - Set or update account property.
 
 
-	* [Get (/account/profile/{name})](#get) - Get account profile.
+	* [Get (/account/profile/{name})](#get) - Get account property.
 
 
-	* [Gets (/account/profiles)](#gets) - Get account all profiles.
+	* [Gets (/account/profiles)](#gets) - Get account all properties.
 
 
 
@@ -29,7 +29,7 @@
 
 <h3 id="set">Set</h3>
 
->  Set or update account profile.
+>  Set or update account property.
 
 
 
@@ -39,14 +39,14 @@
 	* Method: `PUT`
 	* Content-Type: `application/json`
 
-* Request Type: ***AccountProfile***
+* Request Type: ***Property***
 
->  Account profile.
+>  Account property.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|name|string|string| Profile name|-|true|
-|value|[Struct](#struct)|object| Profile value|-|false|
+|name|string|string| Property name|-|true|
+|value|[Struct](#struct)|object| Property value|-|false|
 
 
 
@@ -92,7 +92,7 @@
 
 <h3 id="get">Get</h3>
 
->  Get account profile.
+>  Get account property.
 
 
 
@@ -102,28 +102,28 @@
 	* Method: `GET`
 
 
-* Request Type: ***AccountProfile***
+* Request Type: ***Property***
 
->  Account profile.
-
-|Field|proto type|JSON type|Comment|Default|Required|
-|---|---|---|---|---|---|
-|name|string|string| Profile name|-|true|
-|value|[Struct](#struct)|object| Profile value|-|false|
-
-
-
-
-
-
-* Response Type: ***AccountProfile***
-
->  Account profile.
+>  Account property.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|name|string|string| Profile name|-|true|
-|value|[Struct](#struct)|object| Profile value|-|false|
+|name|string|string| Property name|-|true|
+|value|[Struct](#struct)|object| Property value|-|false|
+
+
+
+
+
+
+* Response Type: ***Property***
+
+>  Account property.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|name|string|string| Property name|-|true|
+|value|[Struct](#struct)|object| Property value|-|false|
 
 
 
@@ -143,7 +143,7 @@
 
 <h3 id="gets">Gets</h3>
 
->  Get account all profiles.
+>  Get account all properties.
 
 
 
@@ -173,13 +173,13 @@
 
 
 
-* Response Type: ***AccountProfiles***
+* Response Type: ***Properties***
 
->  Account profiles.
+>  Account properties.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|profiles|map\<string, [Struct](#struct)\>|object| Profiles|-|false|
+|kvs|map\<string, [Struct](#struct)\>|object| Properties|-|false|
 
 
 
@@ -187,7 +187,7 @@
 
 ```json
 {
-  "profiles": {
+  "kvs": {
     "string": {
       "fields": {
         "string": {

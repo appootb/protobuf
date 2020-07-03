@@ -19,14 +19,14 @@ var _ = service.UnaryServerInterceptor
 
 var _levelProfile = map[string][]permission.Audience{
 	"/appootb.account.Profile/Get": {
-		permission.Audience_WEB,
 		permission.Audience_PC,
 		permission.Audience_MOBILE,
+		permission.Audience_WEB,
 	},
 	"/appootb.account.Profile/Gets": {
+		permission.Audience_WEB,
 		permission.Audience_PC,
 		permission.Audience_MOBILE,
-		permission.Audience_WEB,
 	},
 	"/appootb.account.Profile/Set": {
 		permission.Audience_WEB,
@@ -40,7 +40,7 @@ type wrapperProfileServer struct {
 	service.Implementor
 }
 
-func (w *wrapperProfileServer) Set(ctx context.Context, req *AccountProfile) (*empty.Empty, error) {
+func (w *wrapperProfileServer) Set(ctx context.Context, req *Property) (*empty.Empty, error) {
 	if w.UnaryServerInterceptor() == nil {
 		return w.ProfileServer.Set(ctx, req)
 	}
@@ -49,7 +49,7 @@ func (w *wrapperProfileServer) Set(ctx context.Context, req *AccountProfile) (*e
 		FullMethod: "/appootb.account.Profile/Set",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return w.ProfileServer.Set(ctx, req.(*AccountProfile))
+		return w.ProfileServer.Set(ctx, req.(*Property))
 	}
 	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
 	if err != nil {
@@ -58,7 +58,7 @@ func (w *wrapperProfileServer) Set(ctx context.Context, req *AccountProfile) (*e
 	return resp.(*empty.Empty), nil
 }
 
-func (w *wrapperProfileServer) Get(ctx context.Context, req *AccountProfile) (*AccountProfile, error) {
+func (w *wrapperProfileServer) Get(ctx context.Context, req *Property) (*Property, error) {
 	if w.UnaryServerInterceptor() == nil {
 		return w.ProfileServer.Get(ctx, req)
 	}
@@ -67,16 +67,16 @@ func (w *wrapperProfileServer) Get(ctx context.Context, req *AccountProfile) (*A
 		FullMethod: "/appootb.account.Profile/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return w.ProfileServer.Get(ctx, req.(*AccountProfile))
+		return w.ProfileServer.Get(ctx, req.(*Property))
 	}
 	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*AccountProfile), nil
+	return resp.(*Property), nil
 }
 
-func (w *wrapperProfileServer) Gets(ctx context.Context, req *empty.Empty) (*AccountProfiles, error) {
+func (w *wrapperProfileServer) Gets(ctx context.Context, req *empty.Empty) (*Properties, error) {
 	if w.UnaryServerInterceptor() == nil {
 		return w.ProfileServer.Gets(ctx, req)
 	}
@@ -91,7 +91,7 @@ func (w *wrapperProfileServer) Gets(ctx context.Context, req *empty.Empty) (*Acc
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*AccountProfiles), nil
+	return resp.(*Properties), nil
 }
 
 // Register scoped server.

@@ -25,9 +25,9 @@ var _levelAccount = map[string][]permission.Audience{
 		permission.Audience_NONE,
 	},
 	"/appootb.account.Account/UpdateInfo": {
-		permission.Audience_MOBILE,
 		permission.Audience_WEB,
 		permission.Audience_PC,
+		permission.Audience_MOBILE,
 	},
 }
 
@@ -36,7 +36,7 @@ type wrapperAccountServer struct {
 	service.Implementor
 }
 
-func (w *wrapperAccountServer) GetInfo(ctx context.Context, req *common.UniqueId) (*AccountInfo, error) {
+func (w *wrapperAccountServer) GetInfo(ctx context.Context, req *common.UniqueId) (*Info, error) {
 	if w.UnaryServerInterceptor() == nil {
 		return w.AccountServer.GetInfo(ctx, req)
 	}
@@ -51,10 +51,10 @@ func (w *wrapperAccountServer) GetInfo(ctx context.Context, req *common.UniqueId
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*AccountInfo), nil
+	return resp.(*Info), nil
 }
 
-func (w *wrapperAccountServer) GetInfos(ctx context.Context, req *common.UniqueIds) (*AccountInfos, error) {
+func (w *wrapperAccountServer) GetInfos(ctx context.Context, req *common.UniqueIds) (*Infos, error) {
 	if w.UnaryServerInterceptor() == nil {
 		return w.AccountServer.GetInfos(ctx, req)
 	}
@@ -69,10 +69,10 @@ func (w *wrapperAccountServer) GetInfos(ctx context.Context, req *common.UniqueI
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*AccountInfos), nil
+	return resp.(*Infos), nil
 }
 
-func (w *wrapperAccountServer) UpdateInfo(ctx context.Context, req *VariableInfo) (*AccountInfo, error) {
+func (w *wrapperAccountServer) UpdateInfo(ctx context.Context, req *VariableInfo) (*Info, error) {
 	if w.UnaryServerInterceptor() == nil {
 		return w.AccountServer.UpdateInfo(ctx, req)
 	}
@@ -87,7 +87,7 @@ func (w *wrapperAccountServer) UpdateInfo(ctx context.Context, req *VariableInfo
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*AccountInfo), nil
+	return resp.(*Info), nil
 }
 
 // Register scoped server.

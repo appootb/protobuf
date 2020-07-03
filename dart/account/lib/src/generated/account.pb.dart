@@ -9,7 +9,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'common.pbenum.dart' as $1;
+import 'include.pbenum.dart' as $1;
 
 class VariableInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('VariableInfo', package: const $pb.PackageName('appootb.account'), createEmptyInstance: create)

@@ -36,9 +36,9 @@ var (
 // define the regex for a UUID once up-front
 var _bind_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
 
-// Validate checks the field values on BindInfo with the rules defined in the
+// Validate checks the field values on Binding with the rules defined in the
 // proto definition for this message. If any rules are violated, an error is returned.
-func (m *BindInfo) Validate() error {
+func (m *Binding) Validate() error {
 	if m == nil {
 		return nil
 	}
@@ -50,9 +50,9 @@ func (m *BindInfo) Validate() error {
 	return nil
 }
 
-// BindInfoValidationError is the validation error returned by
-// BindInfo.Validate if the designated constraints aren't met.
-type BindInfoValidationError struct {
+// BindingValidationError is the validation error returned by Binding.Validate
+// if the designated constraints aren't met.
+type BindingValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -60,22 +60,22 @@ type BindInfoValidationError struct {
 }
 
 // Field function returns field value.
-func (e BindInfoValidationError) Field() string { return e.field }
+func (e BindingValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e BindInfoValidationError) Reason() string { return e.reason }
+func (e BindingValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e BindInfoValidationError) Cause() error { return e.cause }
+func (e BindingValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e BindInfoValidationError) Key() bool { return e.key }
+func (e BindingValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e BindInfoValidationError) ErrorName() string { return "BindInfoValidationError" }
+func (e BindingValidationError) ErrorName() string { return "BindingValidationError" }
 
 // Error satisfies the builtin error interface
-func (e BindInfoValidationError) Error() string {
+func (e BindingValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -87,14 +87,14 @@ func (e BindInfoValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sBindInfo.%s: %s%s",
+		"invalid %sBinding.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = BindInfoValidationError{}
+var _ error = BindingValidationError{}
 
 var _ interface {
 	Field() string
@@ -102,7 +102,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = BindInfoValidationError{}
+} = BindingValidationError{}
 
 // Validate checks the field values on BindRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, an error
@@ -181,10 +181,9 @@ var _ interface {
 	ErrorName() string
 } = BindRequestValidationError{}
 
-// Validate checks the field values on AccountBinds with the rules defined in
-// the proto definition for this message. If any rules are violated, an error
-// is returned.
-func (m *AccountBinds) Validate() error {
+// Validate checks the field values on Bindings with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *Bindings) Validate() error {
 	if m == nil {
 		return nil
 	}
@@ -194,7 +193,7 @@ func (m *AccountBinds) Validate() error {
 
 		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return AccountBindsValidationError{
+				return BindingsValidationError{
 					field:  fmt.Sprintf("Binds[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -207,9 +206,9 @@ func (m *AccountBinds) Validate() error {
 	return nil
 }
 
-// AccountBindsValidationError is the validation error returned by
-// AccountBinds.Validate if the designated constraints aren't met.
-type AccountBindsValidationError struct {
+// BindingsValidationError is the validation error returned by
+// Bindings.Validate if the designated constraints aren't met.
+type BindingsValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -217,22 +216,22 @@ type AccountBindsValidationError struct {
 }
 
 // Field function returns field value.
-func (e AccountBindsValidationError) Field() string { return e.field }
+func (e BindingsValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e AccountBindsValidationError) Reason() string { return e.reason }
+func (e BindingsValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e AccountBindsValidationError) Cause() error { return e.cause }
+func (e BindingsValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e AccountBindsValidationError) Key() bool { return e.key }
+func (e BindingsValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e AccountBindsValidationError) ErrorName() string { return "AccountBindsValidationError" }
+func (e BindingsValidationError) ErrorName() string { return "BindingsValidationError" }
 
 // Error satisfies the builtin error interface
-func (e AccountBindsValidationError) Error() string {
+func (e BindingsValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -244,14 +243,14 @@ func (e AccountBindsValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sAccountBinds.%s: %s%s",
+		"invalid %sBindings.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = AccountBindsValidationError{}
+var _ error = BindingsValidationError{}
 
 var _ interface {
 	Field() string
@@ -259,4 +258,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = AccountBindsValidationError{}
+} = BindingsValidationError{}

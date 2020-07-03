@@ -83,7 +83,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/accountAccountInfo"
+              "$ref": "#/definitions/appootbaccountInfo"
             }
           },
           "default": {
@@ -116,7 +116,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/accountAccountInfo"
+              "$ref": "#/definitions/appootbaccountInfo"
             }
           },
           "default": {
@@ -149,7 +149,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/accountAccountInfo"
+              "$ref": "#/definitions/appootbaccountInfo"
             }
           },
           "default": {
@@ -199,44 +199,6 @@
     }
   },
   "definitions": {
-    "accountAccountInfo": {
-      "type": "object",
-      "properties": {
-        "unique_id": {
-          "type": "string",
-          "format": "uint64"
-        },
-        "nickname": {
-          "type": "string"
-        },
-        "avatar": {
-          "type": "string"
-        },
-        "signature": {
-          "type": "string"
-        },
-        "gender": {
-          "$ref": "#/definitions/accountGender"
-        },
-        "signs": {
-          "type": "string"
-        },
-        "location": {
-          "type": "string"
-        },
-        "secret": {
-          "$ref": "#/definitions/appootbaccountSecret"
-        },
-        "create_at": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "extend": {
-          "$ref": "#/definitions/protobufAny"
-        }
-      },
-      "description": "Account information."
-    },
     "accountAuthType": {
       "type": "string",
       "enum": [
@@ -321,7 +283,7 @@
       },
       "description": "Regions."
     },
-    "appootbaccountSecret": {
+    "accountSecret": {
       "type": "object",
       "properties": {
         "token": {
@@ -329,6 +291,44 @@
         }
       },
       "description": "Account secret."
+    },
+    "appootbaccountInfo": {
+      "type": "object",
+      "properties": {
+        "unique_id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        },
+        "gender": {
+          "$ref": "#/definitions/accountGender"
+        },
+        "signs": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "secret": {
+          "$ref": "#/definitions/accountSecret"
+        },
+        "create_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "extend": {
+          "$ref": "#/definitions/protobufAny"
+        }
+      },
+      "description": "Account information."
     },
     "captchaCategory": {
       "type": "string",

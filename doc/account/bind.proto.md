@@ -41,11 +41,11 @@
 
 * Request Type: ***BindRequest***
 
->  Account bind request.
+>  Account binding request.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|bind|[BindInfo](#bindinfo)|object| Bind information|-|true|
+|bind|[Binding](#binding)|object| Bind information|-|true|
 |code|string|string| Verification code|-|false|
 
 
@@ -105,11 +105,11 @@
 
 * Request Type: ***BindRequest***
 
->  Account bind request.
+>  Account binding request.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|bind|[BindInfo](#bindinfo)|object| Bind information|-|true|
+|bind|[Binding](#binding)|object| Bind information|-|true|
 |code|string|string| Verification code|-|false|
 
 
@@ -175,13 +175,13 @@
 
 
 
-* Response Type: ***AccountBinds***
+* Response Type: ***Bindings***
 
->  Account binds information.
+>  Account bindings.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|binds|array [[BindInfo](#bindinfo)]|array| Account bind info list|-|false|
+|binds|array [[Binding](#binding)]|array| Account bind info list|-|false|
 
 
 
@@ -220,7 +220,7 @@
 |Name (string)|Value (integer)|Comment|
 |---|---|---|
 |AUTH_TYPE_UNSPECIFIED|0| Unspecified|
-|AUTH_TYPE_APPLE_ID|1| Sina weibo|
+|AUTH_TYPE_APPLE_ID|1| Apple ID|
 |AUTH_TYPE_ACCOUNT|2| Mobile or email|
 |AUTH_TYPE_WECHAT|3| Wechat|
 |AUTH_TYPE_QQ|4| QQ|
@@ -233,9 +233,9 @@
 
 
 
-<h3 id="bindinfo">BindInfo</h3>
+<h3 id="binding">Binding</h3>
 
->  Account bind information.
+>  Account binding information.
 
 * Fields
 

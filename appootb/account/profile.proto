@@ -19,22 +19,22 @@ option objc_class_prefix = "CPB";
 option php_namespace = "Appootb\\Proto\\Account";
 
 
-// Account profile.
-message AccountProfile {
-  required string name = 1; // Profile name
+// Account property.
+message Property {
+  required string name = 1; // Property name
 
-  optional google.protobuf.Struct value = 2; // Profile value
+  optional google.protobuf.Struct value = 2; // Property value
 }
 
-// Account profiles.
-message AccountProfiles {
-  map<string, google.protobuf.Struct> profiles = 1; // Profiles
+// Account properties.
+message Properties {
+  map<string, google.protobuf.Struct> kvs = 1; // Properties
 }
 
 // Account profile service.
 service Profile {
-  // Set or update account profile.
-  rpc Set(AccountProfile) returns (google.protobuf.Empty) {
+  // Set or update account property.
+  rpc Set(Property) returns (google.protobuf.Empty) {
     option (appootb.permission.method.token) = LOGGED_IN;
 
     option (google.api.http) = {
@@ -43,8 +43,8 @@ service Profile {
     };
   }
 
-  // Get account profile.
-  rpc Get(AccountProfile) returns (AccountProfile) {
+  // Get account property.
+  rpc Get(Property) returns (Property) {
     option (appootb.permission.method.token) = LOGGED_IN;
 
     option (google.api.http) = {
@@ -52,8 +52,8 @@ service Profile {
     };
   }
 
-  // Get account all profiles.
-  rpc Gets(google.protobuf.Empty) returns (AccountProfiles) {
+  // Get account all properties.
+  rpc Gets(google.protobuf.Empty) returns (Properties) {
     option (appootb.permission.method.token) = LOGGED_IN;
 
     option (google.api.http) = {

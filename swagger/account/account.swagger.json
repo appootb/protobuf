@@ -19,7 +19,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/accountAccountInfo"
+              "$ref": "#/definitions/appootbaccountInfo"
             }
           },
           "default": {
@@ -52,7 +52,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/accountAccountInfo"
+              "$ref": "#/definitions/appootbaccountInfo"
             }
           },
           "default": {
@@ -84,7 +84,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/accountAccountInfos"
+              "$ref": "#/definitions/accountInfos"
             }
           },
           "default": {
@@ -114,7 +114,57 @@
     }
   },
   "definitions": {
-    "accountAccountInfo": {
+    "accountGender": {
+      "type": "string",
+      "enum": [
+        "GENDER_UNSPECIFIED",
+        "GENDER_MALE",
+        "GENDER_FEMALE",
+        "GENDER_OTHER"
+      ],
+      "default": "GENDER_UNSPECIFIED",
+      "description": "Account gender enums."
+    },
+    "accountInfos": {
+      "type": "object",
+      "properties": {
+        "accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/appootbaccountInfo"
+          }
+        }
+      },
+      "description": "Accounts information."
+    },
+    "accountSecret": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "description": "Account secret."
+    },
+    "accountVariableInfo": {
+      "type": "object",
+      "properties": {
+        "nickname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        },
+        "gender": {
+          "$ref": "#/definitions/accountGender"
+        }
+      },
+      "description": "Update account info request."
+    },
+    "appootbaccountInfo": {
       "type": "object",
       "properties": {
         "unique_id": {
@@ -140,7 +190,7 @@
           "type": "string"
         },
         "secret": {
-          "$ref": "#/definitions/appootbaccountSecret"
+          "$ref": "#/definitions/accountSecret"
         },
         "create_at": {
           "type": "string",
@@ -151,56 +201,6 @@
         }
       },
       "description": "Account information."
-    },
-    "accountAccountInfos": {
-      "type": "object",
-      "properties": {
-        "infos": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/accountAccountInfo"
-          }
-        }
-      },
-      "description": "Accounts information."
-    },
-    "accountGender": {
-      "type": "string",
-      "enum": [
-        "GENDER_UNSPECIFIED",
-        "GENDER_MALE",
-        "GENDER_FEMALE",
-        "GENDER_OTHER"
-      ],
-      "default": "GENDER_UNSPECIFIED",
-      "description": "Account gender enums."
-    },
-    "accountVariableInfo": {
-      "type": "object",
-      "properties": {
-        "nickname": {
-          "type": "string"
-        },
-        "avatar": {
-          "type": "string"
-        },
-        "signature": {
-          "type": "string"
-        },
-        "gender": {
-          "$ref": "#/definitions/accountGender"
-        }
-      },
-      "description": "Update account info request."
-    },
-    "appootbaccountSecret": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
-        }
-      },
-      "description": "Account secret."
     },
     "protobufAny": {
       "type": "object",

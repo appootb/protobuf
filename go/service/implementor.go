@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/appootb/protobuf/go/permission"
+	"github.com/appootb/protobuf/go/secret"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -35,7 +36,7 @@ type Authenticator interface {
 	RegisterServiceTokenLevel(fullMethodTokenLevels map[string][]permission.Audience)
 
 	// Authenticate a request specified by the full url path of the method.
-	Authenticate(ctx context.Context, fullMethod string) (*permission.Secret, error)
+	Authenticate(ctx context.Context, fullMethod string) (*secret.Info, error)
 }
 
 type secretKey struct{}
@@ -45,7 +46,7 @@ type secretKey struct{}
 // Invalid messages will be rejected with `PermissionDenied` before reaching any userspace handlers.
 func UnaryServerInterceptor(v Authenticator) grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
-		secret, err := v.Authenticate(ctx, info.FullMethod)
+		secretInfo, err := v.Authenticate(ctx, info.FullMethod)
 		if err != nil {
 			if _, ok := err.(interface {
 				GRPCStatus() *status.Status
@@ -54,7 +55,7 @@ func UnaryServerInterceptor(v Authenticator) grpc.UnaryServerInterceptor {
 			}
 			return nil, status.Errorf(codes.PermissionDenied, err.Error())
 		}
-		return handler(context.WithValue(ctx, secretKey{}, secret), req)
+		return handler(context.WithValue(ctx, secretKey{}, secretInfo), req)
 	}
 }
 
@@ -66,7 +67,7 @@ func UnaryServerInterceptor(v Authenticator) grpc.UnaryServerInterceptor {
 // calls to `stream.Recv()`.
 func StreamServerInterceptor(v Authenticator) grpc.StreamServerInterceptor {
 	return func(srv interface{}, stream grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
-		secret, err := v.Authenticate(stream.Context(), info.FullMethod)
+		secretInfo, err := v.Authenticate(stream.Context(), info.FullMethod)
 		if err != nil {
 			if _, ok := err.(interface {
 				GRPCStatus() *status.Status
@@ -75,14 +76,14 @@ func StreamServerInterceptor(v Authenticator) grpc.StreamServerInterceptor {
 			}
 			return status.Errorf(codes.PermissionDenied, err.Error())
 		}
-		wrapper := &ctxWrapper{stream, secret}
+		wrapper := &ctxWrapper{stream, secretInfo}
 		return handler(srv, wrapper)
 	}
 }
 
 type ctxWrapper struct {
 	grpc.ServerStream
-	secret *permission.Secret
+	secret *secret.Info
 }
 
 func (s *ctxWrapper) Context() context.Context {
@@ -90,9 +91,9 @@ func (s *ctxWrapper) Context() context.Context {
 	return context.WithValue(ctx, secretKey{}, s.secret)
 }
 
-func AccountSecretFromContext(ctx context.Context) *permission.Secret {
-	if secret := ctx.Value(secretKey{}); secret != nil {
-		return secret.(*permission.Secret)
+func AccountSecretFromContext(ctx context.Context) *secret.Info {
+	if secretInfo := ctx.Value(secretKey{}); secretInfo != nil {
+		return secretInfo.(*secret.Info)
 	}
 	return nil
 }

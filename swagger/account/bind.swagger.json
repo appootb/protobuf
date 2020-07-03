@@ -102,7 +102,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/accountAccountBinds"
+              "$ref": "#/definitions/accountBindings"
             }
           },
           "default": {
@@ -119,18 +119,6 @@
     }
   },
   "definitions": {
-    "accountAccountBinds": {
-      "type": "object",
-      "properties": {
-        "binds": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/accountBindInfo"
-          }
-        }
-      },
-      "description": "Account binds information."
-    },
     "accountAuthType": {
       "type": "string",
       "enum": [
@@ -144,7 +132,19 @@
       "default": "AUTH_TYPE_UNSPECIFIED",
       "description": "Auth source enums."
     },
-    "accountBindInfo": {
+    "accountBindRequest": {
+      "type": "object",
+      "properties": {
+        "bind": {
+          "$ref": "#/definitions/accountBinding"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "description": "Account binding request."
+    },
+    "accountBinding": {
       "type": "object",
       "properties": {
         "source_type": {
@@ -154,19 +154,19 @@
           "type": "string"
         }
       },
-      "description": "Account bind information."
+      "description": "Account binding information."
     },
-    "accountBindRequest": {
+    "accountBindings": {
       "type": "object",
       "properties": {
-        "bind": {
-          "$ref": "#/definitions/accountBindInfo"
-        },
-        "code": {
-          "type": "string"
+        "binds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/accountBinding"
+          }
         }
       },
-      "description": "Account bind request."
+      "description": "Account bindings."
     },
     "protobufAny": {
       "type": "object",

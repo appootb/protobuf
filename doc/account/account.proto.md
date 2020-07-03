@@ -52,7 +52,7 @@
 
 
 
-* Response Type: ***AccountInfo***
+* Response Type: ***Info***
 
 >  Account information.
 
@@ -121,13 +121,13 @@
 
 
 
-* Response Type: ***AccountInfos***
+* Response Type: ***Infos***
 
 >  Accounts information.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|infos|array [[AccountInfo](#accountinfo)]|array| Accounts|-|false|
+|accounts|array [[Info](#info)]|array| Accounts|-|false|
 
 
 
@@ -135,7 +135,7 @@
 
 ```json
 {
-  "infos": [
+  "accounts": [
     {
       "unique_id": "string($int64)",
       "nickname": "string",
@@ -188,7 +188,7 @@
 
 
 
-* Response Type: ***AccountInfo***
+* Response Type: ***Info***
 
 >  Account information.
 
@@ -262,7 +262,7 @@
 
 
 
-<h3 id="accountinfo">AccountInfo</h3>
+<h3 id="info">Info</h3>
 
 >  Account information.
 

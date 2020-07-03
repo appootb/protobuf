@@ -124,7 +124,7 @@
 
 
 
-* Response Type: ***AccountInfo***
+* Response Type: ***Info***
 
 >  Account information.
 
@@ -205,7 +205,7 @@
 
 
 
-* Response Type: ***AccountInfo***
+* Response Type: ***Info***
 
 >  Account information.
 
@@ -347,7 +347,7 @@
 
 
 
-* Response Type: ***AccountInfo***
+* Response Type: ***Info***
 
 >  Account information.
 
@@ -410,7 +410,7 @@
 |Name (string)|Value (integer)|Comment|
 |---|---|---|
 |AUTH_TYPE_UNSPECIFIED|0| Unspecified|
-|AUTH_TYPE_APPLE_ID|1| Sina weibo|
+|AUTH_TYPE_APPLE_ID|1| Apple ID|
 |AUTH_TYPE_ACCOUNT|2| Mobile or email|
 |AUTH_TYPE_WECHAT|3| Wechat|
 |AUTH_TYPE_QQ|4| QQ|

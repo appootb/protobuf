@@ -32,9 +32,9 @@ var _levelAuth = map[string][]permission.Audience{
 		permission.Audience_NONE,
 	},
 	"/appootb.account.Auth/Refresh": {
-		permission.Audience_WEB,
 		permission.Audience_PC,
 		permission.Audience_MOBILE,
+		permission.Audience_WEB,
 	},
 }
 
@@ -61,7 +61,7 @@ func (w *wrapperAuthServer) GetCode(ctx context.Context, req *captcha.CodeReques
 	return resp.(*empty.Empty), nil
 }
 
-func (w *wrapperAuthServer) Login(ctx context.Context, req *LoginRequest) (*AccountInfo, error) {
+func (w *wrapperAuthServer) Login(ctx context.Context, req *LoginRequest) (*Info, error) {
 	if w.UnaryServerInterceptor() == nil {
 		return w.AuthServer.Login(ctx, req)
 	}
@@ -76,10 +76,10 @@ func (w *wrapperAuthServer) Login(ctx context.Context, req *LoginRequest) (*Acco
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*AccountInfo), nil
+	return resp.(*Info), nil
 }
 
-func (w *wrapperAuthServer) OAuth(ctx context.Context, req *OAuthRequest) (*AccountInfo, error) {
+func (w *wrapperAuthServer) OAuth(ctx context.Context, req *OAuthRequest) (*Info, error) {
 	if w.UnaryServerInterceptor() == nil {
 		return w.AuthServer.OAuth(ctx, req)
 	}
@@ -94,7 +94,7 @@ func (w *wrapperAuthServer) OAuth(ctx context.Context, req *OAuthRequest) (*Acco
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*AccountInfo), nil
+	return resp.(*Info), nil
 }
 
 func (w *wrapperAuthServer) GetRegions(ctx context.Context, req *empty.Empty) (*Regions, error) {
@@ -115,7 +115,7 @@ func (w *wrapperAuthServer) GetRegions(ctx context.Context, req *empty.Empty) (*
 	return resp.(*Regions), nil
 }
 
-func (w *wrapperAuthServer) Refresh(ctx context.Context, req *empty.Empty) (*AccountInfo, error) {
+func (w *wrapperAuthServer) Refresh(ctx context.Context, req *empty.Empty) (*Info, error) {
 	if w.UnaryServerInterceptor() == nil {
 		return w.AuthServer.Refresh(ctx, req)
 	}
@@ -130,7 +130,7 @@ func (w *wrapperAuthServer) Refresh(ctx context.Context, req *empty.Empty) (*Acc
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*AccountInfo), nil
+	return resp.(*Info), nil
 }
 
 // Register scoped server.

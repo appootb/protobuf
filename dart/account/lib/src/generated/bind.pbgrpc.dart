@@ -23,10 +23,10 @@ class BindClient extends $grpc.Client {
       '/appootb.account.Bind/Cancel',
       ($6.BindRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $4.Empty.fromBuffer(value));
-  static final _$gets = $grpc.ClientMethod<$4.Empty, $6.AccountBinds>(
+  static final _$gets = $grpc.ClientMethod<$4.Empty, $6.Bindings>(
       '/appootb.account.Bind/Gets',
       ($4.Empty value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $6.AccountBinds.fromBuffer(value));
+      ($core.List<$core.int> value) => $6.Bindings.fromBuffer(value));
 
   BindClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
@@ -45,7 +45,7 @@ class BindClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$6.AccountBinds> gets($4.Empty request,
+  $grpc.ResponseFuture<$6.Bindings> gets($4.Empty request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$gets, $async.Stream.fromIterable([request]),
         options: options);
@@ -71,13 +71,13 @@ abstract class BindServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $6.BindRequest.fromBuffer(value),
         ($4.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$4.Empty, $6.AccountBinds>(
+    $addMethod($grpc.ServiceMethod<$4.Empty, $6.Bindings>(
         'Gets',
         gets_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $4.Empty.fromBuffer(value),
-        ($6.AccountBinds value) => value.writeToBuffer()));
+        ($6.Bindings value) => value.writeToBuffer()));
   }
 
   $async.Future<$4.Empty> apply_Pre(
@@ -90,7 +90,7 @@ abstract class BindServiceBase extends $grpc.Service {
     return cancel(call, await request);
   }
 
-  $async.Future<$6.AccountBinds> gets_Pre(
+  $async.Future<$6.Bindings> gets_Pre(
       $grpc.ServiceCall call, $async.Future<$4.Empty> request) async {
     return gets(call, await request);
   }
@@ -98,5 +98,5 @@ abstract class BindServiceBase extends $grpc.Service {
   $async.Future<$4.Empty> apply($grpc.ServiceCall call, $6.BindRequest request);
   $async.Future<$4.Empty> cancel(
       $grpc.ServiceCall call, $6.BindRequest request);
-  $async.Future<$6.AccountBinds> gets($grpc.ServiceCall call, $4.Empty request);
+  $async.Future<$6.Bindings> gets($grpc.ServiceCall call, $4.Empty request);
 }

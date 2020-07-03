@@ -36,7 +36,7 @@ $(SUBDIRS):
 		--dart-export_out=file=$@,paths=source_relative:dart/$@/lib \
 		appootb/$@/*.proto
 	@protoc --dart_out=dart/$@/lib/src/generated $(PROTO_ROOT_DIR)/include/google/protobuf/*.proto
-	@protoc -I. --dart_out=dart/$@/lib/src/generated appootb/*/common.proto
+	@protoc -I. --dart_out=dart/$@/lib/src/generated appootb/*/include.proto
 	@protoc -Iappootb/common --dart_out=dart/$@/lib/src/generated/appootb/common appootb/common/*.proto
 	@protoc -Iappootb/permission --dart_out=dart/$@/lib/src/generated/appootb/permission appootb/permission/*.proto
 
@@ -53,8 +53,9 @@ $(SUBDIRS):
 
 todo:
 	@rm -rf go/permission/*.pb.*.go
-	@rm -rf doc/common doc/error doc/permission
-	@rm -rf swagger/common swagger/error swagger/permission
-	@rm -rf dart/common dart/error dart/permission
+	@rm -rf go/secret/*.pb.*.go
+	@rm -rf doc/common doc/error doc/permission doc/secret
+	@rm -rf swagger/common swagger/error swagger/permission swagger/secret
+	@rm -rf dart/common dart/error dart/permission dart/secret
 
 .PHONY: $(SUBDIRS)

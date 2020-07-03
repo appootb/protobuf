@@ -10,10 +10,10 @@ import 'dart:async' as $async;
 import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
-import 'appootb/captcha/common.pb.dart' as $3;
+import 'appootb/captcha/include.pb.dart' as $3;
 import 'google/protobuf/empty.pb.dart' as $4;
 import 'auth.pb.dart' as $5;
-import 'common.pb.dart' as $1;
+import 'include.pb.dart' as $1;
 export 'auth.pb.dart';
 
 class AuthClient extends $grpc.Client {
@@ -21,22 +21,22 @@ class AuthClient extends $grpc.Client {
       '/appootb.account.Auth/GetCode',
       ($3.CodeRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $4.Empty.fromBuffer(value));
-  static final _$login = $grpc.ClientMethod<$5.LoginRequest, $1.AccountInfo>(
+  static final _$login = $grpc.ClientMethod<$5.LoginRequest, $1.Info>(
       '/appootb.account.Auth/Login',
       ($5.LoginRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.AccountInfo.fromBuffer(value));
-  static final _$oAuth = $grpc.ClientMethod<$5.OAuthRequest, $1.AccountInfo>(
+      ($core.List<$core.int> value) => $1.Info.fromBuffer(value));
+  static final _$oAuth = $grpc.ClientMethod<$5.OAuthRequest, $1.Info>(
       '/appootb.account.Auth/OAuth',
       ($5.OAuthRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.AccountInfo.fromBuffer(value));
+      ($core.List<$core.int> value) => $1.Info.fromBuffer(value));
   static final _$getRegions = $grpc.ClientMethod<$4.Empty, $5.Regions>(
       '/appootb.account.Auth/GetRegions',
       ($4.Empty value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $5.Regions.fromBuffer(value));
-  static final _$refresh = $grpc.ClientMethod<$4.Empty, $1.AccountInfo>(
+  static final _$refresh = $grpc.ClientMethod<$4.Empty, $1.Info>(
       '/appootb.account.Auth/Refresh',
       ($4.Empty value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.AccountInfo.fromBuffer(value));
+      ($core.List<$core.int> value) => $1.Info.fromBuffer(value));
 
   AuthClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
@@ -48,14 +48,14 @@ class AuthClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$1.AccountInfo> login($5.LoginRequest request,
+  $grpc.ResponseFuture<$1.Info> login($5.LoginRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$login, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$1.AccountInfo> oAuth($5.OAuthRequest request,
+  $grpc.ResponseFuture<$1.Info> oAuth($5.OAuthRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$oAuth, $async.Stream.fromIterable([request]),
         options: options);
@@ -70,7 +70,7 @@ class AuthClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$1.AccountInfo> refresh($4.Empty request,
+  $grpc.ResponseFuture<$1.Info> refresh($4.Empty request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$refresh, $async.Stream.fromIterable([request]),
         options: options);
@@ -89,20 +89,20 @@ abstract class AuthServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $3.CodeRequest.fromBuffer(value),
         ($4.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$5.LoginRequest, $1.AccountInfo>(
+    $addMethod($grpc.ServiceMethod<$5.LoginRequest, $1.Info>(
         'Login',
         login_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $5.LoginRequest.fromBuffer(value),
-        ($1.AccountInfo value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$5.OAuthRequest, $1.AccountInfo>(
+        ($1.Info value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$5.OAuthRequest, $1.Info>(
         'OAuth',
         oAuth_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $5.OAuthRequest.fromBuffer(value),
-        ($1.AccountInfo value) => value.writeToBuffer()));
+        ($1.Info value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$4.Empty, $5.Regions>(
         'GetRegions',
         getRegions_Pre,
@@ -110,13 +110,13 @@ abstract class AuthServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $4.Empty.fromBuffer(value),
         ($5.Regions value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$4.Empty, $1.AccountInfo>(
+    $addMethod($grpc.ServiceMethod<$4.Empty, $1.Info>(
         'Refresh',
         refresh_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $4.Empty.fromBuffer(value),
-        ($1.AccountInfo value) => value.writeToBuffer()));
+        ($1.Info value) => value.writeToBuffer()));
   }
 
   $async.Future<$4.Empty> getCode_Pre(
@@ -124,12 +124,12 @@ abstract class AuthServiceBase extends $grpc.Service {
     return getCode(call, await request);
   }
 
-  $async.Future<$1.AccountInfo> login_Pre(
+  $async.Future<$1.Info> login_Pre(
       $grpc.ServiceCall call, $async.Future<$5.LoginRequest> request) async {
     return login(call, await request);
   }
 
-  $async.Future<$1.AccountInfo> oAuth_Pre(
+  $async.Future<$1.Info> oAuth_Pre(
       $grpc.ServiceCall call, $async.Future<$5.OAuthRequest> request) async {
     return oAuth(call, await request);
   }
@@ -139,19 +139,16 @@ abstract class AuthServiceBase extends $grpc.Service {
     return getRegions(call, await request);
   }
 
-  $async.Future<$1.AccountInfo> refresh_Pre(
+  $async.Future<$1.Info> refresh_Pre(
       $grpc.ServiceCall call, $async.Future<$4.Empty> request) async {
     return refresh(call, await request);
   }
 
   $async.Future<$4.Empty> getCode(
       $grpc.ServiceCall call, $3.CodeRequest request);
-  $async.Future<$1.AccountInfo> login(
-      $grpc.ServiceCall call, $5.LoginRequest request);
-  $async.Future<$1.AccountInfo> oAuth(
-      $grpc.ServiceCall call, $5.OAuthRequest request);
+  $async.Future<$1.Info> login($grpc.ServiceCall call, $5.LoginRequest request);
+  $async.Future<$1.Info> oAuth($grpc.ServiceCall call, $5.OAuthRequest request);
   $async.Future<$5.Regions> getRegions(
       $grpc.ServiceCall call, $4.Empty request);
-  $async.Future<$1.AccountInfo> refresh(
-      $grpc.ServiceCall call, $4.Empty request);
+  $async.Future<$1.Info> refresh($grpc.ServiceCall call, $4.Empty request);
 }

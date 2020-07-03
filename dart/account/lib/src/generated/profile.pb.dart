@@ -11,26 +11,26 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'google/protobuf/struct.pb.dart' as $12;
 
-class AccountProfile extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AccountProfile', package: const $pb.PackageName('appootb.account'), createEmptyInstance: create)
+class Property extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Property', package: const $pb.PackageName('appootb.account'), createEmptyInstance: create)
     ..aQS(1, 'name')
     ..aOM<$12.Struct>(2, 'value', subBuilder: $12.Struct.create)
   ;
 
-  AccountProfile._() : super();
-  factory AccountProfile() => create();
-  factory AccountProfile.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory AccountProfile.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  AccountProfile clone() => AccountProfile()..mergeFromMessage(this);
-  AccountProfile copyWith(void Function(AccountProfile) updates) => super.copyWith((message) => updates(message as AccountProfile));
+  Property._() : super();
+  factory Property() => create();
+  factory Property.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Property.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Property clone() => Property()..mergeFromMessage(this);
+  Property copyWith(void Function(Property) updates) => super.copyWith((message) => updates(message as Property));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static AccountProfile create() => AccountProfile._();
-  AccountProfile createEmptyInstance() => create();
-  static $pb.PbList<AccountProfile> createRepeated() => $pb.PbList<AccountProfile>();
+  static Property create() => Property._();
+  Property createEmptyInstance() => create();
+  static $pb.PbList<Property> createRepeated() => $pb.PbList<Property>();
   @$core.pragma('dart2js:noInline')
-  static AccountProfile getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AccountProfile>(create);
-  static AccountProfile _defaultInstance;
+  static Property getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Property>(create);
+  static Property _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -53,28 +53,28 @@ class AccountProfile extends $pb.GeneratedMessage {
   $12.Struct ensureValue() => $_ensure(1);
 }
 
-class AccountProfiles extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AccountProfiles', package: const $pb.PackageName('appootb.account'), createEmptyInstance: create)
-    ..m<$core.String, $12.Struct>(1, 'profiles', entryClassName: 'AccountProfiles.ProfilesEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $12.Struct.create, packageName: const $pb.PackageName('appootb.account'))
+class Properties extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Properties', package: const $pb.PackageName('appootb.account'), createEmptyInstance: create)
+    ..m<$core.String, $12.Struct>(1, 'kvs', entryClassName: 'Properties.KvsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $12.Struct.create, packageName: const $pb.PackageName('appootb.account'))
     ..hasRequiredFields = false
   ;
 
-  AccountProfiles._() : super();
-  factory AccountProfiles() => create();
-  factory AccountProfiles.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory AccountProfiles.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  AccountProfiles clone() => AccountProfiles()..mergeFromMessage(this);
-  AccountProfiles copyWith(void Function(AccountProfiles) updates) => super.copyWith((message) => updates(message as AccountProfiles));
+  Properties._() : super();
+  factory Properties() => create();
+  factory Properties.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Properties.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Properties clone() => Properties()..mergeFromMessage(this);
+  Properties copyWith(void Function(Properties) updates) => super.copyWith((message) => updates(message as Properties));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static AccountProfiles create() => AccountProfiles._();
-  AccountProfiles createEmptyInstance() => create();
-  static $pb.PbList<AccountProfiles> createRepeated() => $pb.PbList<AccountProfiles>();
+  static Properties create() => Properties._();
+  Properties createEmptyInstance() => create();
+  static $pb.PbList<Properties> createRepeated() => $pb.PbList<Properties>();
   @$core.pragma('dart2js:noInline')
-  static AccountProfiles getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AccountProfiles>(create);
-  static AccountProfiles _defaultInstance;
+  static Properties getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Properties>(create);
+  static Properties _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.Map<$core.String, $12.Struct> get profiles => $_getMap(0);
+  $core.Map<$core.String, $12.Struct> get kvs => $_getMap(0);
 }
 

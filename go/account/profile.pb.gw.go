@@ -33,7 +33,7 @@ var _ = utilities.NewDoubleArray
 var _ = descriptor.ForMessage
 
 func request_Profile_Set_0(ctx context.Context, marshaler runtime.Marshaler, client ProfileClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AccountProfile
+	var protoReq Property
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -68,7 +68,7 @@ func request_Profile_Set_0(ctx context.Context, marshaler runtime.Marshaler, cli
 }
 
 func local_request_Profile_Set_0(ctx context.Context, marshaler runtime.Marshaler, server ProfileServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AccountProfile
+	var protoReq Property
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -107,7 +107,7 @@ var (
 )
 
 func request_Profile_Get_0(ctx context.Context, marshaler runtime.Marshaler, client ProfileClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AccountProfile
+	var protoReq Property
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -141,7 +141,7 @@ func request_Profile_Get_0(ctx context.Context, marshaler runtime.Marshaler, cli
 }
 
 func local_request_Profile_Get_0(ctx context.Context, marshaler runtime.Marshaler, server ProfileServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AccountProfile
+	var protoReq Property
 	var metadata runtime.ServerMetadata
 
 	var (

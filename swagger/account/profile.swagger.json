@@ -13,13 +13,13 @@
   "paths": {
     "/account/profile/{name}": {
       "get": {
-        "summary": "Get account profile.",
+        "summary": "Get account property.",
         "operationId": "Profile_Get",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/accountAccountProfile"
+              "$ref": "#/definitions/accountProperty"
             }
           },
           "default": {
@@ -42,7 +42,7 @@
         ]
       },
       "put": {
-        "summary": "Set or update account profile.",
+        "summary": "Set or update account property.",
         "operationId": "Profile_Set",
         "responses": {
           "200": {
@@ -70,7 +70,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/accountAccountProfile"
+              "$ref": "#/definitions/accountProperty"
             }
           }
         ],
@@ -81,13 +81,13 @@
     },
     "/account/profiles": {
       "get": {
-        "summary": "Get account all profiles.",
+        "summary": "Get account all properties.",
         "operationId": "Profile_Gets",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/accountAccountProfiles"
+              "$ref": "#/definitions/accountProperties"
             }
           },
           "default": {
@@ -104,7 +104,19 @@
     }
   },
   "definitions": {
-    "accountAccountProfile": {
+    "accountProperties": {
+      "type": "object",
+      "properties": {
+        "kvs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      },
+      "description": "Account properties."
+    },
+    "accountProperty": {
       "type": "object",
       "properties": {
         "name": {
@@ -114,19 +126,7 @@
           "type": "object"
         }
       },
-      "description": "Account profile."
-    },
-    "accountAccountProfiles": {
-      "type": "object",
-      "properties": {
-        "profiles": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object"
-          }
-        }
-      },
-      "description": "Account profiles."
+      "description": "Account property."
     },
     "protobufAny": {
       "type": "object",

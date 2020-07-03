@@ -11,7 +11,7 @@ import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
 import 'password.pb.dart' as $8;
-import 'common.pb.dart' as $1;
+import 'include.pb.dart' as $1;
 export 'password.pb.dart';
 
 class PasswordClient extends $grpc.Client {

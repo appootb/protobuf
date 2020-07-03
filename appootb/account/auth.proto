@@ -2,12 +2,12 @@ syntax = "proto2";
 
 package appootb.account;
 
-import "appootb/captcha/common.proto";
+import "appootb/captcha/include.proto";
 import "appootb/permission/method.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
-import "common.proto";
+import "include.proto";
 
 option cc_enable_arenas = true;
 option optimize_for = SPEED;
@@ -62,7 +62,7 @@ service Auth {
   }
 
   // Login.
-  rpc Login(LoginRequest) returns (AccountInfo) {
+  rpc Login(LoginRequest) returns (Info) {
     option (google.api.http) = {
       post: "/account/auth/login"
       body: "*"
@@ -70,7 +70,7 @@ service Auth {
   }
 
   // OAuth.
-  rpc OAuth(OAuthRequest) returns (AccountInfo) {
+  rpc OAuth(OAuthRequest) returns (Info) {
     option (google.api.http) = {
       post: "/account/auth/oauth"
       body: "*"
@@ -85,7 +85,7 @@ service Auth {
   }
 
   // Refresh account token.
-  rpc Refresh(google.protobuf.Empty) returns (AccountInfo) {
+  rpc Refresh(google.protobuf.Empty) returns (Info) {
     option (appootb.permission.method.token) = LOGGED_IN;
 
     option (google.api.http) = {

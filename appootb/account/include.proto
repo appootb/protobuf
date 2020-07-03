@@ -1,0 +1,65 @@
+syntax = "proto2";
+
+package appootb.account;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Account";
+option go_package = "github.com/appootb/protobuf/go/account";
+option java_multiple_files = true;
+option java_outer_classname = "CommonProto";
+option java_package = "com.appootb.account";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Account";
+
+
+// Account gender enums.
+enum Gender {
+  GENDER_UNSPECIFIED = 0; // Unspecified
+
+  GENDER_MALE   = 1; // Male
+  GENDER_FEMALE = 2; // Female
+  GENDER_OTHER  = 3; // Other
+}
+
+// Auth source enums.
+enum AuthType {
+  AUTH_TYPE_UNSPECIFIED = 0; // Unspecified
+
+  AUTH_TYPE_APPLE_ID = 1; // Apple ID
+  AUTH_TYPE_ACCOUNT  = 2; // Mobile or email
+  AUTH_TYPE_WECHAT   = 3; // Wechat
+  AUTH_TYPE_QQ       = 4; // QQ
+  AUTH_TYPE_WEIBO    = 5; // Sina weibo
+}
+
+// Account secret.
+message Secret {
+  required string token = 1; // Account token
+}
+
+// Account information.
+message Info {
+  required uint64 unique_id = 1; // Account ID
+  required string nickname  = 2; // Nickname
+  required string avatar    = 3; // Avatar
+
+  optional string signature = 4; // Account signature
+  optional Gender gender    = 5; // Gender
+  optional string signs     = 6; // Zodiac signs
+  optional string location  = 7; // Location
+
+  optional Secret secret = 8; // Account secret info
+
+  optional google.protobuf.Timestamp create_at = 98; // Account created time
+  optional google.protobuf.Any       extend    = 99; // Account extend info
+}
+
+// Accounts information.
+message Infos {
+  repeated Info accounts = 1; // Accounts
+}

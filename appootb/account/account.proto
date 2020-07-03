@@ -6,7 +6,7 @@ import "appootb/common/unique_id.proto";
 import "appootb/permission/method.proto";
 import "google/api/annotations.proto";
 
-import "common.proto";
+import "include.proto";
 
 option cc_enable_arenas = true;
 option optimize_for = SPEED;
@@ -32,21 +32,21 @@ message VariableInfo {
 // Account info service.
 service Account {
   // Get account info.
-  rpc GetInfo(appootb.common.UniqueId) returns (AccountInfo) {
+  rpc GetInfo(appootb.common.UniqueId) returns (Info) {
     option (google.api.http) = {
       get: "/account/info/{id}"
     };
   }
 
   // Get account infos.
-  rpc GetInfos(appootb.common.UniqueIds) returns (AccountInfos) {
+  rpc GetInfos(appootb.common.UniqueIds) returns (Infos) {
     option (google.api.http) = {
       get: "/account/infos"
     };
   }
 
   // Update account info.
-  rpc UpdateInfo(VariableInfo) returns (AccountInfo) {
+  rpc UpdateInfo(VariableInfo) returns (Info) {
     option (appootb.permission.method.token) = LOGGED_IN;
 
     option (google.api.http) = {
