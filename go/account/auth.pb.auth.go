@@ -15,26 +15,26 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.Audience_NONE
+var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelAuth = map[string][]permission.Audience{
+var _authServiceSubjects = map[string][]permission.Subject{
 	"/appootb.account.Auth/GetCode": {
-		permission.Audience_NONE,
+		permission.Subject_NONE,
 	},
 	"/appootb.account.Auth/GetRegions": {
-		permission.Audience_NONE,
+		permission.Subject_NONE,
 	},
 	"/appootb.account.Auth/Login": {
-		permission.Audience_NONE,
+		permission.Subject_NONE,
 	},
 	"/appootb.account.Auth/OAuth": {
-		permission.Audience_NONE,
+		permission.Subject_NONE,
 	},
 	"/appootb.account.Auth/Refresh": {
-		permission.Audience_PC,
-		permission.Audience_MOBILE,
-		permission.Audience_WEB,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
+		permission.Subject_WEB,
 	},
 }
 
@@ -44,7 +44,7 @@ type wrapperAuthServer struct {
 }
 
 func (w *wrapperAuthServer) GetCode(ctx context.Context, req *captcha.CodeRequest) (*empty.Empty, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.AuthServer.GetCode(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -54,7 +54,7 @@ func (w *wrapperAuthServer) GetCode(ctx context.Context, req *captcha.CodeReques
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.AuthServer.GetCode(ctx, req.(*captcha.CodeRequest))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func (w *wrapperAuthServer) GetCode(ctx context.Context, req *captcha.CodeReques
 }
 
 func (w *wrapperAuthServer) Login(ctx context.Context, req *LoginRequest) (*Info, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.AuthServer.Login(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -72,7 +72,7 @@ func (w *wrapperAuthServer) Login(ctx context.Context, req *LoginRequest) (*Info
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.AuthServer.Login(ctx, req.(*LoginRequest))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func (w *wrapperAuthServer) Login(ctx context.Context, req *LoginRequest) (*Info
 }
 
 func (w *wrapperAuthServer) OAuth(ctx context.Context, req *OAuthRequest) (*Info, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.AuthServer.OAuth(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -90,7 +90,7 @@ func (w *wrapperAuthServer) OAuth(ctx context.Context, req *OAuthRequest) (*Info
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.AuthServer.OAuth(ctx, req.(*OAuthRequest))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +98,7 @@ func (w *wrapperAuthServer) OAuth(ctx context.Context, req *OAuthRequest) (*Info
 }
 
 func (w *wrapperAuthServer) GetRegions(ctx context.Context, req *empty.Empty) (*Regions, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.AuthServer.GetRegions(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -108,7 +108,7 @@ func (w *wrapperAuthServer) GetRegions(ctx context.Context, req *empty.Empty) (*
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.AuthServer.GetRegions(ctx, req.(*empty.Empty))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -116,7 +116,7 @@ func (w *wrapperAuthServer) GetRegions(ctx context.Context, req *empty.Empty) (*
 }
 
 func (w *wrapperAuthServer) Refresh(ctx context.Context, req *empty.Empty) (*Info, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.AuthServer.Refresh(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -126,7 +126,7 @@ func (w *wrapperAuthServer) Refresh(ctx context.Context, req *empty.Empty) (*Inf
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.AuthServer.Refresh(ctx, req.(*empty.Empty))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -135,11 +135,11 @@ func (w *wrapperAuthServer) Refresh(ctx context.Context, req *empty.Empty) (*Inf
 
 // Register scoped server.
 func RegisterAuthScopeServer(auth service.Authenticator, impl service.Implementor, srv AuthServer) error {
-	// Register service required token level.
-	auth.RegisterServiceTokenLevel(_levelAuth)
+	// Register service required subjects.
+	auth.RegisterServiceSubjects(_authServiceSubjects)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_CLIENT) {
+	for _, gRPC := range impl.GetGRPCServer(permission.VisibleScope_CLIENT) {
 		RegisterAuthServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -147,7 +147,7 @@ func RegisterAuthScopeServer(auth service.Authenticator, impl service.Implemento
 		AuthServer:  srv,
 		Implementor: impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_CLIENT) {
+	for _, mux := range impl.GetGatewayMux(permission.VisibleScope_CLIENT) {
 		err := RegisterAuthHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

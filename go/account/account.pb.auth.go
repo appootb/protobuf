@@ -14,20 +14,20 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.Audience_NONE
+var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelAccount = map[string][]permission.Audience{
+var _accountServiceSubjects = map[string][]permission.Subject{
 	"/appootb.account.Account/GetInfo": {
-		permission.Audience_NONE,
+		permission.Subject_NONE,
 	},
 	"/appootb.account.Account/GetInfos": {
-		permission.Audience_NONE,
+		permission.Subject_NONE,
 	},
 	"/appootb.account.Account/UpdateInfo": {
-		permission.Audience_WEB,
-		permission.Audience_PC,
-		permission.Audience_MOBILE,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
+		permission.Subject_WEB,
 	},
 }
 
@@ -37,7 +37,7 @@ type wrapperAccountServer struct {
 }
 
 func (w *wrapperAccountServer) GetInfo(ctx context.Context, req *common.UniqueId) (*Info, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.AccountServer.GetInfo(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -47,7 +47,7 @@ func (w *wrapperAccountServer) GetInfo(ctx context.Context, req *common.UniqueId
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.AccountServer.GetInfo(ctx, req.(*common.UniqueId))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (w *wrapperAccountServer) GetInfo(ctx context.Context, req *common.UniqueId
 }
 
 func (w *wrapperAccountServer) GetInfos(ctx context.Context, req *common.UniqueIds) (*Infos, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.AccountServer.GetInfos(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -65,7 +65,7 @@ func (w *wrapperAccountServer) GetInfos(ctx context.Context, req *common.UniqueI
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.AccountServer.GetInfos(ctx, req.(*common.UniqueIds))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func (w *wrapperAccountServer) GetInfos(ctx context.Context, req *common.UniqueI
 }
 
 func (w *wrapperAccountServer) UpdateInfo(ctx context.Context, req *VariableInfo) (*Info, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.AccountServer.UpdateInfo(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -83,7 +83,7 @@ func (w *wrapperAccountServer) UpdateInfo(ctx context.Context, req *VariableInfo
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.AccountServer.UpdateInfo(ctx, req.(*VariableInfo))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -92,11 +92,11 @@ func (w *wrapperAccountServer) UpdateInfo(ctx context.Context, req *VariableInfo
 
 // Register scoped server.
 func RegisterAccountScopeServer(auth service.Authenticator, impl service.Implementor, srv AccountServer) error {
-	// Register service required token level.
-	auth.RegisterServiceTokenLevel(_levelAccount)
+	// Register service required subjects.
+	auth.RegisterServiceSubjects(_accountServiceSubjects)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_CLIENT) {
+	for _, gRPC := range impl.GetGRPCServer(permission.VisibleScope_CLIENT) {
 		RegisterAccountServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -104,7 +104,7 @@ func RegisterAccountScopeServer(auth service.Authenticator, impl service.Impleme
 		AccountServer: srv,
 		Implementor:   impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_CLIENT) {
+	for _, mux := range impl.GetGatewayMux(permission.VisibleScope_CLIENT) {
 		err := RegisterAccountHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

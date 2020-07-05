@@ -14,24 +14,24 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.Audience_NONE
+var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelProfile = map[string][]permission.Audience{
+var _profileServiceSubjects = map[string][]permission.Subject{
 	"/appootb.account.Profile/Get": {
-		permission.Audience_PC,
-		permission.Audience_MOBILE,
-		permission.Audience_WEB,
+		permission.Subject_WEB,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
 	},
 	"/appootb.account.Profile/Gets": {
-		permission.Audience_WEB,
-		permission.Audience_PC,
-		permission.Audience_MOBILE,
+		permission.Subject_WEB,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
 	},
 	"/appootb.account.Profile/Set": {
-		permission.Audience_WEB,
-		permission.Audience_PC,
-		permission.Audience_MOBILE,
+		permission.Subject_WEB,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
 	},
 }
 
@@ -41,7 +41,7 @@ type wrapperProfileServer struct {
 }
 
 func (w *wrapperProfileServer) Set(ctx context.Context, req *Property) (*empty.Empty, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.ProfileServer.Set(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -51,7 +51,7 @@ func (w *wrapperProfileServer) Set(ctx context.Context, req *Property) (*empty.E
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.ProfileServer.Set(ctx, req.(*Property))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +59,7 @@ func (w *wrapperProfileServer) Set(ctx context.Context, req *Property) (*empty.E
 }
 
 func (w *wrapperProfileServer) Get(ctx context.Context, req *Property) (*Property, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.ProfileServer.Get(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -69,7 +69,7 @@ func (w *wrapperProfileServer) Get(ctx context.Context, req *Property) (*Propert
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.ProfileServer.Get(ctx, req.(*Property))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (w *wrapperProfileServer) Get(ctx context.Context, req *Property) (*Propert
 }
 
 func (w *wrapperProfileServer) Gets(ctx context.Context, req *empty.Empty) (*Properties, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.ProfileServer.Gets(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -87,7 +87,7 @@ func (w *wrapperProfileServer) Gets(ctx context.Context, req *empty.Empty) (*Pro
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.ProfileServer.Gets(ctx, req.(*empty.Empty))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -96,11 +96,11 @@ func (w *wrapperProfileServer) Gets(ctx context.Context, req *empty.Empty) (*Pro
 
 // Register scoped server.
 func RegisterProfileScopeServer(auth service.Authenticator, impl service.Implementor, srv ProfileServer) error {
-	// Register service required token level.
-	auth.RegisterServiceTokenLevel(_levelProfile)
+	// Register service required subjects.
+	auth.RegisterServiceSubjects(_profileServiceSubjects)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_CLIENT) {
+	for _, gRPC := range impl.GetGRPCServer(permission.VisibleScope_CLIENT) {
 		RegisterProfileServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -108,7 +108,7 @@ func RegisterProfileScopeServer(auth service.Authenticator, impl service.Impleme
 		ProfileServer: srv,
 		Implementor:   impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_CLIENT) {
+	for _, mux := range impl.GetGatewayMux(permission.VisibleScope_CLIENT) {
 		err := RegisterProfileHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

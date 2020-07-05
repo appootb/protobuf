@@ -9,18 +9,18 @@
 import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class Audience extends $pb.ProtobufEnum {
-  static const Audience NONE = Audience._(0, 'NONE');
-  static const Audience GUEST = Audience._(1, 'GUEST');
-  static const Audience WEB = Audience._(8, 'WEB');
-  static const Audience PC = Audience._(64, 'PC');
-  static const Audience MOBILE = Audience._(512, 'MOBILE');
-  static const Audience LOGGED_IN = Audience._(584, 'LOGGED_IN');
-  static const Audience CLIENT = Audience._(585, 'CLIENT');
-  static const Audience SERVER = Audience._(4096, 'SERVER');
-  static const Audience ANY = Audience._(65535, 'ANY');
+class Subject extends $pb.ProtobufEnum {
+  static const Subject NONE = Subject._(0, 'NONE');
+  static const Subject GUEST = Subject._(1, 'GUEST');
+  static const Subject WEB = Subject._(8, 'WEB');
+  static const Subject PC = Subject._(64, 'PC');
+  static const Subject MOBILE = Subject._(512, 'MOBILE');
+  static const Subject LOGGED_IN = Subject._(584, 'LOGGED_IN');
+  static const Subject CLIENT = Subject._(585, 'CLIENT');
+  static const Subject SERVER = Subject._(4096, 'SERVER');
+  static const Subject ANY = Subject._(65535, 'ANY');
 
-  static const $core.List<Audience> values = <Audience> [
+  static const $core.List<Subject> values = <Subject> [
     NONE,
     GUEST,
     WEB,
@@ -32,9 +32,9 @@ class Audience extends $pb.ProtobufEnum {
     ANY,
   ];
 
-  static final $core.Map<$core.int, Audience> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static Audience valueOf($core.int value) => _byValue[value];
+  static final $core.Map<$core.int, Subject> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static Subject valueOf($core.int value) => _byValue[value];
 
-  const Audience._($core.int v, $core.String n) : super(v, n);
+  const Subject._($core.int v, $core.String n) : super(v, n);
 }
 

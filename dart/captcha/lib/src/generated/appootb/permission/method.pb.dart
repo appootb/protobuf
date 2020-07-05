@@ -14,9 +14,9 @@ import 'method.pbenum.dart';
 export 'method.pbenum.dart';
 
 class Method {
-  static final $pb.Extension token = $pb.Extension<Audience>.repeated('google.protobuf.MethodOptions', 'token', 2507, $pb.PbFieldType.PE, check: $pb.getCheckFunction($pb.PbFieldType.PE), valueOf: Audience.valueOf, enumValues: Audience.values);
+  static final $pb.Extension required = $pb.Extension<Subject>.repeated('google.protobuf.MethodOptions', 'required', 2507, $pb.PbFieldType.PE, check: $pb.getCheckFunction($pb.PbFieldType.PE), valueOf: Subject.valueOf, enumValues: Subject.values);
   static void registerAllExtensions($pb.ExtensionRegistry registry) {
-    registry.add(token);
+    registry.add(required);
   }
 }
 

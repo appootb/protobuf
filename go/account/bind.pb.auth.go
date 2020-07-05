@@ -14,21 +14,21 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.Audience_NONE
+var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelBind = map[string][]permission.Audience{
+var _bindServiceSubjects = map[string][]permission.Subject{
 	"/appootb.account.Bind/Apply": {
-		permission.Audience_PC,
-		permission.Audience_MOBILE,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
 	},
 	"/appootb.account.Bind/Cancel": {
-		permission.Audience_PC,
-		permission.Audience_MOBILE,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
 	},
 	"/appootb.account.Bind/Gets": {
-		permission.Audience_PC,
-		permission.Audience_MOBILE,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
 	},
 }
 
@@ -38,7 +38,7 @@ type wrapperBindServer struct {
 }
 
 func (w *wrapperBindServer) Apply(ctx context.Context, req *BindRequest) (*empty.Empty, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.BindServer.Apply(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -48,7 +48,7 @@ func (w *wrapperBindServer) Apply(ctx context.Context, req *BindRequest) (*empty
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.BindServer.Apply(ctx, req.(*BindRequest))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (w *wrapperBindServer) Apply(ctx context.Context, req *BindRequest) (*empty
 }
 
 func (w *wrapperBindServer) Cancel(ctx context.Context, req *BindRequest) (*empty.Empty, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.BindServer.Cancel(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -66,7 +66,7 @@ func (w *wrapperBindServer) Cancel(ctx context.Context, req *BindRequest) (*empt
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.BindServer.Cancel(ctx, req.(*BindRequest))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func (w *wrapperBindServer) Cancel(ctx context.Context, req *BindRequest) (*empt
 }
 
 func (w *wrapperBindServer) Gets(ctx context.Context, req *empty.Empty) (*Bindings, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.BindServer.Gets(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -84,7 +84,7 @@ func (w *wrapperBindServer) Gets(ctx context.Context, req *empty.Empty) (*Bindin
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.BindServer.Gets(ctx, req.(*empty.Empty))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -93,11 +93,11 @@ func (w *wrapperBindServer) Gets(ctx context.Context, req *empty.Empty) (*Bindin
 
 // Register scoped server.
 func RegisterBindScopeServer(auth service.Authenticator, impl service.Implementor, srv BindServer) error {
-	// Register service required token level.
-	auth.RegisterServiceTokenLevel(_levelBind)
+	// Register service required subjects.
+	auth.RegisterServiceSubjects(_bindServiceSubjects)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_CLIENT) {
+	for _, gRPC := range impl.GetGRPCServer(permission.VisibleScope_CLIENT) {
 		RegisterBindServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -105,7 +105,7 @@ func RegisterBindScopeServer(auth service.Authenticator, impl service.Implemento
 		BindServer:  srv,
 		Implementor: impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_CLIENT) {
+	for _, mux := range impl.GetGatewayMux(permission.VisibleScope_CLIENT) {
 		err := RegisterBindHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

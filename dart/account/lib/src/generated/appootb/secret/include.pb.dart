@@ -19,15 +19,16 @@ export 'include.pbenum.dart';
 
 class Info extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Info', package: const $pb.PackageName('appootb.secret'), createEmptyInstance: create)
-    ..e<Type>(1, 'type', $pb.PbFieldType.QE, defaultOrMaker: Type.CLIENT, valueOf: Type.valueOf, enumValues: Type.values)
-    ..aQS(2, 'issuer')
-    ..aQS(3, 'subject')
-    ..a<$fixnum.Int64>(4, 'account', $pb.PbFieldType.QU6, defaultOrMaker: $fixnum.Int64.ZERO)
-    ..a<$fixnum.Int64>(5, 'keyId', $pb.PbFieldType.Q6, defaultOrMaker: $fixnum.Int64.ZERO)
+    ..e<Type>(1, 'type', $pb.PbFieldType.OE, defaultOrMaker: Type.CLIENT, valueOf: Type.valueOf, enumValues: Type.values)
+    ..e<Algorithm>(2, 'algorithm', $pb.PbFieldType.OE, defaultOrMaker: Algorithm.None, valueOf: Algorithm.valueOf, enumValues: Algorithm.values)
+    ..aOS(3, 'issuer')
+    ..a<$fixnum.Int64>(4, 'account', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
+    ..aInt64(5, 'keyId')
     ..pPS(6, 'roles')
-    ..e<$2.Audience>(11, 'audience', $pb.PbFieldType.QE, defaultOrMaker: $2.Audience.NONE, valueOf: $2.Audience.valueOf, enumValues: $2.Audience.values)
-    ..aQM<$0.Timestamp>(21, 'issuedAt', subBuilder: $0.Timestamp.create)
-    ..aQM<$0.Timestamp>(22, 'expiredAt', subBuilder: $0.Timestamp.create)
+    ..e<$2.Subject>(11, 'subject', $pb.PbFieldType.OE, defaultOrMaker: $2.Subject.NONE, valueOf: $2.Subject.valueOf, enumValues: $2.Subject.values)
+    ..aOM<$0.Timestamp>(21, 'issuedAt', subBuilder: $0.Timestamp.create)
+    ..aOM<$0.Timestamp>(22, 'expiredAt', subBuilder: $0.Timestamp.create)
+    ..hasRequiredFields = false
   ;
 
   Info._() : super();
@@ -55,22 +56,22 @@ class Info extends $pb.GeneratedMessage {
   void clearType() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get issuer => $_getSZ(1);
+  Algorithm get algorithm => $_getN(1);
   @$pb.TagNumber(2)
-  set issuer($core.String v) { $_setString(1, v); }
+  set algorithm(Algorithm v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasIssuer() => $_has(1);
+  $core.bool hasAlgorithm() => $_has(1);
   @$pb.TagNumber(2)
-  void clearIssuer() => clearField(2);
+  void clearAlgorithm() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get subject => $_getSZ(2);
+  $core.String get issuer => $_getSZ(2);
   @$pb.TagNumber(3)
-  set subject($core.String v) { $_setString(2, v); }
+  set issuer($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasSubject() => $_has(2);
+  $core.bool hasIssuer() => $_has(2);
   @$pb.TagNumber(3)
-  void clearSubject() => clearField(3);
+  void clearIssuer() => clearField(3);
 
   @$pb.TagNumber(4)
   $fixnum.Int64 get account => $_getI64(3);
@@ -94,13 +95,13 @@ class Info extends $pb.GeneratedMessage {
   $core.List<$core.String> get roles => $_getList(5);
 
   @$pb.TagNumber(11)
-  $2.Audience get audience => $_getN(6);
+  $2.Subject get subject => $_getN(6);
   @$pb.TagNumber(11)
-  set audience($2.Audience v) { setField(11, v); }
+  set subject($2.Subject v) { setField(11, v); }
   @$pb.TagNumber(11)
-  $core.bool hasAudience() => $_has(6);
+  $core.bool hasSubject() => $_has(6);
   @$pb.TagNumber(11)
-  void clearAudience() => clearField(11);
+  void clearSubject() => clearField(11);
 
   @$pb.TagNumber(21)
   $0.Timestamp get issuedAt => $_getN(7);

@@ -17,26 +17,26 @@ type Implementor interface {
 	Context() context.Context
 
 	// Return the unary server interceptor for local gateway handler server.
-	UnaryServerInterceptor() grpc.UnaryServerInterceptor
+	UnaryInterceptor() grpc.UnaryServerInterceptor
 
 	// Return the stream server interceptor for local gateway handler server.
-	StreamServerInterceptor() grpc.StreamServerInterceptor
+	StreamInterceptor() grpc.StreamServerInterceptor
 
 	// Get gRPC server of the specified visible scope.
-	GetScopedGRPCServer(scope permission.VisibleScope) []*grpc.Server
+	GetGRPCServer(scope permission.VisibleScope) []*grpc.Server
 
 	// Get gateway mux of the specified visible scope.
-	GetScopedGatewayMux(scope permission.VisibleScope) []*runtime.ServeMux
+	GetGatewayMux(scope permission.VisibleScope) []*runtime.ServeMux
 }
 
 // Server authenticator interface.
 type Authenticator interface {
-	// Register required token level of the service.
+	// Register required method subjects of the service.
 	// The map key of the parameter is the full url path of the method.
-	RegisterServiceTokenLevel(fullMethodTokenLevels map[string][]permission.Audience)
+	RegisterServiceSubjects(serviceMethodSubjects map[string][]permission.Subject)
 
 	// Authenticate a request specified by the full url path of the method.
-	Authenticate(ctx context.Context, fullMethod string) (*secret.Info, error)
+	Authenticate(ctx context.Context, serviceMethod string) (*secret.Info, error)
 }
 
 type secretKey struct{}
@@ -62,7 +62,7 @@ func UnaryServerInterceptor(v Authenticator) grpc.UnaryServerInterceptor {
 // StreamServerInterceptor returns a new streaming server interceptor that authenticates incoming messages.
 //
 // The stage at which unauthenticated messages will be rejected with `PermissionDenied` varies based on the
-// type of the RPC. For `ServerStream` (1:m) requests, it will happen before reaching any userspace
+// type of the RPC. For `ServerStream` (1:m) requests, it will happen before reaching any user space
 // handlers. For `ClientStream` (n:1) or `BidiStream` (n:m) RPCs, the messages will be rejected on
 // calls to `stream.Recv()`.
 func StreamServerInterceptor(v Authenticator) grpc.StreamServerInterceptor {

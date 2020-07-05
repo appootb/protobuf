@@ -13,21 +13,21 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.Audience_NONE
+var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelPassword = map[string][]permission.Audience{
+var _passwordServiceSubjects = map[string][]permission.Subject{
 	"/appootb.account.Password/Reset": {
-		permission.Audience_PC,
-		permission.Audience_MOBILE,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
 	},
 	"/appootb.account.Password/Set": {
-		permission.Audience_PC,
-		permission.Audience_MOBILE,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
 	},
 	"/appootb.account.Password/Update": {
-		permission.Audience_PC,
-		permission.Audience_MOBILE,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
 	},
 }
 
@@ -37,7 +37,7 @@ type wrapperPasswordServer struct {
 }
 
 func (w *wrapperPasswordServer) Set(ctx context.Context, req *PasswordRequest) (*Secret, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.PasswordServer.Set(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -47,7 +47,7 @@ func (w *wrapperPasswordServer) Set(ctx context.Context, req *PasswordRequest) (
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.PasswordServer.Set(ctx, req.(*PasswordRequest))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (w *wrapperPasswordServer) Set(ctx context.Context, req *PasswordRequest) (
 }
 
 func (w *wrapperPasswordServer) Update(ctx context.Context, req *PasswordRequest) (*Secret, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.PasswordServer.Update(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -65,7 +65,7 @@ func (w *wrapperPasswordServer) Update(ctx context.Context, req *PasswordRequest
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.PasswordServer.Update(ctx, req.(*PasswordRequest))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func (w *wrapperPasswordServer) Update(ctx context.Context, req *PasswordRequest
 }
 
 func (w *wrapperPasswordServer) Reset(ctx context.Context, req *PasswordRequest) (*Secret, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.PasswordServer.Reset(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -83,7 +83,7 @@ func (w *wrapperPasswordServer) Reset(ctx context.Context, req *PasswordRequest)
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.PasswordServer.Reset(ctx, req.(*PasswordRequest))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -92,11 +92,11 @@ func (w *wrapperPasswordServer) Reset(ctx context.Context, req *PasswordRequest)
 
 // Register scoped server.
 func RegisterPasswordScopeServer(auth service.Authenticator, impl service.Implementor, srv PasswordServer) error {
-	// Register service required token level.
-	auth.RegisterServiceTokenLevel(_levelPassword)
+	// Register service required subjects.
+	auth.RegisterServiceSubjects(_passwordServiceSubjects)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_CLIENT) {
+	for _, gRPC := range impl.GetGRPCServer(permission.VisibleScope_CLIENT) {
 		RegisterPasswordServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -104,7 +104,7 @@ func RegisterPasswordScopeServer(auth service.Authenticator, impl service.Implem
 		PasswordServer: srv,
 		Implementor:    impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_CLIENT) {
+	for _, mux := range impl.GetGatewayMux(permission.VisibleScope_CLIENT) {
 		err := RegisterPasswordHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

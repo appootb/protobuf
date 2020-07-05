@@ -42,8 +42,8 @@ message Bindings {
 service Bind {
   // Apply account bind.
   rpc Apply(BindRequest) returns (google.protobuf.Empty) {
-    option (appootb.permission.method.token) = PC;
-    option (appootb.permission.method.token) = MOBILE;
+    option (appootb.permission.method.required) = PC;
+    option (appootb.permission.method.required) = MOBILE;
 
     option (google.api.http) = {
       post: "/account/bind"
@@ -53,8 +53,8 @@ service Bind {
 
   // Cancel account bind.
   rpc Cancel(BindRequest) returns (google.protobuf.Empty) {
-    option (appootb.permission.method.token) = PC;
-    option (appootb.permission.method.token) = MOBILE;
+    option (appootb.permission.method.required) = PC;
+    option (appootb.permission.method.required) = MOBILE;
 
     option (google.api.http) = {
       delete: "/account/bind"
@@ -63,8 +63,8 @@ service Bind {
 
   // Get all bind info.
   rpc Gets(google.protobuf.Empty) returns (Bindings) {
-    option (appootb.permission.method.token) = PC;
-    option (appootb.permission.method.token) = MOBILE;
+    option (appootb.permission.method.required) = PC;
+    option (appootb.permission.method.required) = MOBILE;
 
     option (google.api.http) = {
       get: "/account/binds"

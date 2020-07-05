@@ -5,8 +5,8 @@
 // @dart = 2.3
 // ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 
-const Audience$json = const {
-  '1': 'Audience',
+const Subject$json = const {
+  '1': 'Subject',
   '2': const [
     const {'1': 'NONE', '2': 0},
     const {'1': 'GUEST', '2': 1},

@@ -14,12 +14,12 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.Audience_NONE
+var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelInnerFilter = map[string][]permission.Audience{
+var _innerFilterServiceSubjects = map[string][]permission.Subject{
 	"/appootb.strainer.InnerFilter/Filter": {
-		permission.Audience_SERVER,
+		permission.Subject_SERVER,
 	},
 }
 
@@ -29,7 +29,7 @@ type wrapperInnerFilterServer struct {
 }
 
 func (w *wrapperInnerFilterServer) Filter(ctx context.Context, req *FilterRequest) (*empty.Empty, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.InnerFilterServer.Filter(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -39,7 +39,7 @@ func (w *wrapperInnerFilterServer) Filter(ctx context.Context, req *FilterReques
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.InnerFilterServer.Filter(ctx, req.(*FilterRequest))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -48,11 +48,11 @@ func (w *wrapperInnerFilterServer) Filter(ctx context.Context, req *FilterReques
 
 // Register scoped server.
 func RegisterInnerFilterScopeServer(auth service.Authenticator, impl service.Implementor, srv InnerFilterServer) error {
-	// Register service required token level.
-	auth.RegisterServiceTokenLevel(_levelInnerFilter)
+	// Register service required subjects.
+	auth.RegisterServiceSubjects(_innerFilterServiceSubjects)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_SERVER) {
+	for _, gRPC := range impl.GetGRPCServer(permission.VisibleScope_SERVER) {
 		RegisterInnerFilterServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -60,7 +60,7 @@ func RegisterInnerFilterScopeServer(auth service.Authenticator, impl service.Imp
 		InnerFilterServer: srv,
 		Implementor:       impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_SERVER) {
+	for _, mux := range impl.GetGatewayMux(permission.VisibleScope_SERVER) {
 		err := RegisterInnerFilterHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

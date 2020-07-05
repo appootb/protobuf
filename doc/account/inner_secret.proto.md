@@ -52,15 +52,15 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|type|enum [Type](#type)|string/integer| Secret type|-|true|
-|issuer|string|string| Secret issuer|-|true|
-|subject|string|string| Secret subject|-|true|
-|account|int64|string| Account ID|-|true|
-|key_id|int64|string| Key ID|-|true|
+|type|enum [Type](#type)|string/integer| Secret type|-|false|
+|algorithm|enum [Algorithm](#algorithm)|string/integer| Secret algorithm|-|false|
+|issuer|string|string| Secret issuer|-|false|
+|account|int64|string| Account ID|-|false|
+|key_id|int64|string| Key ID|-|false|
 |roles|array [string]|string| Account roles|-|false|
-|audience|enum [Audience](#audience)|string/integer| Token audience|-|true|
-|issued_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Issued timestamp|-|true|
-|expired_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Expired timestamp|-|true|
+|subject|enum [Subject](#subject)|string/integer| Token subject|-|false|
+|issued_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Issued timestamp|-|false|
+|expired_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Expired timestamp|-|false|
 
 
 
@@ -69,14 +69,14 @@
 ```json
 {
   "type": "CLIENT (0) | SERVER (1)",
+  "algorithm": "None (0) | HMAC (1) | RSA (2) | PSS (3) | ECDSA (4) | EdDSA (5)",
   "issuer": "string",
-  "subject": "string",
   "account": "string($int64)",
   "key_id": "string($int64)",
   "roles": [
     "string"
   ],
-  "audience": "NONE (0) | GUEST (1) | WEB (8) | PC (64) | MOBILE (512) | LOGGED_IN (584) | CLIENT (585) | SERVER (4096) | ANY (65535)",
+  "subject": "NONE (0) | GUEST (1) | WEB (8) | PC (64) | MOBILE (512) | LOGGED_IN (584) | CLIENT (585) | SERVER (4096) | ANY (65535)",
   "issued_at": "1972-01-01T10:00:20.021Z",
   "expired_at": "1972-01-01T10:00:20.021Z"
 }
@@ -95,9 +95,9 @@
 
 
 
-<h3 id="audience">Audience</h3>
+<h3 id="subject">Subject</h3>
 
->  Method token audience.
+>  Method token subject.
 
 * Enum
 
@@ -114,6 +114,22 @@
 |ANY|65535| Any token|
 
 
+<h3 id="algorithm">Algorithm</h3>
+
+>  Token algorithm
+
+* Enum
+
+|Name (string)|Value (integer)|Comment|
+|---|---|---|
+|None|0| None|
+|HMAC|1| HMAC|
+|RSA|2| RSA-PKCS|
+|PSS|3| RSA-PSS|
+|ECDSA|4| ECDSA|
+|EdDSA|5| EdDSA|
+
+
 <h3 id="type">Type</h3>
 
 >  Secret type.
@@ -122,8 +138,8 @@
 
 |Name (string)|Value (integer)|Comment|
 |---|---|---|
-|CLIENT|0|***TODO***|
-|SERVER|1|***TODO***|
+|CLIENT|0| For client usage|
+|SERVER|1| For server usage|
 
 
 

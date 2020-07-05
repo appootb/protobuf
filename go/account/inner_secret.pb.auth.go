@@ -14,12 +14,12 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = context.TODO()
 var _ = grpc.ServiceDesc{}
-var _ = permission.Audience_NONE
+var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
-var _levelInnerSecret = map[string][]permission.Audience{
+var _innerSecretServiceSubjects = map[string][]permission.Subject{
 	"/appootb.account.InnerSecret/GetSecretInfo": {
-		permission.Audience_SERVER,
+		permission.Subject_SERVER,
 	},
 }
 
@@ -29,7 +29,7 @@ type wrapperInnerSecretServer struct {
 }
 
 func (w *wrapperInnerSecretServer) GetSecretInfo(ctx context.Context, req *Secret) (*secret.Info, error) {
-	if w.UnaryServerInterceptor() == nil {
+	if w.UnaryInterceptor() == nil {
 		return w.InnerSecretServer.GetSecretInfo(ctx, req)
 	}
 	info := &grpc.UnaryServerInfo{
@@ -39,7 +39,7 @@ func (w *wrapperInnerSecretServer) GetSecretInfo(ctx context.Context, req *Secre
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return w.InnerSecretServer.GetSecretInfo(ctx, req.(*Secret))
 	}
-	resp, err := w.UnaryServerInterceptor()(ctx, req, info, handler)
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
@@ -48,11 +48,11 @@ func (w *wrapperInnerSecretServer) GetSecretInfo(ctx context.Context, req *Secre
 
 // Register scoped server.
 func RegisterInnerSecretScopeServer(auth service.Authenticator, impl service.Implementor, srv InnerSecretServer) error {
-	// Register service required token level.
-	auth.RegisterServiceTokenLevel(_levelInnerSecret)
+	// Register service required subjects.
+	auth.RegisterServiceSubjects(_innerSecretServiceSubjects)
 
 	// Register scoped gRPC server.
-	for _, gRPC := range impl.GetScopedGRPCServer(permission.VisibleScope_SERVER) {
+	for _, gRPC := range impl.GetGRPCServer(permission.VisibleScope_SERVER) {
 		RegisterInnerSecretServer(gRPC, srv)
 	}
 	// Register scoped gateway handler server.
@@ -60,7 +60,7 @@ func RegisterInnerSecretScopeServer(auth service.Authenticator, impl service.Imp
 		InnerSecretServer: srv,
 		Implementor:       impl,
 	}
-	for _, mux := range impl.GetScopedGatewayMux(permission.VisibleScope_SERVER) {
+	for _, mux := range impl.GetGatewayMux(permission.VisibleScope_SERVER) {
 		err := RegisterInnerSecretHandlerServer(impl.Context(), mux, &wrapper)
 		if err != nil {
 			return err

@@ -35,7 +35,7 @@ message Properties {
 service Profile {
   // Set or update account property.
   rpc Set(Property) returns (google.protobuf.Empty) {
-    option (appootb.permission.method.token) = LOGGED_IN;
+    option (appootb.permission.method.required) = LOGGED_IN;
 
     option (google.api.http) = {
       put: "/account/profile/{name}"
@@ -45,7 +45,7 @@ service Profile {
 
   // Get account property.
   rpc Get(Property) returns (Property) {
-    option (appootb.permission.method.token) = LOGGED_IN;
+    option (appootb.permission.method.required) = LOGGED_IN;
 
     option (google.api.http) = {
       get: "/account/profile/{name}"
@@ -54,7 +54,7 @@ service Profile {
 
   // Get account all properties.
   rpc Gets(google.protobuf.Empty) returns (Properties) {
-    option (appootb.permission.method.token) = LOGGED_IN;
+    option (appootb.permission.method.required) = LOGGED_IN;
 
     option (google.api.http) = {
       get: "/account/profiles"
