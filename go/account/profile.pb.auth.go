@@ -24,14 +24,14 @@ var _profileServiceSubjects = map[string][]permission.Subject{
 		permission.Subject_MOBILE,
 	},
 	"/appootb.account.Profile/Gets": {
-		permission.Subject_WEB,
 		permission.Subject_PC,
 		permission.Subject_MOBILE,
+		permission.Subject_WEB,
 	},
 	"/appootb.account.Profile/Set": {
-		permission.Subject_WEB,
 		permission.Subject_PC,
 		permission.Subject_MOBILE,
+		permission.Subject_WEB,
 	},
 }
 

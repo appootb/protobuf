@@ -54,8 +54,8 @@ $(SUBDIRS):
 todo:
 	@rm -rf go/permission/*.pb.*.go
 	@rm -rf go/secret/*.pb.*.go
-	@rm -rf doc/common doc/error doc/permission doc/secret
-	@rm -rf swagger/common swagger/error swagger/permission swagger/secret
-	@rm -rf dart/common dart/error dart/permission dart/secret
+	@rm -rf doc/common doc/code doc/permission doc/secret
+	@rm -rf swagger/common swagger/code swagger/permission swagger/secret
+	@rm -rf dart/common dart/code dart/permission dart/secret
 
 .PHONY: $(SUBDIRS)

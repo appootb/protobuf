@@ -32,9 +32,9 @@ var _authServiceSubjects = map[string][]permission.Subject{
 		permission.Subject_NONE,
 	},
 	"/appootb.account.Auth/Refresh": {
+		permission.Subject_WEB,
 		permission.Subject_PC,
 		permission.Subject_MOBILE,
-		permission.Subject_WEB,
 	},
 }
 

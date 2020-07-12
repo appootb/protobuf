@@ -81,6 +81,8 @@ func (m *Metadata) Validate() error {
 
 	// no validation rules for TraceId
 
+	// no validation rules for IsDebug
+
 	return nil
 }
 

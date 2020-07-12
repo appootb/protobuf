@@ -27,6 +27,7 @@ const Metadata$json = const {
     const {'1': 'channel', '3': 17, '4': 1, '5': 9, '10': 'channel'},
     const {'1': 'product', '3': 18, '4': 1, '5': 9, '10': 'product'},
     const {'1': 'trace_id', '3': 19, '4': 1, '5': 9, '10': 'traceId'},
+    const {'1': 'is_debug', '3': 20, '4': 1, '5': 8, '7': 'false', '10': 'isDebug'},
   ],
 };
 

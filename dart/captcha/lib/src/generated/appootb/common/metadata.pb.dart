@@ -34,6 +34,7 @@ class Metadata extends $pb.GeneratedMessage {
     ..aOS(17, 'channel')
     ..aOS(18, 'product')
     ..aOS(19, 'traceId')
+    ..aOB(20, 'isDebug')
   ;
 
   Metadata._() : super();
@@ -221,5 +222,14 @@ class Metadata extends $pb.GeneratedMessage {
   $core.bool hasTraceId() => $_has(18);
   @$pb.TagNumber(19)
   void clearTraceId() => clearField(19);
+
+  @$pb.TagNumber(20)
+  $core.bool get isDebug => $_getBF(19);
+  @$pb.TagNumber(20)
+  set isDebug($core.bool v) { $_setBool(19, v); }
+  @$pb.TagNumber(20)
+  $core.bool hasIsDebug() => $_has(19);
+  @$pb.TagNumber(20)
+  void clearIsDebug() => clearField(20);
 }
 
