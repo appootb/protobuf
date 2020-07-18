@@ -10,42 +10,42 @@ import 'dart:async' as $async;
 import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
-import 'bind.pb.dart' as $6;
+import 'bind.pb.dart' as $5;
 import 'google/protobuf/empty.pb.dart' as $4;
 export 'bind.pb.dart';
 
 class BindClient extends $grpc.Client {
-  static final _$apply = $grpc.ClientMethod<$6.BindRequest, $4.Empty>(
+  static final _$apply = $grpc.ClientMethod<$5.BindRequest, $4.Empty>(
       '/appootb.account.Bind/Apply',
-      ($6.BindRequest value) => value.writeToBuffer(),
+      ($5.BindRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $4.Empty.fromBuffer(value));
-  static final _$cancel = $grpc.ClientMethod<$6.BindRequest, $4.Empty>(
+  static final _$cancel = $grpc.ClientMethod<$5.BindRequest, $4.Empty>(
       '/appootb.account.Bind/Cancel',
-      ($6.BindRequest value) => value.writeToBuffer(),
+      ($5.BindRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $4.Empty.fromBuffer(value));
-  static final _$gets = $grpc.ClientMethod<$4.Empty, $6.Bindings>(
+  static final _$gets = $grpc.ClientMethod<$4.Empty, $5.Bindings>(
       '/appootb.account.Bind/Gets',
       ($4.Empty value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $6.Bindings.fromBuffer(value));
+      ($core.List<$core.int> value) => $5.Bindings.fromBuffer(value));
 
   BindClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
-  $grpc.ResponseFuture<$4.Empty> apply($6.BindRequest request,
+  $grpc.ResponseFuture<$4.Empty> apply($5.BindRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$apply, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$4.Empty> cancel($6.BindRequest request,
+  $grpc.ResponseFuture<$4.Empty> cancel($5.BindRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$cancel, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$6.Bindings> gets($4.Empty request,
+  $grpc.ResponseFuture<$5.Bindings> gets($4.Empty request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$gets, $async.Stream.fromIterable([request]),
         options: options);
@@ -57,46 +57,46 @@ abstract class BindServiceBase extends $grpc.Service {
   $core.String get $name => 'appootb.account.Bind';
 
   BindServiceBase() {
-    $addMethod($grpc.ServiceMethod<$6.BindRequest, $4.Empty>(
+    $addMethod($grpc.ServiceMethod<$5.BindRequest, $4.Empty>(
         'Apply',
         apply_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $6.BindRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $5.BindRequest.fromBuffer(value),
         ($4.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$6.BindRequest, $4.Empty>(
+    $addMethod($grpc.ServiceMethod<$5.BindRequest, $4.Empty>(
         'Cancel',
         cancel_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $6.BindRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $5.BindRequest.fromBuffer(value),
         ($4.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$4.Empty, $6.Bindings>(
+    $addMethod($grpc.ServiceMethod<$4.Empty, $5.Bindings>(
         'Gets',
         gets_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $4.Empty.fromBuffer(value),
-        ($6.Bindings value) => value.writeToBuffer()));
+        ($5.Bindings value) => value.writeToBuffer()));
   }
 
   $async.Future<$4.Empty> apply_Pre(
-      $grpc.ServiceCall call, $async.Future<$6.BindRequest> request) async {
+      $grpc.ServiceCall call, $async.Future<$5.BindRequest> request) async {
     return apply(call, await request);
   }
 
   $async.Future<$4.Empty> cancel_Pre(
-      $grpc.ServiceCall call, $async.Future<$6.BindRequest> request) async {
+      $grpc.ServiceCall call, $async.Future<$5.BindRequest> request) async {
     return cancel(call, await request);
   }
 
-  $async.Future<$6.Bindings> gets_Pre(
+  $async.Future<$5.Bindings> gets_Pre(
       $grpc.ServiceCall call, $async.Future<$4.Empty> request) async {
     return gets(call, await request);
   }
 
-  $async.Future<$4.Empty> apply($grpc.ServiceCall call, $6.BindRequest request);
+  $async.Future<$4.Empty> apply($grpc.ServiceCall call, $5.BindRequest request);
   $async.Future<$4.Empty> cancel(
-      $grpc.ServiceCall call, $6.BindRequest request);
-  $async.Future<$6.Bindings> gets($grpc.ServiceCall call, $4.Empty request);
+      $grpc.ServiceCall call, $5.BindRequest request);
+  $async.Future<$5.Bindings> gets($grpc.ServiceCall call, $4.Empty request);
 }

@@ -26,16 +26,10 @@
 >  Authentication service.
 
 
-* [GetCode (/account/auth/code)](auth.proto.md#getcode) - Get auth code.
-
-
 * [Login (/account/auth/login)](auth.proto.md#login) - Login.
 
 
 * [OAuth (/account/auth/oauth)](auth.proto.md#oauth) - OAuth.
-
-
-* [GetRegions (/account/auth/regions)](auth.proto.md#getregions) - Get regions.
 
 
 * [Refresh (/account/auth/refresh)](auth.proto.md#refresh) - Refresh account token.

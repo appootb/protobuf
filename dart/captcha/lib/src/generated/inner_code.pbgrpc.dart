@@ -10,31 +10,20 @@ import 'dart:async' as $async;
 import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
-import 'include.pb.dart' as $0;
-import 'google/protobuf/empty.pb.dart' as $1;
+import 'inner_code.pb.dart' as $2;
+import 'google/protobuf/empty.pb.dart' as $0;
 export 'inner_code.pb.dart';
 
 class InnerCodeClient extends $grpc.Client {
-  static final _$launch = $grpc.ClientMethod<$0.CodeRequest, $1.Empty>(
-      '/appootb.captcha.InnerCode/Launch',
-      ($0.CodeRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$verify = $grpc.ClientMethod<$0.CodeRequest, $1.Empty>(
+  static final _$verify = $grpc.ClientMethod<$2.VerifyRequest, $0.Empty>(
       '/appootb.captcha.InnerCode/Verify',
-      ($0.CodeRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
+      ($2.VerifyRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.Empty.fromBuffer(value));
 
   InnerCodeClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
-  $grpc.ResponseFuture<$1.Empty> launch($0.CodeRequest request,
-      {$grpc.CallOptions options}) {
-    final call = $createCall(_$launch, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
-  }
-
-  $grpc.ResponseFuture<$1.Empty> verify($0.CodeRequest request,
+  $grpc.ResponseFuture<$0.Empty> verify($2.VerifyRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$verify, $async.Stream.fromIterable([request]),
         options: options);
@@ -46,34 +35,20 @@ abstract class InnerCodeServiceBase extends $grpc.Service {
   $core.String get $name => 'appootb.captcha.InnerCode';
 
   InnerCodeServiceBase() {
-    $addMethod($grpc.ServiceMethod<$0.CodeRequest, $1.Empty>(
-        'Launch',
-        launch_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.CodeRequest.fromBuffer(value),
-        ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.CodeRequest, $1.Empty>(
+    $addMethod($grpc.ServiceMethod<$2.VerifyRequest, $0.Empty>(
         'Verify',
         verify_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.CodeRequest.fromBuffer(value),
-        ($1.Empty value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $2.VerifyRequest.fromBuffer(value),
+        ($0.Empty value) => value.writeToBuffer()));
   }
 
-  $async.Future<$1.Empty> launch_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.CodeRequest> request) async {
-    return launch(call, await request);
-  }
-
-  $async.Future<$1.Empty> verify_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.CodeRequest> request) async {
+  $async.Future<$0.Empty> verify_Pre(
+      $grpc.ServiceCall call, $async.Future<$2.VerifyRequest> request) async {
     return verify(call, await request);
   }
 
-  $async.Future<$1.Empty> launch(
-      $grpc.ServiceCall call, $0.CodeRequest request);
-  $async.Future<$1.Empty> verify(
-      $grpc.ServiceCall call, $0.CodeRequest request);
+  $async.Future<$0.Empty> verify(
+      $grpc.ServiceCall call, $2.VerifyRequest request);
 }

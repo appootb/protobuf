@@ -115,6 +115,8 @@ func (m *Info) Validate() error {
 
 	// no validation rules for Avatar
 
+	// no validation rules for Status
+
 	// no validation rules for Signature
 
 	// no validation rules for Gender
@@ -217,13 +219,15 @@ func (m *Infos) Validate() error {
 		return nil
 	}
 
-	for idx, item := range m.GetAccounts() {
-		_, _ = idx, item
+	for key, val := range m.GetAccounts() {
+		_ = val
 
-		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+		// no validation rules for Accounts[key]
+
+		if v, ok := interface{}(val).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return InfosValidationError{
-					field:  fmt.Sprintf("Accounts[%v]", idx),
+					field:  fmt.Sprintf("Accounts[%v]", key),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}

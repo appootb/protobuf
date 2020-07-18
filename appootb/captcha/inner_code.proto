@@ -20,21 +20,20 @@ option objc_class_prefix = "CPB";
 option php_namespace = "Appootb\\Proto\\Captcha";
 
 
+// Captcha code verify request.
+message VerifyRequest {
+  required Category category = 1; // Code category
+  required string   target   = 2; // Target, e.g. email address, phone number
+  required string   value    = 3; // Code value for verification
+}
+
 // InnerCode service.
 service InnerCode {
   // Visible for server side.
   option (appootb.permission.service.visible) = SERVER;
 
-  // Launch verification code process.
-  rpc Launch(CodeRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post: "/captcha/inner/code/launch"
-      body: "*"
-    };
-  }
-
   // Check the verification code.
-  rpc Verify(CodeRequest) returns (google.protobuf.Empty) {
+  rpc Verify(VerifyRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/captcha/inner/code/verify"
       body: "*"

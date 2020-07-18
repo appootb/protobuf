@@ -31,13 +31,6 @@ enum Category {
   CATEGORY_REGISTER  = 1; // Register
   CATEGORY_LOGIN     = 2; // Login
   CATEGORY_RESET_PWD = 3; // Reset password
-}
-
-// Captcha code request.
-message CodeRequest {
-  required Channel  channel  = 1; // Code channel
-  required Category category = 2; // Code category
-
-  required string target = 3; // Target, e.g. email address, phone number
-  optional string value  = 4; // Code value for verification
+  CATEGORY_BIND      = 4; // Bind account
+  CATEGORY_UNBIND    = 5; // Unbind account
 }

@@ -129,8 +129,8 @@
       "type": "object",
       "properties": {
         "accounts": {
-          "type": "array",
-          "items": {
+          "type": "object",
+          "additionalProperties": {
             "$ref": "#/definitions/appootbaccountInfo"
           }
         }
@@ -145,6 +145,15 @@
         }
       },
       "description": "Account secret."
+    },
+    "accountStatus": {
+      "type": "string",
+      "enum": [
+        "STATUS_UNSPECIFIED",
+        "STATUS_ACTIVE",
+        "STATUS_BLOCKED"
+      ],
+      "default": "STATUS_UNSPECIFIED"
     },
     "accountVariableInfo": {
       "type": "object",
@@ -176,6 +185,9 @@
         },
         "avatar": {
           "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/accountStatus"
         },
         "signature": {
           "type": "string"

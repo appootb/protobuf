@@ -51,3 +51,20 @@ class AuthType extends $pb.ProtobufEnum {
   const AuthType._($core.int v, $core.String n) : super(v, n);
 }
 
+class Status extends $pb.ProtobufEnum {
+  static const Status STATUS_UNSPECIFIED = Status._(0, 'STATUS_UNSPECIFIED');
+  static const Status STATUS_ACTIVE = Status._(1, 'STATUS_ACTIVE');
+  static const Status STATUS_BLOCKED = Status._(2, 'STATUS_BLOCKED');
+
+  static const $core.List<Status> values = <Status> [
+    STATUS_UNSPECIFIED,
+    STATUS_ACTIVE,
+    STATUS_BLOCKED,
+  ];
+
+  static final $core.Map<$core.int, Status> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static Status valueOf($core.int value) => _byValue[value];
+
+  const Status._($core.int v, $core.String n) : super(v, n);
+}
+

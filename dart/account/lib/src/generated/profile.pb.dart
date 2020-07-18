@@ -9,12 +9,12 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/struct.pb.dart' as $12;
+import 'google/protobuf/struct.pb.dart' as $11;
 
 class Property extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Property', package: const $pb.PackageName('appootb.account'), createEmptyInstance: create)
     ..aQS(1, 'name')
-    ..aOM<$12.Struct>(2, 'value', subBuilder: $12.Struct.create)
+    ..aOM<$11.Struct>(2, 'value', subBuilder: $11.Struct.create)
   ;
 
   Property._() : super();
@@ -42,20 +42,20 @@ class Property extends $pb.GeneratedMessage {
   void clearName() => clearField(1);
 
   @$pb.TagNumber(2)
-  $12.Struct get value => $_getN(1);
+  $11.Struct get value => $_getN(1);
   @$pb.TagNumber(2)
-  set value($12.Struct v) { setField(2, v); }
+  set value($11.Struct v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasValue() => $_has(1);
   @$pb.TagNumber(2)
   void clearValue() => clearField(2);
   @$pb.TagNumber(2)
-  $12.Struct ensureValue() => $_ensure(1);
+  $11.Struct ensureValue() => $_ensure(1);
 }
 
 class Properties extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Properties', package: const $pb.PackageName('appootb.account'), createEmptyInstance: create)
-    ..m<$core.String, $12.Struct>(1, 'kvs', entryClassName: 'Properties.KvsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $12.Struct.create, packageName: const $pb.PackageName('appootb.account'))
+    ..m<$core.String, $11.Struct>(1, 'kvs', entryClassName: 'Properties.KvsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $11.Struct.create, packageName: const $pb.PackageName('appootb.account'))
     ..hasRequiredFields = false
   ;
 
@@ -75,6 +75,6 @@ class Properties extends $pb.GeneratedMessage {
   static Properties _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.Map<$core.String, $12.Struct> get kvs => $_getMap(0);
+  $core.Map<$core.String, $11.Struct> get kvs => $_getMap(0);
 }
 

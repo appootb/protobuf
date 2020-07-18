@@ -2,7 +2,6 @@ syntax = "proto2";
 
 package appootb.account;
 
-import "appootb/captcha/include.proto";
 import "appootb/permission/method.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
@@ -38,29 +37,9 @@ message OAuthRequest {
   required string access_token = 3; // Authorization token
 }
 
-// Region.
-message Region {
-  required string name  = 1; // Region name
-  required string local = 2; // Local name
-  required string abbr  = 3; // Abbreviation of region name
-  required string code  = 4; // Region code
-}
-
-// Regions.
-message Regions {
-  repeated Region regions = 1; // Regions
-}
-
 
 // Authentication service.
 service Auth {
-  // Get auth code.
-  rpc GetCode(appootb.captcha.CodeRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      get: "/account/auth/code"
-    };
-  }
-
   // Login.
   rpc Login(LoginRequest) returns (Info) {
     option (google.api.http) = {
@@ -74,13 +53,6 @@ service Auth {
     option (google.api.http) = {
       post: "/account/auth/oauth"
       body: "*"
-    };
-  }
-
-  // Get regions.
-  rpc GetRegions(google.protobuf.Empty) returns (Regions) {
-    option (google.api.http) = {
-      get: "/account/auth/regions"
     };
   }
 

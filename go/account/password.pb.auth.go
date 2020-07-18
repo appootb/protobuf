@@ -26,8 +26,8 @@ var _passwordServiceSubjects = map[string][]permission.Subject{
 		permission.Subject_MOBILE,
 	},
 	"/appootb.account.Password/Update": {
-		permission.Subject_MOBILE,
 		permission.Subject_PC,
+		permission.Subject_MOBILE,
 	},
 }
 

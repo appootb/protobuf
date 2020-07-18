@@ -18,9 +18,6 @@ var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
 var _innerCodeServiceSubjects = map[string][]permission.Subject{
-	"/appootb.captcha.InnerCode/Launch": {
-		permission.Subject_SERVER,
-	},
 	"/appootb.captcha.InnerCode/Verify": {
 		permission.Subject_SERVER,
 	},
@@ -31,25 +28,7 @@ type wrapperInnerCodeServer struct {
 	service.Implementor
 }
 
-func (w *wrapperInnerCodeServer) Launch(ctx context.Context, req *CodeRequest) (*empty.Empty, error) {
-	if w.UnaryInterceptor() == nil {
-		return w.InnerCodeServer.Launch(ctx, req)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     w.InnerCodeServer,
-		FullMethod: "/appootb.captcha.InnerCode/Launch",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return w.InnerCodeServer.Launch(ctx, req.(*CodeRequest))
-	}
-	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
-	if err != nil {
-		return nil, err
-	}
-	return resp.(*empty.Empty), nil
-}
-
-func (w *wrapperInnerCodeServer) Verify(ctx context.Context, req *CodeRequest) (*empty.Empty, error) {
+func (w *wrapperInnerCodeServer) Verify(ctx context.Context, req *VerifyRequest) (*empty.Empty, error) {
 	if w.UnaryInterceptor() == nil {
 		return w.InnerCodeServer.Verify(ctx, req)
 	}
@@ -58,7 +37,7 @@ func (w *wrapperInnerCodeServer) Verify(ctx context.Context, req *CodeRequest) (
 		FullMethod: "/appootb.captcha.InnerCode/Verify",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return w.InnerCodeServer.Verify(ctx, req.(*CodeRequest))
+		return w.InnerCodeServer.Verify(ctx, req.(*VerifyRequest))
 	}
 	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {

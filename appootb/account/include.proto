@@ -37,6 +37,13 @@ enum AuthType {
   AUTH_TYPE_WEIBO    = 5; // Sina weibo
 }
 
+enum Status {
+  STATUS_UNSPECIFIED = 0; // Unspecified
+
+  STATUS_ACTIVE  = 1; // Active
+  STATUS_BLOCKED = 2; // Blocked
+}
+
 // Account secret.
 message Secret {
   required string token = 1; // Account token
@@ -47,13 +54,14 @@ message Info {
   required uint64 unique_id = 1; // Account ID
   required string nickname  = 2; // Nickname
   required string avatar    = 3; // Avatar
+  required Status status    = 4; // Status
 
-  optional string signature = 4; // Account signature
-  optional Gender gender    = 5; // Gender
-  optional string signs     = 6; // Zodiac signs
-  optional string location  = 7; // Location
+  optional string signature = 5; // Account signature
+  optional Gender gender    = 6; // Gender
+  optional string signs     = 7; // Zodiac signs
+  optional string location  = 8; // Location
 
-  optional Secret secret = 8; // Account secret info
+  optional Secret secret = 9; // Account secret info
 
   optional google.protobuf.Timestamp create_at = 98; // Account created time
   optional google.protobuf.Any       extend    = 99; // Account extend info
@@ -61,5 +69,5 @@ message Info {
 
 // Accounts information.
 message Infos {
-  repeated Info accounts = 1; // Accounts
+  map<uint64, Info> accounts = 1; // Accounts
 }

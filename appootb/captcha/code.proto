@@ -1,0 +1,58 @@
+syntax = "proto2";
+
+package appootb.captcha;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "include.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Captcha";
+option go_package = "github.com/appootb/protobuf/go/captcha";
+option java_multiple_files = true;
+option java_outer_classname = "CodeProto";
+option java_package = "com.appootb.captcha";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Captcha";
+
+
+// Region.
+message Region {
+  required string name  = 1; // Region name
+  required string local = 2; // Local name
+  required string abbr  = 3; // Abbreviation of region name
+  required string code  = 4; // Region code
+}
+
+// Regions.
+message Regions {
+  repeated Region regions = 1; // Regions
+}
+
+// Captcha code request.
+message CodeRequest {
+  required Channel  channel  = 1; // Code channel
+  required Category category = 2; // Code category
+  required string   target   = 3; // Target, e.g. email address, phone number
+}
+
+// Code service.
+service Code {
+  // Get regions.
+  rpc GetRegions(google.protobuf.Empty) returns (Regions) {
+    option (google.api.http) = {
+      get: "/account/auth/regions"
+    };
+  }
+
+  // Launch verification code process.
+  rpc Apply(CodeRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/captcha/code/apply"
+      body: "*"
+    };
+  }
+}

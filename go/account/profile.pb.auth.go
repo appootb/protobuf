@@ -19,19 +19,19 @@ var _ = service.UnaryServerInterceptor
 
 var _profileServiceSubjects = map[string][]permission.Subject{
 	"/appootb.account.Profile/Get": {
-		permission.Subject_WEB,
 		permission.Subject_PC,
 		permission.Subject_MOBILE,
+		permission.Subject_WEB,
 	},
 	"/appootb.account.Profile/Gets": {
+		permission.Subject_WEB,
 		permission.Subject_PC,
 		permission.Subject_MOBILE,
-		permission.Subject_WEB,
 	},
 	"/appootb.account.Profile/Set": {
+		permission.Subject_WEB,
 		permission.Subject_PC,
 		permission.Subject_MOBILE,
-		permission.Subject_WEB,
 	},
 }
 

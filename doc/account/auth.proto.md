@@ -9,16 +9,10 @@
 * [Auth](#auth) - Authentication service.
 
 
-	* [GetCode (/account/auth/code)](#getcode) - Get auth code.
-
-
 	* [Login (/account/auth/login)](#login) - Login.
 
 
 	* [OAuth (/account/auth/oauth)](#oauth) - OAuth.
-
-
-	* [GetRegions (/account/auth/regions)](#getregions) - Get regions.
 
 
 	* [Refresh (/account/auth/refresh)](#refresh) - Refresh account token.
@@ -30,60 +24,6 @@
 <h2 id="auth">Auth</h2>
 
 >  Authentication service.
-
-
-
-<h3 id="getcode">GetCode</h3>
-
->  Get auth code.
-
-
-
-* HTTP Gateway
-
-	* URL: `/account/auth/code`
-	* Method: `GET`
-
-
-* Request Type: ***CodeRequest***
-
->  Captcha code request.
-
-|Field|proto type|JSON type|Comment|Default|Required|
-|---|---|---|---|---|---|
-|channel|enum [Channel](#channel)|string/integer| Code channel|-|true|
-|category|enum [Category](#category)|string/integer| Code category|-|true|
-|target|string|string| Target, e.g. email address, phone number|-|true|
-|value|string|string| Code value for verification|-|false|
-
-
-
-
-
-
-* Response Type: ***Empty***
-
->  A generic empty message that you can re-use to avoid defining duplicated
->  empty messages in your APIs. A typical example is to use it as the request
->  or the response type of an API method. For instance:
-> 
->      service Foo {
->        rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
->      }
-> 
->  The JSON representation for `Empty` is empty JSON object `{}`.
-
-|Field|proto type|JSON type|Comment|Default|Required|
-|---|---|---|---|---|---|
-
-
-
-> JSON Demo
-
-```json
-{}
-```
-
 
 
 
@@ -133,6 +73,7 @@
 |unique_id|int64|string| Account ID|-|true|
 |nickname|string|string| Nickname|-|true|
 |avatar|string|string| Avatar|-|true|
+|status|enum [Status](#status)|string/integer| Status|-|true|
 |signature|string|string| Account signature|-|false|
 |gender|enum [Gender](#gender)|string/integer| Gender|-|false|
 |signs|string|string| Zodiac signs|-|false|
@@ -150,6 +91,7 @@
   "unique_id": "string($int64)",
   "nickname": "string",
   "avatar": "string",
+  "status": "STATUS_UNSPECIFIED (0) | STATUS_ACTIVE (1) | STATUS_BLOCKED (2)",
   "signature": "string",
   "gender": "GENDER_UNSPECIFIED (0) | GENDER_MALE (1) | GENDER_FEMALE (2) | GENDER_OTHER (3)",
   "signs": "string",
@@ -214,6 +156,7 @@
 |unique_id|int64|string| Account ID|-|true|
 |nickname|string|string| Nickname|-|true|
 |avatar|string|string| Avatar|-|true|
+|status|enum [Status](#status)|string/integer| Status|-|true|
 |signature|string|string| Account signature|-|false|
 |gender|enum [Gender](#gender)|string/integer| Gender|-|false|
 |signs|string|string| Zodiac signs|-|false|
@@ -231,6 +174,7 @@
   "unique_id": "string($int64)",
   "nickname": "string",
   "avatar": "string",
+  "status": "STATUS_UNSPECIFIED (0) | STATUS_ACTIVE (1) | STATUS_BLOCKED (2)",
   "signature": "string",
   "gender": "GENDER_UNSPECIFIED (0) | GENDER_MALE (1) | GENDER_FEMALE (2) | GENDER_OTHER (3)",
   "signs": "string",
@@ -243,66 +187,6 @@
     "type_url": "string",
     "value": "YmFzZTY0IHN0cmluZw=="
   }
-}
-```
-
-
-
-
-<h3 id="getregions">GetRegions</h3>
-
->  Get regions.
-
-
-
-* HTTP Gateway
-
-	* URL: `/account/auth/regions`
-	* Method: `GET`
-
-
-* Request Type: ***Empty***
-
->  A generic empty message that you can re-use to avoid defining duplicated
->  empty messages in your APIs. A typical example is to use it as the request
->  or the response type of an API method. For instance:
-> 
->      service Foo {
->        rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
->      }
-> 
->  The JSON representation for `Empty` is empty JSON object `{}`.
-
-|Field|proto type|JSON type|Comment|Default|Required|
-|---|---|---|---|---|---|
-
-
-
-
-
-
-* Response Type: ***Regions***
-
->  Regions.
-
-|Field|proto type|JSON type|Comment|Default|Required|
-|---|---|---|---|---|---|
-|regions|array [[Region](#region)]|array| Regions|-|false|
-
-
-
-> JSON Demo
-
-```json
-{
-  "regions": [
-    {
-      "name": "string",
-      "local": "string",
-      "abbr": "string",
-      "code": "string"
-    }
-  ]
 }
 ```
 
@@ -356,6 +240,7 @@
 |unique_id|int64|string| Account ID|-|true|
 |nickname|string|string| Nickname|-|true|
 |avatar|string|string| Avatar|-|true|
+|status|enum [Status](#status)|string/integer| Status|-|true|
 |signature|string|string| Account signature|-|false|
 |gender|enum [Gender](#gender)|string/integer| Gender|-|false|
 |signs|string|string| Zodiac signs|-|false|
@@ -373,6 +258,7 @@
   "unique_id": "string($int64)",
   "nickname": "string",
   "avatar": "string",
+  "status": "STATUS_UNSPECIFIED (0) | STATUS_ACTIVE (1) | STATUS_BLOCKED (2)",
   "signature": "string",
   "gender": "GENDER_UNSPECIFIED (0) | GENDER_MALE (1) | GENDER_FEMALE (2) | GENDER_OTHER (3)",
   "signs": "string",
@@ -431,53 +317,23 @@
 |GENDER_OTHER|3| Other|
 
 
-<h3 id="category">Category</h3>
+<h3 id="status">Status</h3>
 
->  Captcha code category enums.
-
-* Enum
-
-|Name (string)|Value (integer)|Comment|
-|---|---|---|
-|CATEGORY_UNSPECIFIED|0| Unspecified|
-|CATEGORY_REGISTER|1| Register|
-|CATEGORY_LOGIN|2| Login|
-|CATEGORY_RESET_PWD|3| Reset password|
-
-
-<h3 id="channel">Channel</h3>
-
->  Captcha code channel enums.
+> 
 
 * Enum
 
 |Name (string)|Value (integer)|Comment|
 |---|---|---|
-|CHANNEL_UNSPECIFIED|0| Unspecified|
-|CHANNEL_EMAIL|1| Email|
-|CHANNEL_SMS|2| Mobile SMS|
-|CHANNEL_PHONE|3| Phone call|
-|CHANNEL_OTP|4| One-Time password|
+|STATUS_UNSPECIFIED|0| Unspecified|
+|STATUS_ACTIVE|1| Active|
+|STATUS_BLOCKED|2| Blocked|
 
 
 
 
 
 
-
-
-<h3 id="region">Region</h3>
-
->  Region.
-
-* Fields
-
-|Field|proto type|JSON type|Comment|Default|Required|
-|---|---|---|---|---|---|
-|name|string|string| Region name|-|true|
-|local|string|string| Local name|-|true|
-|abbr|string|string| Abbreviation of region name|-|true|
-|code|string|string| Region code|-|true|
 
 
 <h3 id="secret">Secret</h3>

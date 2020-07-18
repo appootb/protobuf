@@ -5,7 +5,6 @@ package account
 import (
 	"context"
 
-	"github.com/appootb/protobuf/go/captcha"
 	"github.com/appootb/protobuf/go/permission"
 	"github.com/appootb/protobuf/go/service"
 	"github.com/golang/protobuf/ptypes/empty"
@@ -19,12 +18,6 @@ var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
 var _authServiceSubjects = map[string][]permission.Subject{
-	"/appootb.account.Auth/GetCode": {
-		permission.Subject_NONE,
-	},
-	"/appootb.account.Auth/GetRegions": {
-		permission.Subject_NONE,
-	},
 	"/appootb.account.Auth/Login": {
 		permission.Subject_NONE,
 	},
@@ -41,24 +34,6 @@ var _authServiceSubjects = map[string][]permission.Subject{
 type wrapperAuthServer struct {
 	AuthServer
 	service.Implementor
-}
-
-func (w *wrapperAuthServer) GetCode(ctx context.Context, req *captcha.CodeRequest) (*empty.Empty, error) {
-	if w.UnaryInterceptor() == nil {
-		return w.AuthServer.GetCode(ctx, req)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     w.AuthServer,
-		FullMethod: "/appootb.account.Auth/GetCode",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return w.AuthServer.GetCode(ctx, req.(*captcha.CodeRequest))
-	}
-	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
-	if err != nil {
-		return nil, err
-	}
-	return resp.(*empty.Empty), nil
 }
 
 func (w *wrapperAuthServer) Login(ctx context.Context, req *LoginRequest) (*Info, error) {
@@ -95,24 +70,6 @@ func (w *wrapperAuthServer) OAuth(ctx context.Context, req *OAuthRequest) (*Info
 		return nil, err
 	}
 	return resp.(*Info), nil
-}
-
-func (w *wrapperAuthServer) GetRegions(ctx context.Context, req *empty.Empty) (*Regions, error) {
-	if w.UnaryInterceptor() == nil {
-		return w.AuthServer.GetRegions(ctx, req)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     w.AuthServer,
-		FullMethod: "/appootb.account.Auth/GetRegions",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return w.AuthServer.GetRegions(ctx, req.(*empty.Empty))
-	}
-	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
-	if err != nil {
-		return nil, err
-	}
-	return resp.(*Regions), nil
 }
 
 func (w *wrapperAuthServer) Refresh(ctx context.Context, req *empty.Empty) (*Info, error) {

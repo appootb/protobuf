@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "inner_code.proto",
+    "title": "code.proto",
     "version": "version not set"
   },
   "consumes": [
@@ -11,10 +11,33 @@
     "application/json"
   ],
   "paths": {
-    "/captcha/inner/code/verify": {
+    "/account/auth/regions": {
+      "get": {
+        "summary": "Get regions.",
+        "operationId": "Code_GetRegions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/captchaRegions"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "Code"
+        ]
+      }
+    },
+    "/captcha/code/apply": {
       "post": {
-        "summary": "Check the verification code.",
-        "operationId": "InnerCode_Verify",
+        "summary": "Launch verification code process.",
+        "operationId": "Code_Apply",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -35,12 +58,12 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/captchaVerifyRequest"
+              "$ref": "#/definitions/captchaCodeRequest"
             }
           }
         ],
         "tags": [
-          "InnerCode"
+          "Code"
         ]
       }
     }
@@ -59,20 +82,62 @@
       "default": "CATEGORY_UNSPECIFIED",
       "description": "Captcha code category enums."
     },
-    "captchaVerifyRequest": {
+    "captchaChannel": {
+      "type": "string",
+      "enum": [
+        "CHANNEL_UNSPECIFIED",
+        "CHANNEL_EMAIL",
+        "CHANNEL_SMS",
+        "CHANNEL_PHONE",
+        "CHANNEL_OTP"
+      ],
+      "default": "CHANNEL_UNSPECIFIED",
+      "description": "Captcha code channel enums."
+    },
+    "captchaCodeRequest": {
       "type": "object",
       "properties": {
+        "channel": {
+          "$ref": "#/definitions/captchaChannel"
+        },
         "category": {
           "$ref": "#/definitions/captchaCategory"
         },
         "target": {
           "type": "string"
+        }
+      },
+      "description": "Captcha code request."
+    },
+    "captchaRegion": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
         },
-        "value": {
+        "local": {
+          "type": "string"
+        },
+        "abbr": {
+          "type": "string"
+        },
+        "code": {
           "type": "string"
         }
       },
-      "description": "Captcha code verify request."
+      "description": "Region."
+    },
+    "captchaRegions": {
+      "type": "object",
+      "properties": {
+        "regions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/captchaRegion"
+          }
+        }
+      },
+      "description": "Regions."
     },
     "protobufAny": {
       "type": "object",

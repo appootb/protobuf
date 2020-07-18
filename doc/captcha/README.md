@@ -5,14 +5,24 @@
 
 
 
+## [Code](code.proto.md#code) - Code service.
+
+>  Code service.
+
+
+* [GetRegions (/account/auth/regions)](code.proto.md#getregions) - Get regions.
+
+
+* [Apply (/captcha/code/apply)](code.proto.md#apply) - Launch verification code process.
+
+
+
+
 
 
 ## [InnerCode](inner_code.proto.md#innercode) - InnerCode service.
 
 >  InnerCode service.
-
-
-* [Launch (/captcha/inner/code/launch)](inner_code.proto.md#launch) - Launch verification code process.
 
 
 * [Verify (/captcha/inner/code/verify)](inner_code.proto.md#verify) - Check the verification code.

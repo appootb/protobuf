@@ -26,20 +26,3 @@ const OAuthRequest$json = const {
   ],
 };
 
-const Region$json = const {
-  '1': 'Region',
-  '2': const [
-    const {'1': 'name', '3': 1, '4': 2, '5': 9, '10': 'name'},
-    const {'1': 'local', '3': 2, '4': 2, '5': 9, '10': 'local'},
-    const {'1': 'abbr', '3': 3, '4': 2, '5': 9, '10': 'abbr'},
-    const {'1': 'code', '3': 4, '4': 2, '5': 9, '10': 'code'},
-  ],
-};
-
-const Regions$json = const {
-  '1': 'Regions',
-  '2': const [
-    const {'1': 'regions', '3': 1, '4': 3, '5': 11, '6': '.appootb.account.Region', '10': 'regions'},
-  ],
-};
-

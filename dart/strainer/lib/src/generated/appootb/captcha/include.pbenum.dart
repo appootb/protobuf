@@ -35,12 +35,16 @@ class Category extends $pb.ProtobufEnum {
   static const Category CATEGORY_REGISTER = Category._(1, 'CATEGORY_REGISTER');
   static const Category CATEGORY_LOGIN = Category._(2, 'CATEGORY_LOGIN');
   static const Category CATEGORY_RESET_PWD = Category._(3, 'CATEGORY_RESET_PWD');
+  static const Category CATEGORY_BIND = Category._(4, 'CATEGORY_BIND');
+  static const Category CATEGORY_UNBIND = Category._(5, 'CATEGORY_UNBIND');
 
   static const $core.List<Category> values = <Category> [
     CATEGORY_UNSPECIFIED,
     CATEGORY_REGISTER,
     CATEGORY_LOGIN,
     CATEGORY_RESET_PWD,
+    CATEGORY_BIND,
+    CATEGORY_UNBIND,
   ];
 
   static final $core.Map<$core.int, Category> _byValue = $pb.ProtobufEnum.initByValue(values);

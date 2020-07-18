@@ -11,70 +11,6 @@
     "application/json"
   ],
   "paths": {
-    "/account/auth/code": {
-      "get": {
-        "summary": "Get auth code.",
-        "operationId": "Auth_GetCode",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "channel",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "CHANNEL_UNSPECIFIED",
-              "CHANNEL_EMAIL",
-              "CHANNEL_SMS",
-              "CHANNEL_PHONE",
-              "CHANNEL_OTP"
-            ],
-            "default": "CHANNEL_UNSPECIFIED"
-          },
-          {
-            "name": "category",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "CATEGORY_UNSPECIFIED",
-              "CATEGORY_REGISTER",
-              "CATEGORY_LOGIN",
-              "CATEGORY_RESET_PWD"
-            ],
-            "default": "CATEGORY_UNSPECIFIED"
-          },
-          {
-            "name": "target",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "value",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "Auth"
-        ]
-      }
-    },
     "/account/auth/login": {
       "post": {
         "summary": "Login.",
@@ -173,29 +109,6 @@
           "Auth"
         ]
       }
-    },
-    "/account/auth/regions": {
-      "get": {
-        "summary": "Get regions.",
-        "operationId": "Auth_GetRegions",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/accountRegions"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "tags": [
-          "Auth"
-        ]
-      }
     }
   },
   "definitions": {
@@ -253,36 +166,6 @@
       },
       "description": "OAuth request."
     },
-    "accountRegion": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "local": {
-          "type": "string"
-        },
-        "abbr": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        }
-      },
-      "description": "Region."
-    },
-    "accountRegions": {
-      "type": "object",
-      "properties": {
-        "regions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/accountRegion"
-          }
-        }
-      },
-      "description": "Regions."
-    },
     "accountSecret": {
       "type": "object",
       "properties": {
@@ -291,6 +174,15 @@
         }
       },
       "description": "Account secret."
+    },
+    "accountStatus": {
+      "type": "string",
+      "enum": [
+        "STATUS_UNSPECIFIED",
+        "STATUS_ACTIVE",
+        "STATUS_BLOCKED"
+      ],
+      "default": "STATUS_UNSPECIFIED"
     },
     "appootbaccountInfo": {
       "type": "object",
@@ -304,6 +196,9 @@
         },
         "avatar": {
           "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/accountStatus"
         },
         "signature": {
           "type": "string"
@@ -329,29 +224,6 @@
         }
       },
       "description": "Account information."
-    },
-    "captchaCategory": {
-      "type": "string",
-      "enum": [
-        "CATEGORY_UNSPECIFIED",
-        "CATEGORY_REGISTER",
-        "CATEGORY_LOGIN",
-        "CATEGORY_RESET_PWD"
-      ],
-      "default": "CATEGORY_UNSPECIFIED",
-      "description": "Captcha code category enums."
-    },
-    "captchaChannel": {
-      "type": "string",
-      "enum": [
-        "CHANNEL_UNSPECIFIED",
-        "CHANNEL_EMAIL",
-        "CHANNEL_SMS",
-        "CHANNEL_PHONE",
-        "CHANNEL_OTP"
-      ],
-      "default": "CHANNEL_UNSPECIFIED",
-      "description": "Captcha code channel enums."
     },
     "protobufAny": {
       "type": "object",

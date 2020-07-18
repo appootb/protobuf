@@ -52,11 +52,12 @@ class Info extends $pb.GeneratedMessage {
     ..a<$fixnum.Int64>(1, 'uniqueId', $pb.PbFieldType.QU6, defaultOrMaker: $fixnum.Int64.ZERO)
     ..aQS(2, 'nickname')
     ..aQS(3, 'avatar')
-    ..aOS(4, 'signature')
-    ..e<Gender>(5, 'gender', $pb.PbFieldType.OE, defaultOrMaker: Gender.GENDER_UNSPECIFIED, valueOf: Gender.valueOf, enumValues: Gender.values)
-    ..aOS(6, 'signs')
-    ..aOS(7, 'location')
-    ..aOM<Secret>(8, 'secret', subBuilder: Secret.create)
+    ..e<Status>(4, 'status', $pb.PbFieldType.QE, defaultOrMaker: Status.STATUS_UNSPECIFIED, valueOf: Status.valueOf, enumValues: Status.values)
+    ..aOS(5, 'signature')
+    ..e<Gender>(6, 'gender', $pb.PbFieldType.OE, defaultOrMaker: Gender.GENDER_UNSPECIFIED, valueOf: Gender.valueOf, enumValues: Gender.values)
+    ..aOS(7, 'signs')
+    ..aOS(8, 'location')
+    ..aOM<Secret>(9, 'secret', subBuilder: Secret.create)
     ..aOM<$0.Timestamp>(98, 'createAt', subBuilder: $0.Timestamp.create)
     ..aOM<$1.Any>(99, 'extend', subBuilder: $1.Any.create)
   ;
@@ -104,78 +105,87 @@ class Info extends $pb.GeneratedMessage {
   void clearAvatar() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get signature => $_getSZ(3);
+  Status get status => $_getN(3);
   @$pb.TagNumber(4)
-  set signature($core.String v) { $_setString(3, v); }
+  set status(Status v) { setField(4, v); }
   @$pb.TagNumber(4)
-  $core.bool hasSignature() => $_has(3);
+  $core.bool hasStatus() => $_has(3);
   @$pb.TagNumber(4)
-  void clearSignature() => clearField(4);
+  void clearStatus() => clearField(4);
 
   @$pb.TagNumber(5)
-  Gender get gender => $_getN(4);
+  $core.String get signature => $_getSZ(4);
   @$pb.TagNumber(5)
-  set gender(Gender v) { setField(5, v); }
+  set signature($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasGender() => $_has(4);
+  $core.bool hasSignature() => $_has(4);
   @$pb.TagNumber(5)
-  void clearGender() => clearField(5);
+  void clearSignature() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.String get signs => $_getSZ(5);
+  Gender get gender => $_getN(5);
   @$pb.TagNumber(6)
-  set signs($core.String v) { $_setString(5, v); }
+  set gender(Gender v) { setField(6, v); }
   @$pb.TagNumber(6)
-  $core.bool hasSigns() => $_has(5);
+  $core.bool hasGender() => $_has(5);
   @$pb.TagNumber(6)
-  void clearSigns() => clearField(6);
+  void clearGender() => clearField(6);
 
   @$pb.TagNumber(7)
-  $core.String get location => $_getSZ(6);
+  $core.String get signs => $_getSZ(6);
   @$pb.TagNumber(7)
-  set location($core.String v) { $_setString(6, v); }
+  set signs($core.String v) { $_setString(6, v); }
   @$pb.TagNumber(7)
-  $core.bool hasLocation() => $_has(6);
+  $core.bool hasSigns() => $_has(6);
   @$pb.TagNumber(7)
-  void clearLocation() => clearField(7);
+  void clearSigns() => clearField(7);
 
   @$pb.TagNumber(8)
-  Secret get secret => $_getN(7);
+  $core.String get location => $_getSZ(7);
   @$pb.TagNumber(8)
-  set secret(Secret v) { setField(8, v); }
+  set location($core.String v) { $_setString(7, v); }
   @$pb.TagNumber(8)
-  $core.bool hasSecret() => $_has(7);
+  $core.bool hasLocation() => $_has(7);
   @$pb.TagNumber(8)
-  void clearSecret() => clearField(8);
-  @$pb.TagNumber(8)
-  Secret ensureSecret() => $_ensure(7);
+  void clearLocation() => clearField(8);
+
+  @$pb.TagNumber(9)
+  Secret get secret => $_getN(8);
+  @$pb.TagNumber(9)
+  set secret(Secret v) { setField(9, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasSecret() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearSecret() => clearField(9);
+  @$pb.TagNumber(9)
+  Secret ensureSecret() => $_ensure(8);
 
   @$pb.TagNumber(98)
-  $0.Timestamp get createAt => $_getN(8);
+  $0.Timestamp get createAt => $_getN(9);
   @$pb.TagNumber(98)
   set createAt($0.Timestamp v) { setField(98, v); }
   @$pb.TagNumber(98)
-  $core.bool hasCreateAt() => $_has(8);
+  $core.bool hasCreateAt() => $_has(9);
   @$pb.TagNumber(98)
   void clearCreateAt() => clearField(98);
   @$pb.TagNumber(98)
-  $0.Timestamp ensureCreateAt() => $_ensure(8);
+  $0.Timestamp ensureCreateAt() => $_ensure(9);
 
   @$pb.TagNumber(99)
-  $1.Any get extend => $_getN(9);
+  $1.Any get extend => $_getN(10);
   @$pb.TagNumber(99)
   set extend($1.Any v) { setField(99, v); }
   @$pb.TagNumber(99)
-  $core.bool hasExtend() => $_has(9);
+  $core.bool hasExtend() => $_has(10);
   @$pb.TagNumber(99)
   void clearExtend() => clearField(99);
   @$pb.TagNumber(99)
-  $1.Any ensureExtend() => $_ensure(9);
+  $1.Any ensureExtend() => $_ensure(10);
 }
 
 class Infos extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Infos', package: const $pb.PackageName('appootb.account'), createEmptyInstance: create)
-    ..pc<Info>(1, 'accounts', $pb.PbFieldType.PM, subBuilder: Info.create)
+    ..m<$fixnum.Int64, Info>(1, 'accounts', entryClassName: 'Infos.AccountsEntry', keyFieldType: $pb.PbFieldType.OU6, valueFieldType: $pb.PbFieldType.OM, valueCreator: Info.create, packageName: const $pb.PackageName('appootb.account'))
   ;
 
   Infos._() : super();
@@ -194,6 +204,6 @@ class Infos extends $pb.GeneratedMessage {
   static Infos _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<Info> get accounts => $_getList(0);
+  $core.Map<$fixnum.Int64, Info> get accounts => $_getMap(0);
 }
 

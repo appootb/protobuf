@@ -27,8 +27,8 @@ var _bindServiceSubjects = map[string][]permission.Subject{
 		permission.Subject_MOBILE,
 	},
 	"/appootb.account.Bind/Gets": {
-		permission.Subject_PC,
 		permission.Subject_MOBILE,
+		permission.Subject_PC,
 	},
 }
 

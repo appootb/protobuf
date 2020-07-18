@@ -61,6 +61,7 @@
 |unique_id|int64|string| Account ID|-|true|
 |nickname|string|string| Nickname|-|true|
 |avatar|string|string| Avatar|-|true|
+|status|enum [Status](#status)|string/integer| Status|-|true|
 |signature|string|string| Account signature|-|false|
 |gender|enum [Gender](#gender)|string/integer| Gender|-|false|
 |signs|string|string| Zodiac signs|-|false|
@@ -78,6 +79,7 @@
   "unique_id": "string($int64)",
   "nickname": "string",
   "avatar": "string",
+  "status": "STATUS_UNSPECIFIED (0) | STATUS_ACTIVE (1) | STATUS_BLOCKED (2)",
   "signature": "string",
   "gender": "GENDER_UNSPECIFIED (0) | GENDER_MALE (1) | GENDER_FEMALE (2) | GENDER_OTHER (3)",
   "signs": "string",
@@ -127,7 +129,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|accounts|array [[Info](#info)]|array| Accounts|-|false|
+|accounts|map\<int64, [Info](#info)\>|object| Accounts|-|false|
 
 
 
@@ -135,11 +137,12 @@
 
 ```json
 {
-  "accounts": [
-    {
+  "accounts": {
+    "string($int64)": {
       "unique_id": "string($int64)",
       "nickname": "string",
       "avatar": "string",
+      "status": "STATUS_UNSPECIFIED (0) | STATUS_ACTIVE (1) | STATUS_BLOCKED (2)",
       "signature": "string",
       "gender": "GENDER_UNSPECIFIED (0) | GENDER_MALE (1) | GENDER_FEMALE (2) | GENDER_OTHER (3)",
       "signs": "string",
@@ -153,7 +156,7 @@
         "value": "YmFzZTY0IHN0cmluZw=="
       }
     }
-  ]
+  }
 }
 ```
 
@@ -197,6 +200,7 @@
 |unique_id|int64|string| Account ID|-|true|
 |nickname|string|string| Nickname|-|true|
 |avatar|string|string| Avatar|-|true|
+|status|enum [Status](#status)|string/integer| Status|-|true|
 |signature|string|string| Account signature|-|false|
 |gender|enum [Gender](#gender)|string/integer| Gender|-|false|
 |signs|string|string| Zodiac signs|-|false|
@@ -214,6 +218,7 @@
   "unique_id": "string($int64)",
   "nickname": "string",
   "avatar": "string",
+  "status": "STATUS_UNSPECIFIED (0) | STATUS_ACTIVE (1) | STATUS_BLOCKED (2)",
   "signature": "string",
   "gender": "GENDER_UNSPECIFIED (0) | GENDER_MALE (1) | GENDER_FEMALE (2) | GENDER_OTHER (3)",
   "signs": "string",
@@ -256,6 +261,19 @@
 |GENDER_OTHER|3| Other|
 
 
+<h3 id="status">Status</h3>
+
+> 
+
+* Enum
+
+|Name (string)|Value (integer)|Comment|
+|---|---|---|
+|STATUS_UNSPECIFIED|0| Unspecified|
+|STATUS_ACTIVE|1| Active|
+|STATUS_BLOCKED|2| Blocked|
+
+
 
 
 
@@ -273,6 +291,7 @@
 |unique_id|int64|string| Account ID|-|true|
 |nickname|string|string| Nickname|-|true|
 |avatar|string|string| Avatar|-|true|
+|status|enum [Status](#status)|string/integer| Status|-|true|
 |signature|string|string| Account signature|-|false|
 |gender|enum [Gender](#gender)|string/integer| Gender|-|false|
 |signs|string|string| Zodiac signs|-|false|

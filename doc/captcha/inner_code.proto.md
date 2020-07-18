@@ -9,9 +9,6 @@
 * [InnerCode](#innercode) - InnerCode service.
 
 
-	* [Launch (/captcha/inner/code/launch)](#launch) - Launch verification code process.
-
-
 	* [Verify (/captcha/inner/code/verify)](#verify) - Check the verification code.
 
 
@@ -21,71 +18,6 @@
 <h2 id="innercode">InnerCode</h2>
 
 >  InnerCode service.
-
-
-
-<h3 id="launch">Launch</h3>
-
->  Launch verification code process.
-
-
-
-* HTTP Gateway
-
-	* URL: `/captcha/inner/code/launch`
-	* Method: `POST`
-	* Content-Type: `application/json`
-
-* Request Type: ***CodeRequest***
-
->  Captcha code request.
-
-|Field|proto type|JSON type|Comment|Default|Required|
-|---|---|---|---|---|---|
-|channel|enum [Channel](#channel)|string/integer| Code channel|-|true|
-|category|enum [Category](#category)|string/integer| Code category|-|true|
-|target|string|string| Target, e.g. email address, phone number|-|true|
-|value|string|string| Code value for verification|-|false|
-
-
-
-
-> JSON Demo
-
-```json
-{
-  "channel": "CHANNEL_UNSPECIFIED (0) | CHANNEL_EMAIL (1) | CHANNEL_SMS (2) | CHANNEL_PHONE (3) | CHANNEL_OTP (4)",
-  "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_REGISTER (1) | CATEGORY_LOGIN (2) | CATEGORY_RESET_PWD (3)",
-  "target": "string",
-  "value": "string"
-}
-```
-
-
-
-* Response Type: ***Empty***
-
->  A generic empty message that you can re-use to avoid defining duplicated
->  empty messages in your APIs. A typical example is to use it as the request
->  or the response type of an API method. For instance:
-> 
->      service Foo {
->        rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
->      }
-> 
->  The JSON representation for `Empty` is empty JSON object `{}`.
-
-|Field|proto type|JSON type|Comment|Default|Required|
-|---|---|---|---|---|---|
-
-
-
-> JSON Demo
-
-```json
-{}
-```
-
 
 
 
@@ -101,16 +33,15 @@
 	* Method: `POST`
 	* Content-Type: `application/json`
 
-* Request Type: ***CodeRequest***
+* Request Type: ***VerifyRequest***
 
->  Captcha code request.
+>  Captcha code verify request.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|channel|enum [Channel](#channel)|string/integer| Code channel|-|true|
 |category|enum [Category](#category)|string/integer| Code category|-|true|
 |target|string|string| Target, e.g. email address, phone number|-|true|
-|value|string|string| Code value for verification|-|false|
+|value|string|string| Code value for verification|-|true|
 
 
 
@@ -119,8 +50,7 @@
 
 ```json
 {
-  "channel": "CHANNEL_UNSPECIFIED (0) | CHANNEL_EMAIL (1) | CHANNEL_SMS (2) | CHANNEL_PHONE (3) | CHANNEL_OTP (4)",
-  "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_REGISTER (1) | CATEGORY_LOGIN (2) | CATEGORY_RESET_PWD (3)",
+  "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_REGISTER (1) | CATEGORY_LOGIN (2) | CATEGORY_RESET_PWD (3) | CATEGORY_BIND (4) | CATEGORY_UNBIND (5)",
   "target": "string",
   "value": "string"
 }
@@ -176,21 +106,8 @@
 |CATEGORY_REGISTER|1| Register|
 |CATEGORY_LOGIN|2| Login|
 |CATEGORY_RESET_PWD|3| Reset password|
-
-
-<h3 id="channel">Channel</h3>
-
->  Captcha code channel enums.
-
-* Enum
-
-|Name (string)|Value (integer)|Comment|
-|---|---|---|
-|CHANNEL_UNSPECIFIED|0| Unspecified|
-|CHANNEL_EMAIL|1| Email|
-|CHANNEL_SMS|2| Mobile SMS|
-|CHANNEL_PHONE|3| Phone call|
-|CHANNEL_OTP|4| One-Time password|
+|CATEGORY_BIND|4| Bind account|
+|CATEGORY_UNBIND|5| Unbind account|
 
 
 
