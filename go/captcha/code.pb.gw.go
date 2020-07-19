@@ -214,7 +214,7 @@ func RegisterCodeHandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 }
 
 var (
-	pattern_Code_GetRegions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"account", "auth", "regions"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Code_GetRegions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"captcha", "code", "regions"}, "", runtime.AssumeColonVerbOpt(true)))
 
 	pattern_Code_Apply_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"captcha", "code", "apply"}, "", runtime.AssumeColonVerbOpt(true)))
 )

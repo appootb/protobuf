@@ -11,29 +11,6 @@
     "application/json"
   ],
   "paths": {
-    "/account/auth/regions": {
-      "get": {
-        "summary": "Get regions.",
-        "operationId": "Code_GetRegions",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/captchaRegions"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "tags": [
-          "Code"
-        ]
-      }
-    },
     "/captcha/code/apply": {
       "post": {
         "summary": "Launch verification code process.",
@@ -62,6 +39,29 @@
             }
           }
         ],
+        "tags": [
+          "Code"
+        ]
+      }
+    },
+    "/captcha/code/regions": {
+      "get": {
+        "summary": "Get regions.",
+        "operationId": "Code_GetRegions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/captchaRegions"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
         "tags": [
           "Code"
         ]

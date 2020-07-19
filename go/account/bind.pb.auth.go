@@ -19,16 +19,16 @@ var _ = service.UnaryServerInterceptor
 
 var _bindServiceSubjects = map[string][]permission.Subject{
 	"/appootb.account.Bind/Apply": {
-		permission.Subject_PC,
 		permission.Subject_MOBILE,
+		permission.Subject_PC,
 	},
 	"/appootb.account.Bind/Cancel": {
-		permission.Subject_PC,
 		permission.Subject_MOBILE,
+		permission.Subject_PC,
 	},
 	"/appootb.account.Bind/Gets": {
-		permission.Subject_MOBILE,
 		permission.Subject_PC,
+		permission.Subject_MOBILE,
 	},
 }
 

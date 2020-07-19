@@ -44,7 +44,7 @@ service Code {
   // Get regions.
   rpc GetRegions(google.protobuf.Empty) returns (Regions) {
     option (google.api.http) = {
-      get: "/account/auth/regions"
+      get: "/captcha/code/regions"
     };
   }
 

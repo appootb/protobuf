@@ -9,7 +9,7 @@
 * [Code](#code) - Code service.
 
 
-	* [GetRegions (/account/auth/regions)](#getregions) - Get regions.
+	* [GetRegions (/captcha/code/regions)](#getregions) - Get regions.
 
 
 	* [Apply (/captcha/code/apply)](#apply) - Launch verification code process.
@@ -32,7 +32,7 @@
 
 * HTTP Gateway
 
-	* URL: `/account/auth/regions`
+	* URL: `/captcha/code/regions`
 	* Method: `GET`
 
 

@@ -10,7 +10,7 @@
 >  Code service.
 
 
-* [GetRegions (/account/auth/regions)](code.proto.md#getregions) - Get regions.
+* [GetRegions (/captcha/code/regions)](code.proto.md#getregions) - Get regions.
 
 
 * [Apply (/captcha/code/apply)](code.proto.md#apply) - Launch verification code process.
