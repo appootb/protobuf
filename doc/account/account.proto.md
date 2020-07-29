@@ -12,7 +12,7 @@
 	* [GetInfo (/account/info/{id})](#getinfo) - Get account info.
 
 
-	* [GetInfos (/account/infos)](#getinfos) - Get account infos.
+	* [GetInfos (/account/infos/{ids})](#getinfos) - Get account infos.
 
 
 	* [UpdateInfo (/account/info)](#updateinfo) - Update account info.
@@ -106,7 +106,7 @@
 
 * HTTP Gateway
 
-	* URL: `/account/infos`
+	* URL: `/account/infos/{ids}`
 	* Method: `GET`
 
 
@@ -173,7 +173,7 @@
 
 	* URL: `/account/info`
 	* Method: `PATCH`
-
+	* Content-Type: `application/json`
 
 * Request Type: ***VariableInfo***
 
@@ -188,6 +188,17 @@
 
 
 
+
+> JSON Demo
+
+```json
+{
+  "nickname": "string",
+  "avatar": "string",
+  "signature": "string",
+  "gender": "GENDER_UNSPECIFIED (0) | GENDER_MALE (1) | GENDER_FEMALE (2) | GENDER_OTHER (3)"
+}
+```
 
 
 

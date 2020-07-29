@@ -95,7 +95,7 @@
 
 	* URL: `/account/password`
 	* Method: `PATCH`
-
+	* Content-Type: `application/json`
 
 * Request Type: ***PasswordRequest***
 
@@ -109,6 +109,16 @@
 
 
 
+
+> JSON Demo
+
+```json
+{
+  "password": "string",
+  "old_password": "string",
+  "verify_code": "string"
+}
+```
 
 
 

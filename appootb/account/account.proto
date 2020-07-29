@@ -41,7 +41,7 @@ service Account {
   // Get account infos.
   rpc GetInfos(appootb.common.UniqueIds) returns (Infos) {
     option (google.api.http) = {
-      get: "/account/infos"
+      get: "/account/infos/{ids}"
     };
   }
 

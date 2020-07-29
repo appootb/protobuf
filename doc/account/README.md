@@ -13,7 +13,7 @@
 * [GetInfo (/account/info/{id})](account.proto.md#getinfo) - Get account info.
 
 
-* [GetInfos (/account/infos)](account.proto.md#getinfos) - Get account infos.
+* [GetInfos (/account/infos/{ids})](account.proto.md#getinfos) - Get account infos.
 
 
 * [UpdateInfo (/account/info)](account.proto.md#updateinfo) - Update account info.

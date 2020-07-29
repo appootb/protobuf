@@ -52,10 +52,10 @@ $(SUBDIRS):
 		appootb/$@/*.proto
 
 todo:
-	@rm -rf go/permission/*.pb.*.go
+	@rm -rf go/api/*.pb.*.go go/permission/*.pb.*.go
 	@rm -rf go/secret/*.pb.*.go
-	@rm -rf doc/common doc/code doc/permission doc/secret
-	@rm -rf swagger/common swagger/code swagger/permission swagger/secret
-	@rm -rf dart/common dart/code dart/permission dart/secret
+	@rm -rf doc/api doc/common doc/code doc/permission doc/secret
+	@rm -rf swagger/api swagger/common swagger/code swagger/permission swagger/secret
+	@rm -rf dart/api dart/common dart/code dart/permission dart/secret
 
 .PHONY: $(SUBDIRS)

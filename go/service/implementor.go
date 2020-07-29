@@ -31,13 +31,18 @@ type Implementor interface {
 
 // Server authenticator interface.
 type Authenticator interface {
+	// Return the component name implements the service method.
+	ServiceComponentName(serviceMethod string) string
+
 	// Register required method subjects of the service.
 	// The map key of the parameter is the full url path of the method.
-	RegisterServiceSubjects(serviceMethodSubjects map[string][]permission.Subject)
+	RegisterServiceSubjects(component string, serviceMethodSubjects map[string][]permission.Subject)
 
 	// Authenticate a request specified by the full url path of the method.
 	Authenticate(ctx context.Context, serviceMethod string) (*secret.Info, error)
 }
+
+type componentKey struct{}
 
 type secretKey struct{}
 
@@ -55,7 +60,8 @@ func UnaryServerInterceptor(v Authenticator) grpc.UnaryServerInterceptor {
 			}
 			return nil, status.Errorf(codes.PermissionDenied, err.Error())
 		}
-		return handler(context.WithValue(ctx, secretKey{}, secretInfo), req)
+		return handler(context.WithValue(context.WithValue(ctx, componentKey{}, v.ServiceComponentName(info.FullMethod)),
+			secretKey{}, secretInfo), req)
 	}
 }
 
@@ -76,19 +82,32 @@ func StreamServerInterceptor(v Authenticator) grpc.StreamServerInterceptor {
 			}
 			return status.Errorf(codes.PermissionDenied, err.Error())
 		}
-		wrapper := &ctxWrapper{stream, secretInfo}
+		wrapper := &ctxWrapper{
+			ServerStream: stream,
+			secret:       secretInfo,
+			component:    v.ServiceComponentName(info.FullMethod),
+		}
 		return handler(srv, wrapper)
 	}
 }
 
 type ctxWrapper struct {
 	grpc.ServerStream
-	secret *secret.Info
+	secret    *secret.Info
+	component string
 }
 
 func (s *ctxWrapper) Context() context.Context {
 	ctx := s.ServerStream.Context()
-	return context.WithValue(ctx, secretKey{}, s.secret)
+	return context.WithValue(context.WithValue(ctx, componentKey{}, s.component),
+		secretKey{}, s.secret)
+}
+
+func ComponentNameFromContext(ctx context.Context) string {
+	if component := ctx.Value(componentKey{}); component != nil {
+		return component.(string)
+	}
+	return ""
 }
 
 func AccountSecretFromContext(ctx context.Context) *secret.Info {

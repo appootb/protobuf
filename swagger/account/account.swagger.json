@@ -76,7 +76,7 @@
         ]
       }
     },
-    "/account/infos": {
+    "/account/infos/{ids}": {
       "get": {
         "summary": "Get account infos.",
         "operationId": "Account_GetInfos",
@@ -97,14 +97,15 @@
         "parameters": [
           {
             "name": "ids",
-            "in": "query",
-            "required": false,
+            "in": "path",
+            "required": true,
             "type": "array",
             "items": {
               "type": "string",
               "format": "uint64"
             },
-            "collectionFormat": "multi"
+            "collectionFormat": "csv",
+            "minItems": 1
           }
         ],
         "tags": [
