@@ -26,7 +26,9 @@ service Block {
     option (appootb.permission.method.required) = LOGGED_IN;
 
     option (google.api.http) = {
-      post: "/relation/block/{id}"
+      // TODO protoc-gen-grpc-gateway does NOT support oneof field
+      // post: "/relation/block/{id}"
+      post: "/relation/block"
       body: "*"
     };
   }
@@ -36,7 +38,9 @@ service Block {
     option (appootb.permission.method.required) = LOGGED_IN;
 
     option (google.api.http) = {
-      delete: "/relation/block/{id}"
+      // TODO protoc-gen-grpc-gateway does NOT support oneof field
+      // delete: "/relation/block/{id}"
+      delete: "/relation/block"
     };
   }
 }

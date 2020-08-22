@@ -43,21 +43,27 @@ service Follow {
     option (appootb.permission.method.required) = LOGGED_IN;
 
     option (google.api.http) = {
-      delete: "/relation/follow/account/{id}"
+      // TODO protoc-gen-grpc-gateway does NOT support oneof field
+      // delete: "/relation/follow/account/{id}"
+      delete: "/relation/follow/account"
     };
   }
 
   // Get account followings.
   rpc GetFollowings(appootb.common.UniqueId) returns (appootb.common.UniqueIds) {
     option (google.api.http) = {
-      get: "/relation/follow/followings/{id}"
+      // TODO protoc-gen-grpc-gateway does NOT support oneof field
+      // get: "/relation/follow/followings/{id}"
+      get: "/relation/follow/followings"
     };
   }
 
   // Get account followers.
   rpc GetFollowers(appootb.common.PaginationRequest) returns (appootb.common.PaginationResponse) {
     option (google.api.http) = {
-      get: "/relation/follow/followers/{target.id}"
+      // TODO protoc-gen-grpc-gateway does NOT support oneof field
+      // get: "/relation/follow/followers/{target.id}"
+      get: "/relation/follow/followers"
     };
   }
 

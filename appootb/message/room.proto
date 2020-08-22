@@ -36,7 +36,9 @@ service Room {
     option (appootb.permission.method.required) = CLIENT;
 
     option (google.api.http) = {
-      get: "/message/room/{id}/server"
+      // TODO protoc-gen-grpc-gateway does NOT support oneof field
+      // get: "/message/room/{id}/server"
+      get: "/message/room/server"
     };
   }
 

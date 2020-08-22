@@ -104,35 +104,12 @@ func local_request_Follow_Add_0(ctx context.Context, marshaler runtime.Marshaler
 }
 
 var (
-	filter_Follow_Cancel_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_Follow_Cancel_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
 func request_Follow_Cancel_0(ctx context.Context, marshaler runtime.Marshaler, client FollowClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq common.UniqueId
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
-	}
-
-	if protoReq.Value == nil {
-		protoReq.Value = &UniqueId_Id{}
-	} else if _, ok := protoReq.Value.(*UniqueId_Id); !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "expect type: *UniqueId_Id, but: %t\n", protoReq.Value)
-	}
-	protoReq.Value.(*UniqueId_Id).Id, err = runtime.Uint64P(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
-	}
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -150,29 +127,6 @@ func local_request_Follow_Cancel_0(ctx context.Context, marshaler runtime.Marsha
 	var protoReq common.UniqueId
 	var metadata runtime.ServerMetadata
 
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
-	}
-
-	if protoReq.Value == nil {
-		protoReq.Value = &UniqueId_Id{}
-	} else if _, ok := protoReq.Value.(*UniqueId_Id); !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "expect type: *UniqueId_Id, but: %t\n", protoReq.Value)
-	}
-	protoReq.Value.(*UniqueId_Id).Id, err = runtime.Uint64P(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
-	}
-
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -186,35 +140,12 @@ func local_request_Follow_Cancel_0(ctx context.Context, marshaler runtime.Marsha
 }
 
 var (
-	filter_Follow_GetFollowings_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_Follow_GetFollowings_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
 func request_Follow_GetFollowings_0(ctx context.Context, marshaler runtime.Marshaler, client FollowClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq common.UniqueId
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
-	}
-
-	if protoReq.Value == nil {
-		protoReq.Value = &UniqueId_Id{}
-	} else if _, ok := protoReq.Value.(*UniqueId_Id); !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "expect type: *UniqueId_Id, but: %t\n", protoReq.Value)
-	}
-	protoReq.Value.(*UniqueId_Id).Id, err = runtime.Uint64P(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
-	}
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -232,29 +163,6 @@ func local_request_Follow_GetFollowings_0(ctx context.Context, marshaler runtime
 	var protoReq common.UniqueId
 	var metadata runtime.ServerMetadata
 
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
-	}
-
-	if protoReq.Value == nil {
-		protoReq.Value = &UniqueId_Id{}
-	} else if _, ok := protoReq.Value.(*UniqueId_Id); !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "expect type: *UniqueId_Id, but: %t\n", protoReq.Value)
-	}
-	protoReq.Value.(*UniqueId_Id).Id, err = runtime.Uint64P(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
-	}
-
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -268,35 +176,12 @@ func local_request_Follow_GetFollowings_0(ctx context.Context, marshaler runtime
 }
 
 var (
-	filter_Follow_GetFollowers_0 = &utilities.DoubleArray{Encoding: map[string]int{"target": 0, "id": 1}, Base: []int{1, 1, 1, 0}, Check: []int{0, 1, 2, 3}}
+	filter_Follow_GetFollowers_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
 func request_Follow_GetFollowers_0(ctx context.Context, marshaler runtime.Marshaler, client FollowClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq common.PaginationRequest
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["target.id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "target.id")
-	}
-
-	if protoReq.GetTarget().Value == nil {
-		protoReq.GetTarget().Value = &UniqueId_Id{}
-	} else if _, ok := protoReq.GetTarget().Value.(*UniqueId_Id); !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "expect type: *UniqueId_Id, but: %t\n", protoReq.GetTarget().Value)
-	}
-	protoReq.GetTarget().Value.(*UniqueId_Id).Id, err = runtime.Uint64P(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "target.id", err)
-	}
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -313,29 +198,6 @@ func request_Follow_GetFollowers_0(ctx context.Context, marshaler runtime.Marsha
 func local_request_Follow_GetFollowers_0(ctx context.Context, marshaler runtime.Marshaler, server FollowServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq common.PaginationRequest
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["target.id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "target.id")
-	}
-
-	if protoReq.GetTarget().Value == nil {
-		protoReq.GetTarget().Value = &UniqueId_Id{}
-	} else if _, ok := protoReq.GetTarget().Value.(*UniqueId_Id); !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "expect type: *UniqueId_Id, but: %t\n", protoReq.GetTarget().Value)
-	}
-	protoReq.GetTarget().Value.(*UniqueId_Id).Id, err = runtime.Uint64P(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "target.id", err)
-	}
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -619,11 +481,11 @@ func RegisterFollowHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 var (
 	pattern_Follow_Add_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"relation", "follow", "account", "target_id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Follow_Cancel_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"relation", "follow", "account", "id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Follow_Cancel_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"relation", "follow", "account"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Follow_GetFollowings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"relation", "follow", "followings", "id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Follow_GetFollowings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"relation", "follow", "followings"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Follow_GetFollowers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"relation", "follow", "followers", "target.id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Follow_GetFollowers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"relation", "follow", "followers"}, "", runtime.AssumeColonVerbOpt(true)))
 
 	pattern_Follow_GetFriends_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"relation", "follow", "friends"}, "", runtime.AssumeColonVerbOpt(true)))
 )

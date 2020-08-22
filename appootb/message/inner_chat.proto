@@ -37,7 +37,9 @@ service InnerChat {
   // Kick the connection.
   rpc Kick(appootb.common.UniqueId) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/message/inner/chat/conn/{uuid}"
+      // TODO protoc-gen-grpc-gateway does NOT support oneof field
+      // delete: "/message/inner/chat/conn/{uuid}"
+      delete: "/message/inner/chat/conn"
     };
   }
 }
