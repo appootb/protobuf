@@ -34,7 +34,9 @@ service Account {
   // Get account info.
   rpc GetInfo(appootb.common.UniqueId) returns (Info) {
     option (google.api.http) = {
-      get: "/account/info/{id}"
+      // TODO protoc-gen-grpc-gateway does NOT support oneof field
+      // get: "/account/info/{id}"
+      get: "/account/info"
     };
   }
 
