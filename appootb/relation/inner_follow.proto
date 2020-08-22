@@ -1,0 +1,47 @@
+syntax = "proto2";
+
+package appootb.relation;
+
+import "appootb/common/unique_id.proto";
+import "appootb/permission/service.proto";
+import "google/api/annotations.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Relation";
+option go_package = "github.com/appootb/protobuf/go/relation";
+option java_multiple_files = true;
+option java_outer_classname = "InnerFollowProto";
+option java_package = "com.appootb.relation";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Relation";
+
+
+// Follow check operation response.
+message FollowCheckResponse {
+  map<uint64, bool> fm = 1;
+}
+
+
+// Inner follow service.
+service InnerFollow {
+  // Visible for server side.
+  option (appootb.permission.service.visible) = SERVER;
+
+  // Check following.
+  rpc IsFollowing(appootb.common.UniqueIds) returns (FollowCheckResponse) {
+    option (google.api.http) = {
+      post: "/relation/inner/follow/is_following"
+      body: "*"
+    };
+  }
+
+  // Check friends.
+  rpc IsFriends(appootb.common.UniqueIds) returns (FollowCheckResponse) {
+    option (google.api.http) = {
+      post: "/relation/inner/follow/is_friends"
+      body: "*"
+    };
+  }
+}

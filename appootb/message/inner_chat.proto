@@ -1,0 +1,43 @@
+syntax = "proto2";
+
+package appootb.message;
+
+import "appootb/common/unique_id.proto";
+import "appootb/permission/service.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "include.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Message";
+option go_package = "github.com/appootb/protobuf/go/message";
+option java_multiple_files = true;
+option java_outer_classname = "InnerChatProto";
+option java_package = "com.appootb.message";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Message";
+
+
+// Inner chat service.
+service InnerChat {
+  // Visible for server side.
+  option (appootb.permission.service.visible) = SERVER;
+
+  // Deliver message.
+  rpc Deliver(Package) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/message/inner/chat/deliver"
+      body: "*"
+    };
+  }
+
+  // Kick the connection.
+  rpc Kick(appootb.common.UniqueId) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/message/inner/chat/conn/{uuid}"
+    };
+  }
+}

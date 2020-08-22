@@ -1,0 +1,74 @@
+syntax = "proto2";
+
+package appootb.counter;
+
+import "appootb/permission/service.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Counter";
+option go_package = "github.com/appootb/protobuf/go/counter";
+option java_multiple_files = true;
+option java_outer_classname = "InnerMultiProto";
+option java_package = "com.appootb.counter";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Counter";
+
+
+// Single key.
+message MultiKeys {
+  required string product = 1; // Counter product
+  required string type    = 2; // Counter type
+
+  repeated string    relate_ids = 3; // Counter relate IDs
+  map<string, int64> values     = 4; // Counter key values
+}
+
+// Mix key.
+message MixKeys {
+  required string product    = 1; // Counter product
+  repeated string types      = 2; // Counter types
+  repeated string relate_ids = 3; // Counter relate IDs
+}
+
+// Mix value.
+message MixValue {
+  map<string, int64> values = 1; // Counter key values
+}
+
+// Mix values.
+message MixValues {
+  map<string, MixValue> types = 1; // Counter types
+}
+
+
+// Inner multi counter service.
+service InnerMulti {
+  // Visible for server side.
+  option (appootb.permission.service.visible) = SERVER;
+
+  // Multi get counter values.
+  rpc Get(MultiKeys) returns (MultiKeys) {
+    option (google.api.http) = {
+      get: "/counter/inner/multi/{product}/{type}/{relate_ids}"
+    };
+  }
+
+  // Multi set counter values.
+  rpc Set(MultiKeys) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/counter/inner/multi/{product}/{type}"
+      body: "*"
+    };
+  }
+
+  // Mix gets counter values.
+  rpc Mix(MixKeys) returns (MixValues) {
+    option (google.api.http) = {
+      get: "/counter/inner/multi/{product}/{types}/{relate_ids}"
+    };
+  }
+}

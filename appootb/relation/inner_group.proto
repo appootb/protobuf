@@ -1,0 +1,26 @@
+syntax = "proto2";
+
+package appootb.relation;
+
+import "appootb/common/unique_id.proto";
+import "appootb/permission/service.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Relation";
+option go_package = "github.com/appootb/protobuf/go/relation";
+option java_multiple_files = true;
+option java_outer_classname = "InnerGroupProto";
+option java_package = "com.appootb.relation";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Relation";
+
+
+// Inner group service.
+service InnerGroup {
+  // Visible for server side.
+  option (appootb.permission.service.visible) = SERVER;
+}

@@ -1,0 +1,58 @@
+syntax = "proto2";
+
+package appootb.counter;
+
+import "appootb/permission/service.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Counter";
+option go_package = "github.com/appootb/protobuf/go/counter";
+option java_multiple_files = true;
+option java_outer_classname = "InnerHashFieldProto";
+option java_package = "com.appootb.counter";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Counter";
+
+
+// Hash field key.
+message HashFieldKey {
+  required string product   = 1; // Counter product
+  required string type      = 2; // Counter type
+  required string relate_id = 3; // Counter relate ID
+  required string field     = 4; // Counter relate ID field
+  optional int64  value     = 5; // Counter value
+}
+
+
+// Inner hash field counter service.
+service InnerHashField {
+  // Visible for server side.
+  option (appootb.permission.service.visible) = SERVER;
+
+  // Increase hash field value.
+  rpc Increase(HashFieldKey) returns (HashFieldKey) {
+    option (google.api.http) = {
+      put: "/counter/inner/hash_field/{product}/{type}/{relate_id}/{field}"
+      body: "value"
+    };
+  }
+
+  // Get hash field counter value.
+  rpc Get(HashFieldKey) returns (HashFieldKey) {
+    option (google.api.http) = {
+      get: "/counter/inner/hash_field/{product}/{type}/{relate_id}/{field}"
+    };
+  }
+
+  // Set hash field counter value.
+  rpc Set(HashFieldKey) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/counter/inner/hash_field/{product}/{type}/{relate_id}/{field}"
+      body: "value"
+    };
+  }
+}

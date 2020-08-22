@@ -1,0 +1,51 @@
+syntax = "proto2";
+
+package appootb.message;
+
+import "appootb/api/websocket.proto";
+import "appootb/common/unique_id.proto";
+import "appootb/permission/method.proto";
+import "google/api/annotations.proto";
+
+import "include.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Message";
+option go_package = "github.com/appootb/protobuf/go/message";
+option java_multiple_files = true;
+option java_outer_classname = "RoomProto";
+option java_package = "com.appootb.message";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Message";
+
+
+// Room server connect option.
+message RoomConnOption {
+  required string host   = 1; // Room server host name or ip address
+  optional uint32 port   = 2 [default = 443];  // Room server port
+  optional bool   secure = 3 [default = true]; // TLS supported
+}
+
+
+// Room message service.
+service Room {
+  // Get room connection server.
+  rpc Dispatch(appootb.common.UniqueId) returns (RoomConnOption) {
+    option (appootb.permission.method.required) = CLIENT;
+
+    option (google.api.http) = {
+      get: "/message/room/{id}/server"
+    };
+  }
+
+  // Room streaming interaction.
+  rpc Interact(stream Stream) returns (stream Stream) {
+    option (appootb.permission.method.required) = CLIENT;
+
+    option (appootb.api.websocket) = {
+      url: "/message/room"
+    };
+  }
+}

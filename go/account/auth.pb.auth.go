@@ -26,6 +26,9 @@ var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
 var _authServiceSubjects = map[string][]permission.Subject{
+	"/appootb.account.Auth/Guest": {
+		permission.Subject_NONE,
+	},
 	"/appootb.account.Auth/Login": {
 		permission.Subject_NONE,
 	},
@@ -42,6 +45,24 @@ var _authServiceSubjects = map[string][]permission.Subject{
 type wrapperAuthServer struct {
 	AuthServer
 	service.Implementor
+}
+
+func (w *wrapperAuthServer) Guest(ctx context.Context, req *empty.Empty) (*Info, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.AuthServer.Guest(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.AuthServer,
+		FullMethod: "/appootb.account.Auth/Guest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.AuthServer.Guest(ctx, req.(*empty.Empty))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*Info), nil
 }
 
 func (w *wrapperAuthServer) Login(ctx context.Context, req *LoginRequest) (*Info, error) {

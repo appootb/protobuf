@@ -41,11 +41,12 @@
 
 * Request Type: ***UniqueId***
 
->  Unique ID (uint64 type).
+>  Unique ID.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|id|int64|string| ID value|-|true|
+|id|int64 (oneof value)|string| Uint64 ID|-|false|
+|uuid|string (oneof value)|string| UUID|-|false|
 
 
 
@@ -112,11 +113,12 @@
 
 * Request Type: ***UniqueIds***
 
->  Unique IDs (uint64 array).
+>  Unique IDs.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|ids|array [int64]|string| ID list|-|false|
+|ids|array [int64]|string| Uint64 IDs|-|false|
+|uuids|array [string]|string| UUIDs|-|false|
 
 
 

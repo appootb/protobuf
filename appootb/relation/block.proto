@@ -1,0 +1,42 @@
+syntax = "proto2";
+
+package appootb.relation;
+
+import "appootb/common/unique_id.proto";
+import "appootb/permission/method.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Relation";
+option go_package = "github.com/appootb/protobuf/go/relation";
+option java_multiple_files = true;
+option java_outer_classname = "BlockProto";
+option java_package = "com.appootb.relation";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Relation";
+
+
+// Block service.
+service Block {
+  // Block the specified account ID.
+  rpc Add(appootb.common.UniqueId) returns (google.protobuf.Empty) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      post: "/relation/block/{id}"
+      body: "*"
+    };
+  }
+
+  // Unblock the specified account ID.
+  rpc Cancel(appootb.common.UniqueId) returns (google.protobuf.Empty) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      delete: "/relation/block/{id}"
+    };
+  }
+}

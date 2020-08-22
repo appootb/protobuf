@@ -26,6 +26,9 @@
 >  Authentication service.
 
 
+* [Guest (/account/auth/guest)](auth.proto.md#guest) - Auth as guest.
+
+
 * [Login (/account/auth/login)](auth.proto.md#login) - Login.
 
 

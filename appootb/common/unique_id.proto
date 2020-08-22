@@ -14,12 +14,30 @@ option objc_class_prefix = "CPB";
 option php_namespace = "Appootb\\Proto\\Common";
 
 
-// Unique ID (uint64 type).
+// Unique ID.
 message UniqueId {
-  required uint64 id = 1; // ID value
+  oneof value {
+    uint64 id   = 1; // Uint64 ID
+    string uuid = 2; // UUID
+  }
 }
 
-// Unique IDs (uint64 array).
+// Unique IDs.
 message UniqueIds {
-  repeated uint64 ids = 1; // ID list
+  repeated uint64 ids   = 1; // Uint64 IDs
+  repeated string uuids = 2; // UUIDs
+}
+
+// Pagination request.
+message PaginationRequest {
+  optional UniqueId target = 1; // Target ID
+  required uint64   offset = 2; // Offset number
+  required int32    count  = 3; // Count
+}
+
+// Pagination response.
+message PaginationResponse {
+  required bool      more = 1; // If has more records
+  required uint64    next = 2; // Offset number for next request
+  required UniqueIds data = 3; // Response data
 }

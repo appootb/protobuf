@@ -21,4 +21,10 @@ enum Component {
   COMPONENT_CAPTCHA  = 1; // Captcha
   COMPONENT_ACCOUNT  = 2; // Account
   COMPONENT_STRAINER = 3; // Strainer
+  COMPONENT_COUNTER  = 4; // Counter
+  COMPONENT_RELATION = 5; // Relation
+
+  COMPONENT_NOTIFICATION = 6; // Notification
+  COMPONENT_MESSAGE      = 7; // Message
+  COMPONENT_WALLET       = 8; // Wallet
 }

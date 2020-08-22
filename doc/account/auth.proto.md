@@ -9,6 +9,9 @@
 * [Auth](#auth) - Authentication service.
 
 
+	* [Guest (/account/auth/guest)](#guest) - Auth as guest.
+
+
 	* [Login (/account/auth/login)](#login) - Login.
 
 
@@ -24,6 +27,90 @@
 <h2 id="auth">Auth</h2>
 
 >  Authentication service.
+
+
+
+<h3 id="guest">Guest</h3>
+
+>  Auth as guest.
+
+
+
+* HTTP Gateway
+
+	* URL: `/account/auth/guest`
+	* Method: `POST`
+	* Content-Type: `application/json`
+
+* Request Type: ***Empty***
+
+>  A generic empty message that you can re-use to avoid defining duplicated
+>  empty messages in your APIs. A typical example is to use it as the request
+>  or the response type of an API method. For instance:
+> 
+>      service Foo {
+>        rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
+>      }
+> 
+>  The JSON representation for `Empty` is empty JSON object `{}`.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+
+
+
+
+> JSON Demo
+
+```json
+{}
+```
+
+
+
+* Response Type: ***Info***
+
+>  Account information.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|unique_id|int64|string| Account ID|-|true|
+|nickname|string|string| Nickname|-|true|
+|avatar|string|string| Avatar|-|true|
+|status|enum [Status](#status)|string/integer| Status|-|true|
+|signature|string|string| Account signature|-|false|
+|gender|enum [Gender](#gender)|string/integer| Gender|-|false|
+|signs|string|string| Zodiac signs|-|false|
+|location|string|string| Location|-|false|
+|secret|[Secret](#secret)|object| Account secret info|-|false|
+|create_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Account created time|-|false|
+|extend|[Any](#any)|object| Account extend info|-|false|
+
+
+
+> JSON Demo
+
+```json
+{
+  "unique_id": "string($int64)",
+  "nickname": "string",
+  "avatar": "string",
+  "status": "STATUS_UNSPECIFIED (0) | STATUS_ACTIVE (1) | STATUS_BLOCKED (2)",
+  "signature": "string",
+  "gender": "GENDER_UNSPECIFIED (0) | GENDER_MALE (1) | GENDER_FEMALE (2) | GENDER_OTHER (3)",
+  "signs": "string",
+  "location": "string",
+  "secret": {
+    "token": "string"
+  },
+  "create_at": "1972-01-01T10:00:20.021Z",
+  "extend": {
+    "type_url": "string",
+    "value": "YmFzZTY0IHN0cmluZw=="
+  }
+}
+```
+
 
 
 

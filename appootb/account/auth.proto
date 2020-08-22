@@ -40,6 +40,14 @@ message OAuthRequest {
 
 // Authentication service.
 service Auth {
+  // Auth as guest.
+  rpc Guest(google.protobuf.Empty) returns (Info) {
+    option (google.api.http) = {
+      post: "/account/auth/guest"
+      body: "*"
+    };
+  }
+
   // Login.
   rpc Login(LoginRequest) returns (Info) {
     option (google.api.http) = {

@@ -1,0 +1,72 @@
+syntax = "proto2";
+
+package appootb.relation;
+
+import "appootb/common/unique_id.proto";
+import "appootb/permission/method.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Relation";
+option go_package = "github.com/appootb/protobuf/go/relation";
+option java_multiple_files = true;
+option java_outer_classname = "FollowProto";
+option java_package = "com.appootb.relation";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Relation";
+
+
+// Add follow request.
+message FollowRequest {
+  required uint64 target_id = 1; // Target account ID
+  optional string reason    = 2; // Action reason
+}
+
+
+// Follow service.
+service Follow {
+  // Add follow.
+  rpc Add(FollowRequest) returns (google.protobuf.Empty) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      post: "/relation/follow/account/{target_id}"
+      body: "*"
+    };
+  }
+
+  // Cancel follow.
+  rpc Cancel(appootb.common.UniqueId) returns (google.protobuf.Empty) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      delete: "/relation/follow/account/{id}"
+    };
+  }
+
+  // Get account followings.
+  rpc GetFollowings(appootb.common.UniqueId) returns (appootb.common.UniqueIds) {
+    option (google.api.http) = {
+      get: "/relation/follow/followings/{id}"
+    };
+  }
+
+  // Get account followers.
+  rpc GetFollowers(appootb.common.PaginationRequest) returns (appootb.common.PaginationResponse) {
+    option (google.api.http) = {
+      get: "/relation/follow/followers/{target.id}"
+    };
+  }
+
+  // Get account friends.
+  rpc GetFriends(google.protobuf.Empty) returns (appootb.common.UniqueIds) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      get: "/relation/follow/friends"
+    };
+  }
+}
