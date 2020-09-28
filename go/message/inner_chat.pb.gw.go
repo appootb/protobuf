@@ -13,7 +13,6 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/appootb/protobuf/go/common"
 	"github.com/golang/protobuf/descriptor"
 	"github.com/golang/protobuf/proto"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
@@ -66,19 +65,37 @@ func local_request_InnerChat_Deliver_0(ctx context.Context, marshaler runtime.Ma
 
 }
 
-var (
-	filter_InnerChat_Kick_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_InnerChat_Kick_0(ctx context.Context, marshaler runtime.Marshaler, client InnerChatClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq common.UniqueId
+	var protoReq Connections
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["product"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "product")
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_InnerChat_Kick_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+
+	protoReq.Product, err = runtime.StringP(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "product", err)
+	}
+
+	val, ok = pathParams["unique_ids"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "unique_ids")
+	}
+
+	protoReq.UniqueIds, err = runtime.StringSlice(val, ",")
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "unique_ids", err)
 	}
 
 	msg, err := client.Kick(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -87,14 +104,36 @@ func request_InnerChat_Kick_0(ctx context.Context, marshaler runtime.Marshaler, 
 }
 
 func local_request_InnerChat_Kick_0(ctx context.Context, marshaler runtime.Marshaler, server InnerChatServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq common.UniqueId
+	var protoReq Connections
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["product"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "product")
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_InnerChat_Kick_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+
+	protoReq.Product, err = runtime.StringP(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "product", err)
+	}
+
+	val, ok = pathParams["unique_ids"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "unique_ids")
+	}
+
+	protoReq.UniqueIds, err = runtime.StringSlice(val, ",")
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "unique_ids", err)
 	}
 
 	msg, err := server.Kick(ctx, &protoReq)
@@ -234,7 +273,7 @@ func RegisterInnerChatHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 var (
 	pattern_InnerChat_Deliver_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"message", "inner", "chat", "deliver"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_InnerChat_Kick_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"message", "inner", "chat", "conn"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_InnerChat_Kick_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5}, []string{"message", "inner", "chat", "conn", "product", "unique_ids"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (

@@ -1,0 +1,115 @@
+syntax = "proto2";
+
+package appootb.counter;
+
+import "appootb/permission/service.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Counter";
+option go_package = "github.com/appootb/protobuf/go/counter";
+option java_multiple_files = true;
+option java_outer_classname = "InnerHashProto";
+option java_package = "com.appootb.counter";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Counter";
+
+
+// Hash field key.
+message HashField {
+  required string product   = 1; // Counter product
+  required string type      = 2; // Counter type
+  required string relate_id = 3; // Counter relate ID
+  required string field     = 4; // Counter relate ID field
+  optional int64  value     = 5; // Counter value
+}
+
+// Hash fields key.
+message HashFields {
+  required string product   = 1; // Counter product
+  required string type      = 2; // Counter type
+  required string relate_id = 3; // Counter relate ID
+  repeated string fields    = 4; // Counter relate ID fields
+
+  map<string, int64> values = 5; // Counter relate ID field values
+}
+
+// Hash keys.
+message HashKeys {
+  required string product    = 1; // Counter product
+  required string type       = 2; // Counter type
+  repeated string relate_ids = 3; // Counter relate IDs
+}
+
+// Hash all fields values.
+message HashValue {
+  map<string, int64> field_values = 1; // Hash fields values.
+}
+
+// Hash counter key values.
+message HashValues {
+  map<string, HashValue> values = 1; // Hash counter values.
+}
+
+
+// Inner hash counter service.
+service InnerHash {
+  // Visible for server side.
+  option (appootb.permission.service.visible) = SERVER;
+
+  // Increase hash field value.
+  rpc Increase(HashField) returns (HashField) {
+    option (google.api.http) = {
+      put: "/counter/inner/hash/field/{product}/{type}/{relate_id}/{field}"
+      body: "value"
+    };
+  }
+
+  // Multiple increase hash fields values.
+  rpc MultiIncrease(HashFields) returns (HashFields) {
+    option (google.api.http) = {
+      put: "/counter/inner/hash/fields/{product}/{type}/{relate_id}"
+      body: "*"
+    };
+  }
+
+  // Get hash field counter value.
+  rpc Get(HashField) returns (HashField) {
+    option (google.api.http) = {
+      get: "/counter/inner/hash/field/{product}/{type}/{relate_id}/{field}"
+    };
+  }
+
+  // Get hash fields counter values.
+  rpc Gets(HashFields) returns (HashFields) {
+    option (google.api.http) = {
+      get: "/counter/inner/hash/fields/{product}/{type}/{relate_id}/{fields}"
+    };
+  }
+
+  // Set hash field counter value.
+  rpc Set(HashField) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/counter/inner/hash/field/{product}/{type}/{relate_id}/{field}"
+      body: "value"
+    };
+  }
+
+  // Set hash fields counter values.
+  rpc Sets(HashFields) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/counter/inner/hash/fields/{product}/{type}/{relate_id}"
+      body: "*"
+    };
+  }
+
+  // Get hash keys.
+  rpc MultiGets(HashKeys) returns (HashValues) {
+    option (google.api.http) = {
+      get: "/counter/inner/hash/keys/{product}/{type}/{relate_ids}"
+    };
+  }
+}

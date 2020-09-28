@@ -26,11 +26,42 @@ var _ = service.UnaryServerInterceptor
 
 var _chatServiceSubjects = map[string][]permission.Subject{
 	"/appootb.message.Chat/Interact": {
-		permission.Subject_GUEST,
 		permission.Subject_WEB,
 		permission.Subject_PC,
 		permission.Subject_MOBILE,
 	},
+	"/appootb.message.Chat/Send": {
+		permission.Subject_WEB,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
+	},
+}
+
+type wrapperChatServer struct {
+	ChatServer
+	service.Implementor
+}
+
+func (w *wrapperChatServer) Interact(srv Chat_InteractServer) error {
+	return w.ChatServer.Interact(srv)
+}
+
+func (w *wrapperChatServer) Send(ctx context.Context, req *Post) (*Postmark, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.ChatServer.Send(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.ChatServer,
+		FullMethod: "/appootb.message.Chat/Send",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.ChatServer.Send(ctx, req.(*Post))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*Postmark), nil
 }
 
 // Register scoped server.
@@ -42,7 +73,16 @@ func RegisterChatScopeServer(component string, auth service.Authenticator, impl 
 	for _, gRPC := range impl.GetGRPCServer(permission.VisibleScope_CLIENT) {
 		RegisterChatServer(gRPC, srv)
 	}
+	// Register scoped gateway handler server.
+	wrapper := wrapperChatServer{
+		ChatServer:  srv,
+		Implementor: impl,
+	}
 	for _, mux := range impl.GetGatewayMux(permission.VisibleScope_CLIENT) {
+		// Register gateway handler.
+		if err := RegisterChatHandlerServer(impl.Context(), mux, &wrapper); err != nil {
+			return err
+		}
 		// Register websocket handler.
 		if err := RegisterChatWsHandlerServer(mux, srv, impl.StreamInterceptor()); err != nil {
 			return err

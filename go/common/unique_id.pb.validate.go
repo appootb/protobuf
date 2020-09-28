@@ -43,15 +43,7 @@ func (m *UniqueId) Validate() error {
 		return nil
 	}
 
-	switch m.Value.(type) {
-
-	case *UniqueId_Id:
-		// no validation rules for Id
-
-	case *UniqueId_Uuid:
-		// no validation rules for Uuid
-
-	}
+	// no validation rules for Id
 
 	return nil
 }
@@ -174,17 +166,17 @@ var _ interface {
 	ErrorName() string
 } = UniqueIdsValidationError{}
 
-// Validate checks the field values on PaginationRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, an
-// error is returned.
-func (m *PaginationRequest) Validate() error {
+// Validate checks the field values on PaginationIdRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *PaginationIdRequest) Validate() error {
 	if m == nil {
 		return nil
 	}
 
 	if v, ok := interface{}(m.GetTarget()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return PaginationRequestValidationError{
+			return PaginationIdRequestValidationError{
 				field:  "Target",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -199,9 +191,9 @@ func (m *PaginationRequest) Validate() error {
 	return nil
 }
 
-// PaginationRequestValidationError is the validation error returned by
-// PaginationRequest.Validate if the designated constraints aren't met.
-type PaginationRequestValidationError struct {
+// PaginationIdRequestValidationError is the validation error returned by
+// PaginationIdRequest.Validate if the designated constraints aren't met.
+type PaginationIdRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -209,24 +201,24 @@ type PaginationRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e PaginationRequestValidationError) Field() string { return e.field }
+func (e PaginationIdRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e PaginationRequestValidationError) Reason() string { return e.reason }
+func (e PaginationIdRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e PaginationRequestValidationError) Cause() error { return e.cause }
+func (e PaginationIdRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e PaginationRequestValidationError) Key() bool { return e.key }
+func (e PaginationIdRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e PaginationRequestValidationError) ErrorName() string {
-	return "PaginationRequestValidationError"
+func (e PaginationIdRequestValidationError) ErrorName() string {
+	return "PaginationIdRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e PaginationRequestValidationError) Error() string {
+func (e PaginationIdRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -238,14 +230,14 @@ func (e PaginationRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sPaginationRequest.%s: %s%s",
+		"invalid %sPaginationIdRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = PaginationRequestValidationError{}
+var _ error = PaginationIdRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -253,12 +245,12 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = PaginationRequestValidationError{}
+} = PaginationIdRequestValidationError{}
 
-// Validate checks the field values on PaginationResponse with the rules
+// Validate checks the field values on PaginationIdResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
-func (m *PaginationResponse) Validate() error {
+func (m *PaginationIdResponse) Validate() error {
 	if m == nil {
 		return nil
 	}
@@ -269,7 +261,7 @@ func (m *PaginationResponse) Validate() error {
 
 	if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return PaginationResponseValidationError{
+			return PaginationIdResponseValidationError{
 				field:  "Data",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -280,9 +272,9 @@ func (m *PaginationResponse) Validate() error {
 	return nil
 }
 
-// PaginationResponseValidationError is the validation error returned by
-// PaginationResponse.Validate if the designated constraints aren't met.
-type PaginationResponseValidationError struct {
+// PaginationIdResponseValidationError is the validation error returned by
+// PaginationIdResponse.Validate if the designated constraints aren't met.
+type PaginationIdResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -290,24 +282,24 @@ type PaginationResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e PaginationResponseValidationError) Field() string { return e.field }
+func (e PaginationIdResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e PaginationResponseValidationError) Reason() string { return e.reason }
+func (e PaginationIdResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e PaginationResponseValidationError) Cause() error { return e.cause }
+func (e PaginationIdResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e PaginationResponseValidationError) Key() bool { return e.key }
+func (e PaginationIdResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e PaginationResponseValidationError) ErrorName() string {
-	return "PaginationResponseValidationError"
+func (e PaginationIdResponseValidationError) ErrorName() string {
+	return "PaginationIdResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e PaginationResponseValidationError) Error() string {
+func (e PaginationIdResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -319,14 +311,14 @@ func (e PaginationResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sPaginationResponse.%s: %s%s",
+		"invalid %sPaginationIdResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = PaginationResponseValidationError{}
+var _ error = PaginationIdResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -334,4 +326,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = PaginationResponseValidationError{}
+} = PaginationIdResponseValidationError{}

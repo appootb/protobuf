@@ -1,0 +1,56 @@
+syntax = "proto2";
+
+package appootb.relation;
+
+import "appootb/common/unique_id.proto";
+import "appootb/permission/method.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+import "include.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Relation";
+option go_package = "github.com/appootb/protobuf/go/relation";
+option java_multiple_files = true;
+option java_outer_classname = "ChannelProto";
+option java_package = "com.appootb.relation";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Relation";
+
+
+// Channel info.
+message ChannelInfo {
+  required uint64 id          = 1; // Channel ID
+  required string name        = 2; // Channel name
+  optional string description = 3; // Channel description
+
+  required google.protobuf.Timestamp created_at = 10; // Channel created time
+  required google.protobuf.Timestamp updated_at = 11; // Channel updated time
+}
+
+
+// Channel service.
+service Channel {
+  // Follow channel.
+  rpc Add(ApplyRequest) returns (ChannelInfo) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      post: "/relation/channel/{target}"
+      body: "*"
+    };
+  }
+
+  // Unfollow channel.
+  rpc Cancel(appootb.common.UniqueId) returns (google.protobuf.Empty) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      delete: "/relation/channel/{id}"
+    };
+  }
+}

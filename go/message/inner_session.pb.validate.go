@@ -36,6 +36,155 @@ var (
 // define the regex for a UUID once up-front
 var _inner_session_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
 
+// Validate checks the field values on SessionId with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *SessionId) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Type
+
+	// no validation rules for Account
+
+	// no validation rules for DeviceId
+
+	return nil
+}
+
+// SessionIdValidationError is the validation error returned by
+// SessionId.Validate if the designated constraints aren't met.
+type SessionIdValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SessionIdValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SessionIdValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SessionIdValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SessionIdValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SessionIdValidationError) ErrorName() string { return "SessionIdValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SessionIdValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSessionId.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SessionIdValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SessionIdValidationError{}
+
+// Validate checks the field values on SessionIds with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *SessionIds) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	for idx, item := range m.GetIds() {
+		_, _ = idx, item
+
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SessionIdsValidationError{
+					field:  fmt.Sprintf("Ids[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// SessionIdsValidationError is the validation error returned by
+// SessionIds.Validate if the designated constraints aren't met.
+type SessionIdsValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SessionIdsValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SessionIdsValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SessionIdsValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SessionIdsValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SessionIdsValidationError) ErrorName() string { return "SessionIdsValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SessionIdsValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSessionIds.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SessionIdsValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SessionIdsValidationError{}
+
 // Validate checks the field values on Session with the rules defined in the
 // proto definition for this message. If any rules are violated, an error is returned.
 func (m *Session) Validate() error {
@@ -57,10 +206,10 @@ func (m *Session) Validate() error {
 		}
 	}
 
-	if v, ok := interface{}(m.GetAddTime()).(interface{ Validate() error }); ok {
+	if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return SessionValidationError{
-				field:  "AddTime",
+				field:  "CreatedAt",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

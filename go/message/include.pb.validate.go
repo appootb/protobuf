@@ -532,6 +532,21 @@ func (m *Receipts) Validate() error {
 		return nil
 	}
 
+	for idx, item := range m.GetLocalIds() {
+		_, _ = idx, item
+
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ReceiptsValidationError{
+					field:  fmt.Sprintf("LocalIds[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	for idx, item := range m.GetPostmarks() {
 		_, _ = idx, item
 
@@ -604,6 +619,153 @@ var _ interface {
 	ErrorName() string
 } = ReceiptsValidationError{}
 
+// Validate checks the field values on ClientId with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *ClientId) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Category
+
+	// no validation rules for LastId
+
+	return nil
+}
+
+// ClientIdValidationError is the validation error returned by
+// ClientId.Validate if the designated constraints aren't met.
+type ClientIdValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ClientIdValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ClientIdValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ClientIdValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ClientIdValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ClientIdValidationError) ErrorName() string { return "ClientIdValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ClientIdValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sClientId.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ClientIdValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ClientIdValidationError{}
+
+// Validate checks the field values on ClientIds with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *ClientIds) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	for idx, item := range m.GetIds() {
+		_, _ = idx, item
+
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ClientIdsValidationError{
+					field:  fmt.Sprintf("Ids[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ClientIdsValidationError is the validation error returned by
+// ClientIds.Validate if the designated constraints aren't met.
+type ClientIdsValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ClientIdsValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ClientIdsValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ClientIdsValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ClientIdsValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ClientIdsValidationError) ErrorName() string { return "ClientIdsValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ClientIdsValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sClientIds.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ClientIdsValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ClientIdsValidationError{}
+
 // Validate checks the field values on Stream with the rules defined in the
 // proto definition for this message. If any rules are violated, an error is returned.
 func (m *Stream) Validate() error {
@@ -613,40 +775,30 @@ func (m *Stream) Validate() error {
 
 	// no validation rules for Sn
 
+	// no validation rules for Target
+
 	// no validation rules for Type
 
 	switch m.Payload.(type) {
 
-	case *Stream_Message:
+	case *Stream_Local:
 
-		if v, ok := interface{}(m.GetMessage()).(interface{ Validate() error }); ok {
+		if v, ok := interface{}(m.GetLocal()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return StreamValidationError{
-					field:  "Message",
+					field:  "Local",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
 			}
 		}
 
-	case *Stream_Postmark:
+	case *Stream_Postbox:
 
-		if v, ok := interface{}(m.GetPostmark()).(interface{ Validate() error }); ok {
+		if v, ok := interface{}(m.GetPostbox()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return StreamValidationError{
-					field:  "Postmark",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	case *Stream_Posts:
-
-		if v, ok := interface{}(m.GetPosts()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return StreamValidationError{
-					field:  "Posts",
+					field:  "Postbox",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -724,10 +876,10 @@ var _ interface {
 	ErrorName() string
 } = StreamValidationError{}
 
-// Validate checks the field values on SessionCast with the rules defined in
+// Validate checks the field values on Connections with the rules defined in
 // the proto definition for this message. If any rules are violated, an error
 // is returned.
-func (m *SessionCast) Validate() error {
+func (m *Connections) Validate() error {
 	if m == nil {
 		return nil
 	}
@@ -737,9 +889,9 @@ func (m *SessionCast) Validate() error {
 	return nil
 }
 
-// SessionCastValidationError is the validation error returned by
-// SessionCast.Validate if the designated constraints aren't met.
-type SessionCastValidationError struct {
+// ConnectionsValidationError is the validation error returned by
+// Connections.Validate if the designated constraints aren't met.
+type ConnectionsValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -747,22 +899,22 @@ type SessionCastValidationError struct {
 }
 
 // Field function returns field value.
-func (e SessionCastValidationError) Field() string { return e.field }
+func (e ConnectionsValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e SessionCastValidationError) Reason() string { return e.reason }
+func (e ConnectionsValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e SessionCastValidationError) Cause() error { return e.cause }
+func (e ConnectionsValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e SessionCastValidationError) Key() bool { return e.key }
+func (e ConnectionsValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e SessionCastValidationError) ErrorName() string { return "SessionCastValidationError" }
+func (e ConnectionsValidationError) ErrorName() string { return "ConnectionsValidationError" }
 
 // Error satisfies the builtin error interface
-func (e SessionCastValidationError) Error() string {
+func (e ConnectionsValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -774,14 +926,14 @@ func (e SessionCastValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sSessionCast.%s: %s%s",
+		"invalid %sConnections.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = SessionCastValidationError{}
+var _ error = ConnectionsValidationError{}
 
 var _ interface {
 	Field() string
@@ -789,26 +941,27 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = SessionCastValidationError{}
+} = ConnectionsValidationError{}
 
-// Validate checks the field values on TagBroadcast with the rules defined in
-// the proto definition for this message. If any rules are violated, an error
-// is returned.
-func (m *TagBroadcast) Validate() error {
+// Validate checks the field values on Tag with the rules defined in the proto
+// definition for this message. If any rules are violated, an error is returned.
+func (m *Tag) Validate() error {
 	if m == nil {
 		return nil
 	}
 
+	// no validation rules for Product
+
 	// no validation rules for Name
 
-	// no validation rules for Prefix
+	// no validation rules for Prefixed
 
 	return nil
 }
 
-// TagBroadcastValidationError is the validation error returned by
-// TagBroadcast.Validate if the designated constraints aren't met.
-type TagBroadcastValidationError struct {
+// TagValidationError is the validation error returned by Tag.Validate if the
+// designated constraints aren't met.
+type TagValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -816,22 +969,22 @@ type TagBroadcastValidationError struct {
 }
 
 // Field function returns field value.
-func (e TagBroadcastValidationError) Field() string { return e.field }
+func (e TagValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e TagBroadcastValidationError) Reason() string { return e.reason }
+func (e TagValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e TagBroadcastValidationError) Cause() error { return e.cause }
+func (e TagValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e TagBroadcastValidationError) Key() bool { return e.key }
+func (e TagValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e TagBroadcastValidationError) ErrorName() string { return "TagBroadcastValidationError" }
+func (e TagValidationError) ErrorName() string { return "TagValidationError" }
 
 // Error satisfies the builtin error interface
-func (e TagBroadcastValidationError) Error() string {
+func (e TagValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -843,14 +996,14 @@ func (e TagBroadcastValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sTagBroadcast.%s: %s%s",
+		"invalid %sTag.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = TagBroadcastValidationError{}
+var _ error = TagValidationError{}
 
 var _ interface {
 	Field() string
@@ -858,7 +1011,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = TagBroadcastValidationError{}
+} = TagValidationError{}
 
 // Validate checks the field values on Package with the rules defined in the
 // proto definition for this message. If any rules are violated, an error is returned.
@@ -886,24 +1039,24 @@ func (m *Package) Validate() error {
 
 	switch m.Target.(type) {
 
-	case *Package_Session:
-
-		if v, ok := interface{}(m.GetSession()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return PackageValidationError{
-					field:  "Session",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
 	case *Package_Tag:
 
 		if v, ok := interface{}(m.GetTag()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return PackageValidationError{
 					field:  "Tag",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *Package_Conn:
+
+		if v, ok := interface{}(m.GetConn()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return PackageValidationError{
+					field:  "Conn",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}

@@ -6,7 +6,6 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/appootb/protobuf/go/common"
 	"github.com/appootb/protobuf/go/permission"
 	"github.com/appootb/protobuf/go/service"
 	"github.com/appootb/protobuf/go/webstream"
@@ -58,7 +57,7 @@ func (w *wrapperInnerChatServer) Deliver(ctx context.Context, req *Package) (*em
 	return resp.(*empty.Empty), nil
 }
 
-func (w *wrapperInnerChatServer) Kick(ctx context.Context, req *common.UniqueId) (*empty.Empty, error) {
+func (w *wrapperInnerChatServer) Kick(ctx context.Context, req *Connections) (*empty.Empty, error) {
 	if w.UnaryInterceptor() == nil {
 		return w.InnerChatServer.Kick(ctx, req)
 	}
@@ -67,7 +66,7 @@ func (w *wrapperInnerChatServer) Kick(ctx context.Context, req *common.UniqueId)
 		FullMethod: "/appootb.message.InnerChat/Kick",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return w.InnerChatServer.Kick(ctx, req.(*common.UniqueId))
+		return w.InnerChatServer.Kick(ctx, req.(*Connections))
 	}
 	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {

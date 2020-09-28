@@ -55,7 +55,7 @@ type wrapperFollowServer struct {
 	service.Implementor
 }
 
-func (w *wrapperFollowServer) Add(ctx context.Context, req *FollowRequest) (*empty.Empty, error) {
+func (w *wrapperFollowServer) Add(ctx context.Context, req *ApplyRequest) (*empty.Empty, error) {
 	if w.UnaryInterceptor() == nil {
 		return w.FollowServer.Add(ctx, req)
 	}
@@ -64,7 +64,7 @@ func (w *wrapperFollowServer) Add(ctx context.Context, req *FollowRequest) (*emp
 		FullMethod: "/appootb.relation.Follow/Add",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return w.FollowServer.Add(ctx, req.(*FollowRequest))
+		return w.FollowServer.Add(ctx, req.(*ApplyRequest))
 	}
 	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
@@ -109,7 +109,7 @@ func (w *wrapperFollowServer) GetFollowings(ctx context.Context, req *common.Uni
 	return resp.(*common.UniqueIds), nil
 }
 
-func (w *wrapperFollowServer) GetFollowers(ctx context.Context, req *common.PaginationRequest) (*common.PaginationResponse, error) {
+func (w *wrapperFollowServer) GetFollowers(ctx context.Context, req *common.PaginationIdRequest) (*common.PaginationIdResponse, error) {
 	if w.UnaryInterceptor() == nil {
 		return w.FollowServer.GetFollowers(ctx, req)
 	}
@@ -118,13 +118,13 @@ func (w *wrapperFollowServer) GetFollowers(ctx context.Context, req *common.Pagi
 		FullMethod: "/appootb.relation.Follow/GetFollowers",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return w.FollowServer.GetFollowers(ctx, req.(*common.PaginationRequest))
+		return w.FollowServer.GetFollowers(ctx, req.(*common.PaginationIdRequest))
 	}
 	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*common.PaginationResponse), nil
+	return resp.(*common.PaginationIdResponse), nil
 }
 
 func (w *wrapperFollowServer) GetFriends(ctx context.Context, req *empty.Empty) (*common.UniqueIds, error) {

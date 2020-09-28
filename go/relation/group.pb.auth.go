@@ -6,6 +6,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/appootb/protobuf/go/common"
 	"github.com/appootb/protobuf/go/permission"
 	"github.com/appootb/protobuf/go/service"
 	"github.com/appootb/protobuf/go/webstream"
@@ -24,7 +25,128 @@ var _ = websocket.UnknownFrame
 var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
-var _groupServiceSubjects = map[string][]permission.Subject{}
+var _groupServiceSubjects = map[string][]permission.Subject{
+	"/appootb.relation.Group/Add": {
+		permission.Subject_WEB,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
+	},
+	"/appootb.relation.Group/Create": {
+		permission.Subject_WEB,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
+	},
+	"/appootb.relation.Group/Get": {
+		permission.Subject_WEB,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
+	},
+	"/appootb.relation.Group/Remove": {
+		permission.Subject_WEB,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
+	},
+	"/appootb.relation.Group/Update": {
+		permission.Subject_WEB,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
+	},
+}
+
+type wrapperGroupServer struct {
+	GroupServer
+	service.Implementor
+}
+
+func (w *wrapperGroupServer) Create(ctx context.Context, req *GroupInfo) (*GroupInfo, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.GroupServer.Create(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.GroupServer,
+		FullMethod: "/appootb.relation.Group/Create",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.GroupServer.Create(ctx, req.(*GroupInfo))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*GroupInfo), nil
+}
+
+func (w *wrapperGroupServer) Get(ctx context.Context, req *common.UniqueId) (*GroupInfo, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.GroupServer.Get(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.GroupServer,
+		FullMethod: "/appootb.relation.Group/Get",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.GroupServer.Get(ctx, req.(*common.UniqueId))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*GroupInfo), nil
+}
+
+func (w *wrapperGroupServer) Update(ctx context.Context, req *GroupInfo) (*GroupInfo, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.GroupServer.Update(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.GroupServer,
+		FullMethod: "/appootb.relation.Group/Update",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.GroupServer.Update(ctx, req.(*GroupInfo))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*GroupInfo), nil
+}
+
+func (w *wrapperGroupServer) Add(ctx context.Context, req *common.UniqueIds) (*GroupInfo, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.GroupServer.Add(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.GroupServer,
+		FullMethod: "/appootb.relation.Group/Add",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.GroupServer.Add(ctx, req.(*common.UniqueIds))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*GroupInfo), nil
+}
+
+func (w *wrapperGroupServer) Remove(ctx context.Context, req *common.UniqueId) (*GroupInfo, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.GroupServer.Remove(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.GroupServer,
+		FullMethod: "/appootb.relation.Group/Remove",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.GroupServer.Remove(ctx, req.(*common.UniqueId))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*GroupInfo), nil
+}
 
 // Register scoped server.
 func RegisterGroupScopeServer(component string, auth service.Authenticator, impl service.Implementor, srv GroupServer) error {
@@ -35,6 +157,17 @@ func RegisterGroupScopeServer(component string, auth service.Authenticator, impl
 	for _, gRPC := range impl.GetGRPCServer(permission.VisibleScope_CLIENT) {
 		RegisterGroupServer(gRPC, srv)
 	}
-	// No gateway generated.
+	// Register scoped gateway handler server.
+	wrapper := wrapperGroupServer{
+		GroupServer: srv,
+		Implementor: impl,
+	}
+	for _, mux := range impl.GetGatewayMux(permission.VisibleScope_CLIENT) {
+		// Register gateway handler.
+		if err := RegisterGroupHandlerServer(impl.Context(), mux, &wrapper); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }

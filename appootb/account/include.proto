@@ -63,8 +63,9 @@ message Info {
 
   optional Secret secret = 9; // Account secret info
 
-  optional google.protobuf.Timestamp create_at = 98; // Account created time
-  optional google.protobuf.Any       extend    = 99; // Account extend info
+  optional google.protobuf.Timestamp created_at = 97; // Account created time
+  optional google.protobuf.Timestamp updated_at = 98; // Account updated time
+  optional google.protobuf.Any       extend     = 99; // Account extend info
 }
 
 // Accounts information.

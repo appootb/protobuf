@@ -7,6 +7,8 @@ import "appootb/permission/method.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
+import "include.proto";
+
 option cc_enable_arenas = true;
 option optimize_for = SPEED;
 
@@ -19,21 +21,14 @@ option objc_class_prefix = "CPB";
 option php_namespace = "Appootb\\Proto\\Relation";
 
 
-// Add follow request.
-message FollowRequest {
-  required uint64 target_id = 1; // Target account ID
-  optional string reason    = 2; // Action reason
-}
-
-
 // Follow service.
 service Follow {
   // Add follow.
-  rpc Add(FollowRequest) returns (google.protobuf.Empty) {
+  rpc Add(ApplyRequest) returns (google.protobuf.Empty) {
     option (appootb.permission.method.required) = LOGGED_IN;
 
     option (google.api.http) = {
-      post: "/relation/follow/account/{target_id}"
+      post: "/relation/follow/account/{target}"
       body: "*"
     };
   }
@@ -43,27 +38,21 @@ service Follow {
     option (appootb.permission.method.required) = LOGGED_IN;
 
     option (google.api.http) = {
-      // TODO protoc-gen-grpc-gateway does NOT support oneof field
-      // delete: "/relation/follow/account/{id}"
-      delete: "/relation/follow/account"
+      delete: "/relation/follow/account/{id}"
     };
   }
 
   // Get account followings.
   rpc GetFollowings(appootb.common.UniqueId) returns (appootb.common.UniqueIds) {
     option (google.api.http) = {
-      // TODO protoc-gen-grpc-gateway does NOT support oneof field
-      // get: "/relation/follow/followings/{id}"
-      get: "/relation/follow/followings"
+      get: "/relation/follow/followings/{id}"
     };
   }
 
   // Get account followers.
-  rpc GetFollowers(appootb.common.PaginationRequest) returns (appootb.common.PaginationResponse) {
+  rpc GetFollowers(appootb.common.PaginationIdRequest) returns (appootb.common.PaginationIdResponse) {
     option (google.api.http) = {
-      // TODO protoc-gen-grpc-gateway does NOT support oneof field
-      // get: "/relation/follow/followers/{target.id}"
-      get: "/relation/follow/followers"
+      get: "/relation/follow/followers/{target.id}"
     };
   }
 

@@ -43,8 +43,7 @@ enum Type {
   TYPE_CONTACT  = 9;  // Contact
   TYPE_RECALL   = 10; // Recall
 
-  TYPE_DELIVERY = 11; // Message delivery receipt
-  TYPE_READ     = 12; // Message read receipt
+  TYPE_READ = 11; // Message read receipt
 }
 
 // Message postmark.
@@ -95,63 +94,76 @@ message Postbox {
 
 // Message receipts.
 message Receipts {
-  repeated Postmark postmarks = 1; // Message postmarks
+  repeated ClientId local_ids = 1; // Client latest IDs
+  repeated Postmark postmarks = 2; // Message postmarks
+}
+
+// Client local ID.
+message ClientId {
+  required Category category = 1; // Message category
+  optional uint64   last_id  = 2; // Client latest ID
+}
+
+// Client local IDs.
+message ClientIds {
+  repeated ClientId ids = 1; // Client latest IDs
 }
 
 //
-// Stream
+// Streaming
 //
 
 // Message stream payload type.
 enum PayloadType {
   PAYLOAD_TYPE_UNSPECIFIED = 0; // Unspecified
 
-  PAYLOAD_TYPE_PING        = 1; // Heartbeat ping
-  PAYLOAD_TYPE_PONG        = 2; // Heartbeat pong
-  PAYLOAD_TYPE_MESSAGE     = 3; // Send message request (client -> server)
-  PAYLOAD_TYPE_MESSAGE_ACK = 4; // Send message ack response (server -> client)
-  PAYLOAD_TYPE_POSTS       = 5; // Message notify (server -> client)
-  PAYLOAD_TYPE_RECEIPTS    = 6; // Message notify receipts (client -> server)
+  PAYLOAD_TYPE_PING     = 1; // Heartbeat ping
+  PAYLOAD_TYPE_PONG     = 2; // Heartbeat pong
+  PAYLOAD_TYPE_SYNC     = 3; // Sync messages (client -> server)
+  PAYLOAD_TYPE_MESSAGES = 4; // Message notify (server -> client)
+  PAYLOAD_TYPE_RECEIPTS = 5; // Message notify receipts (client -> server)
 }
 
-// Message stream message.
+// Message streaming.
 message Stream {
-  required string      sn   = 1; // Stream SN
-  required PayloadType type = 2; // Stream payload type
+  required string sn     = 1; // Stream SN
+  optional uint64 target = 2; // Target ID, e.g. room ID for room streaming
+
+  required PayloadType type = 3; // Stream payload type
 
   // Payload data
   oneof payload {
-    Post     message  = 10; // Upstream message request (type: PAYLOAD_TYPE_MESSAGE)
-    Postmark postmark = 11; // Downstream message response (type: PAYLOAD_TYPE_MESSAGE_ACK)
-    Postbox  posts    = 12; // Downstream message notify (type: PAYLOAD_TYPE_POSTS)
-    Receipts receipts = 13; // Upstream receipts (type: PAYLOAD_TYPE_RECEIPTS)
+    ClientIds local    = 10; // Upstream sync message request (type: PAYLOAD_TYPE_SYNC)
+    Postbox   postbox  = 11; // Downstream message notify (type: PAYLOAD_TYPE_MESSAGES)
+    Receipts  receipts = 12; // Upstream receipts (type: PAYLOAD_TYPE_RECEIPTS)
   }
 }
 
 //
-// Router
+// Streaming Connection
 //
 
-// Forward to session IDs.
-message SessionCast {
+// Connections.
+message Connections {
   required string product    = 1; // Product name
   repeated string unique_ids = 2; // Unique IDs
 }
 
-// Broadcast to tags.
-message TagBroadcast {
-  optional string name   = 1; // Tag name
-  optional bool   prefix = 2; // If tag name is prefixed
+// Connection tags.
+message Tag {
+  required string product  = 1; // Product name
+  required string name     = 2; // Tag name
+  optional bool   prefixed = 3; // If tag name is prefixed
 }
 
 // Router package.
 message Package {
   // Target
   oneof target {
-    SessionCast  session = 1; // Forward to specified session IDs
-    TagBroadcast tag     = 2; // Broadcast to specified tags
+    Tag         tag  = 1; // Broadcast to specified tag(s)
+    Connections conn = 2; // Forward to specified connections
   }
 
-  required string sn    = 8; // Stream sn
-  repeated Post   posts = 9; // Messages
+  required string sn    = 8; // Package sn
+  repeated Post   posts = 9; // Message posts
 }

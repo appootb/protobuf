@@ -16,27 +16,23 @@ option php_namespace = "Appootb\\Proto\\Common";
 
 // Unique ID.
 message UniqueId {
-  oneof value {
-    uint64 id   = 1; // Uint64 ID
-    string uuid = 2; // UUID
-  }
+  required uint64 id = 1; // Unique ID
 }
 
 // Unique IDs.
 message UniqueIds {
-  repeated uint64 ids   = 1; // Uint64 IDs
-  repeated string uuids = 2; // UUIDs
+  repeated uint64 ids = 1; // Unique IDs
 }
 
-// Pagination request.
-message PaginationRequest {
+// Pagination ID request.
+message PaginationIdRequest {
   optional UniqueId target = 1; // Target ID
   required uint64   offset = 2; // Offset number
   required int32    count  = 3; // Count
 }
 
-// Pagination response.
-message PaginationResponse {
+// Pagination ID response.
+message PaginationIdResponse {
   required bool      more = 1; // If has more records
   required uint64    next = 2; // Offset number for next request
   required UniqueIds data = 3; // Response data

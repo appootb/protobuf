@@ -22,7 +22,7 @@ option php_namespace = "Appootb\\Proto\\Message";
 
 
 // Room server connect option.
-message RoomConnOption {
+message RoomServerOption {
   required string host   = 1; // Room server host name or ip address
   optional uint32 port   = 2 [default = 443];  // Room server port
   optional bool   secure = 3 [default = true]; // TLS supported
@@ -32,13 +32,11 @@ message RoomConnOption {
 // Room message service.
 service Room {
   // Get room connection server.
-  rpc Dispatch(appootb.common.UniqueId) returns (RoomConnOption) {
+  rpc Dispatch(appootb.common.UniqueId) returns (RoomServerOption) {
     option (appootb.permission.method.required) = CLIENT;
 
     option (google.api.http) = {
-      // TODO protoc-gen-grpc-gateway does NOT support oneof field
-      // get: "/message/room/{id}/server"
-      get: "/message/room/server"
+      get: "/message/room/{id}/server"
     };
   }
 
@@ -48,6 +46,16 @@ service Room {
 
     option (appootb.api.websocket) = {
       url: "/message/room"
+    };
+  }
+
+  // Send room message.
+  rpc Send(Post) returns (Postmark) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      post: "/message/room/send"
+      body: "*"
     };
   }
 }

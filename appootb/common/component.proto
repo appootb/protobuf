@@ -18,13 +18,33 @@ option php_namespace = "Appootb\\Proto\\Common";
 enum Component {
   COMPONENT_UNSPECIFIED = 0; // Unspecified
 
-  COMPONENT_CAPTCHA  = 1; // Captcha
-  COMPONENT_ACCOUNT  = 2; // Account
-  COMPONENT_STRAINER = 3; // Strainer
-  COMPONENT_COUNTER  = 4; // Counter
-  COMPONENT_RELATION = 5; // Relation
+  COMPONENT_CAPTCHA  = 1000; // Captcha
+  COMPONENT_ACCOUNT  = 2000; // Account
+  COMPONENT_STRAINER = 3000; // Strainer
+  COMPONENT_COUNTER  = 4000; // Counter
+  COMPONENT_RELATION = 5000; // Relation
 
-  COMPONENT_NOTIFICATION = 6; // Notification
-  COMPONENT_MESSAGE      = 7; // Message
-  COMPONENT_WALLET       = 8; // Wallet
+  COMPONENT_NOTIFICATION = 6000; // Notification
+  COMPONENT_MESSAGE      = 7000; // Message
+  COMPONENT_WALLET       = 8000; // Wallet
+}
+
+// Registered RPC inner services.
+enum InnerService {
+  INNER_SERVICE_UNSPECIFIED = 0; // Unspecified
+
+  //
+  // Inner services for captcha component.
+  INNER_SERVICE_CAPTCHA_CODE  = 1001; // Captcha code verify
+
+  //
+  // Inner services for account component.
+  INNER_SERVICE_ACCOUNT_SECRET = 2001; // Account token secret
+
+  //
+  // Inner services for message component.
+  INNER_SERVICE_MESSAGE_ROUTER  = 7001; // Message router
+  INNER_SERVICE_MESSAGE_SESSION = 7002; // Message session
+  INNER_SERVICE_MESSAGE_CHAT    = 7003; // Message chat
+  INNER_SERVICE_MESSAGE_ROOM    = 7004; // Message room
 }

@@ -34,7 +34,7 @@ var _ = utilities.NewDoubleArray
 var _ = descriptor.ForMessage
 
 func request_Follow_Add_0(ctx context.Context, marshaler runtime.Marshaler, client FollowClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq FollowRequest
+	var protoReq ApplyRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -52,15 +52,15 @@ func request_Follow_Add_0(ctx context.Context, marshaler runtime.Marshaler, clie
 		_   = err
 	)
 
-	val, ok = pathParams["target_id"]
+	val, ok = pathParams["target"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "target_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "target")
 	}
 
-	protoReq.TargetId, err = runtime.Uint64P(val)
+	protoReq.Target, err = runtime.Uint64P(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "target_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "target", err)
 	}
 
 	msg, err := client.Add(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -69,7 +69,7 @@ func request_Follow_Add_0(ctx context.Context, marshaler runtime.Marshaler, clie
 }
 
 func local_request_Follow_Add_0(ctx context.Context, marshaler runtime.Marshaler, server FollowServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq FollowRequest
+	var protoReq ApplyRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -87,15 +87,15 @@ func local_request_Follow_Add_0(ctx context.Context, marshaler runtime.Marshaler
 		_   = err
 	)
 
-	val, ok = pathParams["target_id"]
+	val, ok = pathParams["target"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "target_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "target")
 	}
 
-	protoReq.TargetId, err = runtime.Uint64P(val)
+	protoReq.Target, err = runtime.Uint64P(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "target_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "target", err)
 	}
 
 	msg, err := server.Add(ctx, &protoReq)
@@ -103,19 +103,26 @@ func local_request_Follow_Add_0(ctx context.Context, marshaler runtime.Marshaler
 
 }
 
-var (
-	filter_Follow_Cancel_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_Follow_Cancel_0(ctx context.Context, marshaler runtime.Marshaler, client FollowClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq common.UniqueId
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Follow_Cancel_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+
+	protoReq.Id, err = runtime.Uint64P(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 
 	msg, err := client.Cancel(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -127,11 +134,22 @@ func local_request_Follow_Cancel_0(ctx context.Context, marshaler runtime.Marsha
 	var protoReq common.UniqueId
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Follow_Cancel_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+
+	protoReq.Id, err = runtime.Uint64P(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 
 	msg, err := server.Cancel(ctx, &protoReq)
@@ -139,19 +157,26 @@ func local_request_Follow_Cancel_0(ctx context.Context, marshaler runtime.Marsha
 
 }
 
-var (
-	filter_Follow_GetFollowings_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_Follow_GetFollowings_0(ctx context.Context, marshaler runtime.Marshaler, client FollowClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq common.UniqueId
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Follow_GetFollowings_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+
+	protoReq.Id, err = runtime.Uint64P(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 
 	msg, err := client.GetFollowings(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -163,11 +188,22 @@ func local_request_Follow_GetFollowings_0(ctx context.Context, marshaler runtime
 	var protoReq common.UniqueId
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Follow_GetFollowings_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+
+	protoReq.Id, err = runtime.Uint64P(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 
 	msg, err := server.GetFollowings(ctx, &protoReq)
@@ -176,12 +212,30 @@ func local_request_Follow_GetFollowings_0(ctx context.Context, marshaler runtime
 }
 
 var (
-	filter_Follow_GetFollowers_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	filter_Follow_GetFollowers_0 = &utilities.DoubleArray{Encoding: map[string]int{"target": 0, "id": 1}, Base: []int{1, 1, 1, 0}, Check: []int{0, 1, 2, 3}}
 )
 
 func request_Follow_GetFollowers_0(ctx context.Context, marshaler runtime.Marshaler, client FollowClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq common.PaginationRequest
+	var protoReq common.PaginationIdRequest
 	var metadata runtime.ServerMetadata
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["target.id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "target.id")
+	}
+
+	protoReq.GetTarget().Id, err = runtime.Uint64P(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "target.id", err)
+	}
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -196,8 +250,26 @@ func request_Follow_GetFollowers_0(ctx context.Context, marshaler runtime.Marsha
 }
 
 func local_request_Follow_GetFollowers_0(ctx context.Context, marshaler runtime.Marshaler, server FollowServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq common.PaginationRequest
+	var protoReq common.PaginationIdRequest
 	var metadata runtime.ServerMetadata
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["target.id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "target.id")
+	}
+
+	protoReq.GetTarget().Id, err = runtime.Uint64P(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "target.id", err)
+	}
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -479,13 +551,13 @@ func RegisterFollowHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 }
 
 var (
-	pattern_Follow_Add_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"relation", "follow", "account", "target_id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Follow_Add_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"relation", "follow", "account", "target"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Follow_Cancel_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"relation", "follow", "account"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Follow_Cancel_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"relation", "follow", "account", "id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Follow_GetFollowings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"relation", "follow", "followings"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Follow_GetFollowings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"relation", "follow", "followings", "id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Follow_GetFollowers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"relation", "follow", "followers"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Follow_GetFollowers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"relation", "follow", "followers", "target.id"}, "", runtime.AssumeColonVerbOpt(true)))
 
 	pattern_Follow_GetFriends_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"relation", "follow", "friends"}, "", runtime.AssumeColonVerbOpt(true)))
 )

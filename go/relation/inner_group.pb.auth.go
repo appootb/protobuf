@@ -6,6 +6,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/appootb/protobuf/go/common"
 	"github.com/appootb/protobuf/go/permission"
 	"github.com/appootb/protobuf/go/service"
 	"github.com/appootb/protobuf/go/webstream"
@@ -24,7 +25,55 @@ var _ = websocket.UnknownFrame
 var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
-var _innerGroupServiceSubjects = map[string][]permission.Subject{}
+var _innerGroupServiceSubjects = map[string][]permission.Subject{
+	"/appootb.relation.InnerGroup/GetMembers": {
+		permission.Subject_SERVER,
+	},
+	"/appootb.relation.InnerGroup/IsMembers": {
+		permission.Subject_SERVER,
+	},
+}
+
+type wrapperInnerGroupServer struct {
+	InnerGroupServer
+	service.Implementor
+}
+
+func (w *wrapperInnerGroupServer) GetMembers(ctx context.Context, req *common.UniqueId) (*common.UniqueIds, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.InnerGroupServer.GetMembers(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.InnerGroupServer,
+		FullMethod: "/appootb.relation.InnerGroup/GetMembers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.InnerGroupServer.GetMembers(ctx, req.(*common.UniqueId))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*common.UniqueIds), nil
+}
+
+func (w *wrapperInnerGroupServer) IsMembers(ctx context.Context, req *StatusRequest) (*StatusResponse, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.InnerGroupServer.IsMembers(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.InnerGroupServer,
+		FullMethod: "/appootb.relation.InnerGroup/IsMembers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.InnerGroupServer.IsMembers(ctx, req.(*StatusRequest))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*StatusResponse), nil
+}
 
 // Register scoped server.
 func RegisterInnerGroupScopeServer(component string, auth service.Authenticator, impl service.Implementor, srv InnerGroupServer) error {
@@ -35,6 +84,17 @@ func RegisterInnerGroupScopeServer(component string, auth service.Authenticator,
 	for _, gRPC := range impl.GetGRPCServer(permission.VisibleScope_SERVER) {
 		RegisterInnerGroupServer(gRPC, srv)
 	}
-	// No gateway generated.
+	// Register scoped gateway handler server.
+	wrapper := wrapperInnerGroupServer{
+		InnerGroupServer: srv,
+		Implementor:      impl,
+	}
+	for _, mux := range impl.GetGatewayMux(permission.VisibleScope_SERVER) {
+		// Register gateway handler.
+		if err := RegisterInnerGroupHandlerServer(impl.Context(), mux, &wrapper); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }

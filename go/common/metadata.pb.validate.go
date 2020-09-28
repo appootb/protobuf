@@ -43,8 +43,6 @@ func (m *Metadata) Validate() error {
 		return nil
 	}
 
-	// no validation rules for Account
-
 	// no validation rules for Token
 
 	// no validation rules for Platform
@@ -67,6 +65,8 @@ func (m *Metadata) Validate() error {
 
 	// no validation rules for IsEmulator
 
+	// no validation rules for IsDebug
+
 	// no validation rules for Latitude
 
 	// no validation rules for Longitude
@@ -80,8 +80,6 @@ func (m *Metadata) Validate() error {
 	// no validation rules for Product
 
 	// no validation rules for TraceId
-
-	// no validation rules for IsDebug
 
 	return nil
 }

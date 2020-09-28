@@ -2,7 +2,6 @@ syntax = "proto2";
 
 package appootb.message;
 
-import "appootb/common/unique_id.proto";
 import "appootb/permission/service.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
@@ -35,11 +34,9 @@ service InnerChat {
   }
 
   // Kick the connection.
-  rpc Kick(appootb.common.UniqueId) returns (google.protobuf.Empty) {
+  rpc Kick(Connections) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      // TODO protoc-gen-grpc-gateway does NOT support oneof field
-      // delete: "/message/inner/chat/conn/{uuid}"
-      delete: "/message/inner/chat/conn"
+      delete: "/message/inner/chat/conn/{product}/{unique_ids}"
     };
   }
 }

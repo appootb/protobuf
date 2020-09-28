@@ -1,0 +1,92 @@
+syntax = "proto2";
+
+package appootb.counter;
+
+import "appootb/permission/service.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Counter";
+option go_package = "github.com/appootb/protobuf/go/counter";
+option java_multiple_files = true;
+option java_outer_classname = "InnerKeyProto";
+option java_package = "com.appootb.counter";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Counter";
+
+
+// Counter key.
+message Key {
+  required string product   = 1; // Counter product
+  required string type      = 2; // Counter type
+  required string relate_id = 3; // Counter relate ID
+  optional int64  value     = 4; // Counter value
+
+  optional google.protobuf.Duration expire = 5; // Key expiration, only valid when setting
+}
+
+// Multi keys.
+message Keys {
+  required string product = 1; // Counter product
+  required string type    = 2; // Counter type
+
+  repeated string    relate_ids = 3; // Counter relate IDs
+  map<string, int64> values     = 4; // Counter key values
+}
+
+
+// Inner counter service.
+service InnerKey {
+  // Visible for server side.
+  option (appootb.permission.service.visible) = SERVER;
+
+  // Increase counter value.
+  rpc Increase(Key) returns (Key) {
+    option (google.api.http) = {
+      put: "/counter/inner/key/{product}/{type}/{relate_id}"
+      body: "value"
+    };
+  }
+
+  // Multiple increase counter values.
+  rpc MultiIncrease(Keys) returns (Keys) {
+    option (google.api.http) = {
+      put: "/counter/inner/keys/{product}/{type}/{relate_ids}"
+      body: "*"
+    };
+  }
+
+  // Get counter value.
+  rpc Get(Key) returns (Key) {
+    option (google.api.http) = {
+      get: "/counter/inner/key/{product}/{type}/{relate_id}"
+    };
+  }
+
+  // Multi get counter values.
+  rpc Gets(Keys) returns (Keys) {
+    option (google.api.http) = {
+      get: "/counter/inner/keys/{product}/{type}/{relate_ids}"
+    };
+  }
+
+  // Set counter value.
+  rpc Set(Key) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/counter/inner/key/{product}/{type}/{relate_id}"
+      body: "*"
+    };
+  }
+
+  // Multi set counter values.
+  rpc Sets(Keys) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/counter/inner/keys/{product}/{type}"
+      body: "*"
+    };
+  }
+}

@@ -39,7 +39,7 @@ type wrapperInnerFollowServer struct {
 	service.Implementor
 }
 
-func (w *wrapperInnerFollowServer) IsFollowing(ctx context.Context, req *common.UniqueIds) (*FollowCheckResponse, error) {
+func (w *wrapperInnerFollowServer) IsFollowing(ctx context.Context, req *common.UniqueIds) (*StatusResponse, error) {
 	if w.UnaryInterceptor() == nil {
 		return w.InnerFollowServer.IsFollowing(ctx, req)
 	}
@@ -54,10 +54,10 @@ func (w *wrapperInnerFollowServer) IsFollowing(ctx context.Context, req *common.
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*FollowCheckResponse), nil
+	return resp.(*StatusResponse), nil
 }
 
-func (w *wrapperInnerFollowServer) IsFriends(ctx context.Context, req *common.UniqueIds) (*FollowCheckResponse, error) {
+func (w *wrapperInnerFollowServer) IsFriends(ctx context.Context, req *common.UniqueIds) (*StatusResponse, error) {
 	if w.UnaryInterceptor() == nil {
 		return w.InnerFollowServer.IsFriends(ctx, req)
 	}
@@ -72,7 +72,7 @@ func (w *wrapperInnerFollowServer) IsFriends(ctx context.Context, req *common.Un
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*FollowCheckResponse), nil
+	return resp.(*StatusResponse), nil
 }
 
 // Register scoped server.

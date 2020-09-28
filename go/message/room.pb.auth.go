@@ -38,6 +38,11 @@ var _roomServiceSubjects = map[string][]permission.Subject{
 		permission.Subject_PC,
 		permission.Subject_MOBILE,
 	},
+	"/appootb.message.Room/Send": {
+		permission.Subject_WEB,
+		permission.Subject_PC,
+		permission.Subject_MOBILE,
+	},
 }
 
 type wrapperRoomServer struct {
@@ -45,7 +50,7 @@ type wrapperRoomServer struct {
 	service.Implementor
 }
 
-func (w *wrapperRoomServer) Dispatch(ctx context.Context, req *common.UniqueId) (*RoomConnOption, error) {
+func (w *wrapperRoomServer) Dispatch(ctx context.Context, req *common.UniqueId) (*RoomServerOption, error) {
 	if w.UnaryInterceptor() == nil {
 		return w.RoomServer.Dispatch(ctx, req)
 	}
@@ -60,11 +65,29 @@ func (w *wrapperRoomServer) Dispatch(ctx context.Context, req *common.UniqueId) 
 	if err != nil {
 		return nil, err
 	}
-	return resp.(*RoomConnOption), nil
+	return resp.(*RoomServerOption), nil
 }
 
 func (w *wrapperRoomServer) Interact(srv Room_InteractServer) error {
 	return w.RoomServer.Interact(srv)
+}
+
+func (w *wrapperRoomServer) Send(ctx context.Context, req *Post) (*Postmark, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.RoomServer.Send(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.RoomServer,
+		FullMethod: "/appootb.message.Room/Send",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.RoomServer.Send(ctx, req.(*Post))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*Postmark), nil
 }
 
 // Register scoped server.

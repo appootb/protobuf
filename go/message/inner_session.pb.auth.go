@@ -9,6 +9,7 @@ import (
 	"github.com/appootb/protobuf/go/permission"
 	"github.com/appootb/protobuf/go/service"
 	"github.com/appootb/protobuf/go/webstream"
+	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/websocket"
 	"google.golang.org/grpc"
@@ -24,7 +25,76 @@ var _ = websocket.UnknownFrame
 var _ = permission.Subject_NONE
 var _ = service.UnaryServerInterceptor
 
-var _innerSessionServiceSubjects = map[string][]permission.Subject{}
+var _innerSessionServiceSubjects = map[string][]permission.Subject{
+	"/appootb.message.InnerSession/Close": {
+		permission.Subject_SERVER,
+	},
+	"/appootb.message.InnerSession/Gets": {
+		permission.Subject_SERVER,
+	},
+	"/appootb.message.InnerSession/Open": {
+		permission.Subject_SERVER,
+	},
+}
+
+type wrapperInnerSessionServer struct {
+	InnerSessionServer
+	service.Implementor
+}
+
+func (w *wrapperInnerSessionServer) Open(ctx context.Context, req *Session) (*Sessions, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.InnerSessionServer.Open(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.InnerSessionServer,
+		FullMethod: "/appootb.message.InnerSession/Open",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.InnerSessionServer.Open(ctx, req.(*Session))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*Sessions), nil
+}
+
+func (w *wrapperInnerSessionServer) Close(ctx context.Context, req *SessionId) (*empty.Empty, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.InnerSessionServer.Close(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.InnerSessionServer,
+		FullMethod: "/appootb.message.InnerSession/Close",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.InnerSessionServer.Close(ctx, req.(*SessionId))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*empty.Empty), nil
+}
+
+func (w *wrapperInnerSessionServer) Gets(ctx context.Context, req *SessionIds) (*Sessions, error) {
+	if w.UnaryInterceptor() == nil {
+		return w.InnerSessionServer.Gets(ctx, req)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w.InnerSessionServer,
+		FullMethod: "/appootb.message.InnerSession/Gets",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.InnerSessionServer.Gets(ctx, req.(*SessionIds))
+	}
+	resp, err := w.UnaryInterceptor()(ctx, req, info, handler)
+	if err != nil {
+		return nil, err
+	}
+	return resp.(*Sessions), nil
+}
 
 // Register scoped server.
 func RegisterInnerSessionScopeServer(component string, auth service.Authenticator, impl service.Implementor, srv InnerSessionServer) error {
@@ -35,6 +105,17 @@ func RegisterInnerSessionScopeServer(component string, auth service.Authenticato
 	for _, gRPC := range impl.GetGRPCServer(permission.VisibleScope_SERVER) {
 		RegisterInnerSessionServer(gRPC, srv)
 	}
-	// No gateway generated.
+	// Register scoped gateway handler server.
+	wrapper := wrapperInnerSessionServer{
+		InnerSessionServer: srv,
+		Implementor:        impl,
+	}
+	for _, mux := range impl.GetGatewayMux(permission.VisibleScope_SERVER) {
+		// Register gateway handler.
+		if err := RegisterInnerSessionHandlerServer(impl.Context(), mux, &wrapper); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }

@@ -1,0 +1,32 @@
+syntax = "proto2";
+
+package appootb.relation;
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Relation";
+option go_package = "github.com/appootb/protobuf/go/relation";
+option java_multiple_files = true;
+option java_outer_classname = "CommonProto";
+option java_package = "com.appootb.relation";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Relation";
+
+
+// Relation apply request.
+message ApplyRequest {
+  required uint64 target = 1; // Target ID, e.g. group ID, account ID or channel ID
+  optional string reason = 2; // Action reason
+}
+
+// Relation status request.
+message StatusRequest {
+  required uint64 target = 1; // Target ID
+  repeated uint64 ids    = 2; // Account IDs
+}
+
+// Relation status response.
+message StatusResponse {
+  map<uint64, bool> state = 1; // State map
+}

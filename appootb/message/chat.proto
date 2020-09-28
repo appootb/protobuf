@@ -4,6 +4,7 @@ package appootb.message;
 
 import "appootb/api/websocket.proto";
 import "appootb/permission/method.proto";
+import "google/api/annotations.proto";
 
 import "include.proto";
 
@@ -23,10 +24,20 @@ option php_namespace = "Appootb\\Proto\\Message";
 service Chat {
   // Chat streaming interaction.
   rpc Interact(stream Stream) returns (stream Stream) {
-    option (appootb.permission.method.required) = CLIENT;
+    option (appootb.permission.method.required) = LOGGED_IN;
 
     option (appootb.api.websocket) = {
       url: "/message/chat"
+    };
+  }
+
+  // Send chat message.
+  rpc Send(Post) returns (Postmark) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      post: "/message/chat/send"
+      body: "*"
     };
   }
 }

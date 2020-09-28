@@ -36,10 +36,10 @@ var (
 // define the regex for a UUID once up-front
 var _room_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
 
-// Validate checks the field values on RoomConnOption with the rules defined in
-// the proto definition for this message. If any rules are violated, an error
-// is returned.
-func (m *RoomConnOption) Validate() error {
+// Validate checks the field values on RoomServerOption with the rules defined
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
+func (m *RoomServerOption) Validate() error {
 	if m == nil {
 		return nil
 	}
@@ -53,9 +53,9 @@ func (m *RoomConnOption) Validate() error {
 	return nil
 }
 
-// RoomConnOptionValidationError is the validation error returned by
-// RoomConnOption.Validate if the designated constraints aren't met.
-type RoomConnOptionValidationError struct {
+// RoomServerOptionValidationError is the validation error returned by
+// RoomServerOption.Validate if the designated constraints aren't met.
+type RoomServerOptionValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -63,22 +63,22 @@ type RoomConnOptionValidationError struct {
 }
 
 // Field function returns field value.
-func (e RoomConnOptionValidationError) Field() string { return e.field }
+func (e RoomServerOptionValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e RoomConnOptionValidationError) Reason() string { return e.reason }
+func (e RoomServerOptionValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e RoomConnOptionValidationError) Cause() error { return e.cause }
+func (e RoomServerOptionValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e RoomConnOptionValidationError) Key() bool { return e.key }
+func (e RoomServerOptionValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e RoomConnOptionValidationError) ErrorName() string { return "RoomConnOptionValidationError" }
+func (e RoomServerOptionValidationError) ErrorName() string { return "RoomServerOptionValidationError" }
 
 // Error satisfies the builtin error interface
-func (e RoomConnOptionValidationError) Error() string {
+func (e RoomServerOptionValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -90,14 +90,14 @@ func (e RoomConnOptionValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sRoomConnOption.%s: %s%s",
+		"invalid %sRoomServerOption.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = RoomConnOptionValidationError{}
+var _ error = RoomServerOptionValidationError{}
 
 var _ interface {
 	Field() string
@@ -105,4 +105,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = RoomConnOptionValidationError{}
+} = RoomServerOptionValidationError{}

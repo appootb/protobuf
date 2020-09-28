@@ -40,20 +40,20 @@ enum Platform {
 
 // Request metadata.
 message Metadata {
-  required uint64 account = 1; // Account ID, app_id for server internal usage
-  optional string token   = 2; // Account token, empty for guest account
+  optional string token = 1; // Account token, empty for guest account
 
-  required Platform platform = 3; // Device platform, ios or android
-  optional Network  network  = 4; // Device network type, wifi or 4g
+  required Platform platform = 2; // Device platform, ios or android
+  optional Network  network  = 3; // Device network type, wifi or 4g
 
-  optional string package     = 5;  // Application package name
-  required string version     = 6;  // Application version
-  optional string os_version  = 7;  // Platform os version
-  optional string brand       = 8;  // Device brand or manufacturer
-  optional string model       = 9;  // Device model
-  required string device_id   = 10; // Device ID
-  required int64  timestamp   = 11; // Local device timestamp (in millisecond)
-  optional bool   is_emulator = 12 [default = true]; // If running in an emulator
+  optional string package     = 4;  // Application package name
+  required string version     = 5;  // Application version
+  optional string os_version  = 6;  // Platform os version
+  optional string brand       = 7;  // Device brand or manufacturer
+  optional string model       = 8;  // Device model
+  required string device_id   = 9;  // Device ID
+  required int64  timestamp   = 10; // Local device timestamp (in millisecond)
+  optional bool   is_emulator = 11 [default = true];  // If running in an emulator
+  optional bool   is_debug    = 12 [default = false]; // If running in debug mode
 
   optional string latitude  = 13; // Device location latitude
   optional string longitude = 14; // Device location longitude
@@ -63,5 +63,4 @@ message Metadata {
   optional string channel  = 17; // Distribution channel
   optional string product  = 18; // Product name
   optional string trace_id = 19; // Trace ID
-  optional bool   is_debug = 20 [default = false]; // If running in debug mode
 }

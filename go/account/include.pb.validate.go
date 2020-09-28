@@ -135,10 +135,20 @@ func (m *Info) Validate() error {
 		}
 	}
 
-	if v, ok := interface{}(m.GetCreateAt()).(interface{ Validate() error }); ok {
+	if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return InfoValidationError{
-				field:  "CreateAt",
+				field:  "CreatedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if v, ok := interface{}(m.GetUpdatedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InfoValidationError{
+				field:  "UpdatedAt",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

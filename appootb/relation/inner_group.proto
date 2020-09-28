@@ -5,7 +5,8 @@ package appootb.relation;
 import "appootb/common/unique_id.proto";
 import "appootb/permission/service.proto";
 import "google/api/annotations.proto";
-import "google/protobuf/empty.proto";
+
+import "include.proto";
 
 option cc_enable_arenas = true;
 option optimize_for = SPEED;
@@ -23,4 +24,18 @@ option php_namespace = "Appootb\\Proto\\Relation";
 service InnerGroup {
   // Visible for server side.
   option (appootb.permission.service.visible) = SERVER;
+
+  // Get group members.
+  rpc GetMembers(appootb.common.UniqueId) returns (appootb.common.UniqueIds) {
+    option (google.api.http) = {
+      get: "/relation/inner/group/{id}/members"
+    };
+  }
+
+  // Check is group members.
+  rpc IsMembers(StatusRequest) returns (StatusResponse) {
+    option (google.api.http) = {
+      get: "/relation/inner/group/{target}/is_members"
+    };
+  }
 }

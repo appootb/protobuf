@@ -2,10 +2,10 @@ syntax = "proto2";
 
 package appootb.relation;
 
-import "appootb/api/websocket.proto";
 import "appootb/common/unique_id.proto";
 import "appootb/permission/method.proto";
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 
 option cc_enable_arenas = true;
 option optimize_for = SPEED;
@@ -19,6 +19,65 @@ option objc_class_prefix = "CPB";
 option php_namespace = "Appootb\\Proto\\Relation";
 
 
+// Group info message type.
+message GroupInfo {
+  optional uint64 id      = 1; // Group ID
+  optional string name    = 2; // Group name
+  optional string notice  = 3; // Group notice
+  repeated uint64 members = 4; // Group members
+
+  optional google.protobuf.Timestamp created_at = 10; // Group created time
+  optional google.protobuf.Timestamp updated_at = 11; // Group updated time
+}
+
+
 // Group service.
 service Group {
+  // Create group.
+  rpc Create(GroupInfo) returns (GroupInfo) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      post: "/relation/group"
+      body: "*"
+    };
+  }
+
+  // Get group info.
+  rpc Get(appootb.common.UniqueId) returns (GroupInfo) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      get: "/relation/group/{id}"
+    };
+  }
+
+  // Update group info.
+  rpc Update(GroupInfo) returns (GroupInfo) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      patch: "/relation/group/{id}"
+      body: "*"
+    };
+  }
+
+  // Add group members.
+  rpc Add(appootb.common.UniqueIds) returns (GroupInfo) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      put: "/relation/group/members"
+      body: "*"
+    };
+  }
+
+  // Kick group member.
+  rpc Remove(appootb.common.UniqueId) returns (GroupInfo) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      delete: "/relation/group/members"
+    };
+  }
 }
