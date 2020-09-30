@@ -166,6 +166,136 @@ var _ interface {
 	ErrorName() string
 } = UniqueIdsValidationError{}
 
+// Validate checks the field values on UUID with the rules defined in the proto
+// definition for this message. If any rules are violated, an error is returned.
+func (m *UUID) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Uuid
+
+	return nil
+}
+
+// UUIDValidationError is the validation error returned by UUID.Validate if the
+// designated constraints aren't met.
+type UUIDValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UUIDValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UUIDValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UUIDValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UUIDValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UUIDValidationError) ErrorName() string { return "UUIDValidationError" }
+
+// Error satisfies the builtin error interface
+func (e UUIDValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUUID.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UUIDValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UUIDValidationError{}
+
+// Validate checks the field values on UUIDs with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *UUIDs) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	return nil
+}
+
+// UUIDsValidationError is the validation error returned by UUIDs.Validate if
+// the designated constraints aren't met.
+type UUIDsValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UUIDsValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UUIDsValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UUIDsValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UUIDsValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UUIDsValidationError) ErrorName() string { return "UUIDsValidationError" }
+
+// Error satisfies the builtin error interface
+func (e UUIDsValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUUIDs.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UUIDsValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UUIDsValidationError{}
+
 // Validate checks the field values on PaginationIdRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, an error is returned.

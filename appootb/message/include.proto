@@ -117,11 +117,9 @@ message ClientIds {
 enum PayloadType {
   PAYLOAD_TYPE_UNSPECIFIED = 0; // Unspecified
 
-  PAYLOAD_TYPE_PING     = 1; // Heartbeat ping
-  PAYLOAD_TYPE_PONG     = 2; // Heartbeat pong
-  PAYLOAD_TYPE_SYNC     = 3; // Sync messages (client -> server)
-  PAYLOAD_TYPE_MESSAGES = 4; // Message notify (server -> client)
-  PAYLOAD_TYPE_RECEIPTS = 5; // Message notify receipts (client -> server)
+  PAYLOAD_TYPE_SYNC     = 1; // Sync messages (client -> server)
+  PAYLOAD_TYPE_MESSAGES = 2; // Message notify (server -> client)
+  PAYLOAD_TYPE_RECEIPTS = 3; // Message notify receipts (client -> server)
 }
 
 // Message streaming.

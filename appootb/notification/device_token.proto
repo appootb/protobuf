@@ -1,0 +1,45 @@
+syntax = "proto2";
+
+package appootb.notification;
+
+import "appootb/permission/method.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Notification";
+option go_package = "github.com/appootb/protobuf/go/notification";
+option java_multiple_files = true;
+option java_outer_classname = "DeviceTokenProto";
+option java_package = "com.appootb.notification";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Notification";
+
+
+// Device category enums.
+enum Category {
+  CATEGORY_UNSPECIFIED = 0; // Unspecified
+
+  CATEGORY_APPLE = 1; // Apple APNs
+}
+
+// Unique device token.
+message UniqueToken {
+  required Category category = 1; // Device category
+  required string   value    = 2; // Token value
+}
+
+
+// Notification token service.
+service DeviceToken {
+  rpc Update(UniqueToken) returns (google.protobuf.Empty) {
+    option (appootb.permission.method.required) = LOGGED_IN;
+
+    option (google.api.http) = {
+      post: "/notification/device/token"
+      body: "*"
+    };
+  }
+}

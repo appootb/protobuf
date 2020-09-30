@@ -24,6 +24,16 @@ message UniqueIds {
   repeated uint64 ids = 1; // Unique IDs
 }
 
+// UUID.
+message UUID {
+  required string uuid = 1; // UUID
+}
+
+// UUIDs.
+message UUIDs {
+  repeated string uuids = 1; // UUIDs
+}
+
 // Pagination ID request.
 message PaginationIdRequest {
   optional UniqueId target = 1; // Target ID

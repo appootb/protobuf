@@ -1,0 +1,121 @@
+syntax = "proto2";
+
+package appootb.notification;
+
+import "appootb/common/unique_id.proto";
+import "appootb/permission/service.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Notification";
+option go_package = "github.com/appootb/protobuf/go/notification";
+option java_multiple_files = true;
+option java_outer_classname = "InnerNotifyProto";
+option java_package = "com.appootb.notification";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Notification";
+
+
+// Push type enums.
+enum PushType {
+  PUSH_TYPE_UNSPECIFIED = 0; // Unspecified
+
+  // For APNs
+  PUSH_TYPE_ALERT         = 1; // Alert
+  PUSH_TYPE_BACKGROUND    = 2; // Background
+  PUSH_TYPE_VOIP          = 3; // VOIP
+  PUSH_TYPE_COMPLICATION  = 4; // Complication
+  PUSH_TYPE_FILE_PROVIDER = 5; // File provider
+  PUSH_TYPE_FILE_MDM      = 6; // MDM
+}
+
+// Push priority enums.
+enum PushPriority {
+  PUSH_PRIORITY_UNSPECIFIED = 0; // Unspecified
+
+  PUSH_PRIORITY_LOW  = 1; // Low
+  PUSH_PRIORITY_HIGH = 2; // High
+}
+
+// String with localized arguments.
+message LocalizedString {
+  required string value = 1; // String value
+  optional string key   = 2; // Localized key
+  repeated string args  = 3; // Localized arguments
+}
+
+// Alert content.
+message Alert {
+  optional LocalizedString title    = 1; // Alert title
+  optional LocalizedString subtitle = 2; // Alert subtitle
+  optional LocalizedString body     = 3; // Alert body
+
+  optional string action       = 4; // User action
+  optional string launch_image = 5; // Launch image
+}
+
+// Custom sound type.
+message Sound {
+  optional bool   critical = 1 [default = true]; // Critical alert flag
+  optional string name     = 2; // The name of a sound file
+  optional int32  volume   = 3; // The volume for the alert’s sound, 0 - 10
+}
+
+// Notification payload.
+message Payload {
+  optional Alert  alert      = 1; // Alert content
+  optional int32  badge      = 2; // Badge number
+  optional string category   = 3; // The notification’s type
+  optional string thread_id  = 4; // An app-specific identifier for grouping related notifications
+  optional string content_id = 5; // The identifier of the window brought forward
+  optional bool   background = 6 [default = false]; // The background notification flag
+  optional bool   mutable    = 7 [default = false]; // The notification service app extension flag
+
+  // Sound
+  oneof sound {
+    string system = 8; // System sound name
+    Sound  custom = 9; // Custom sound
+  }
+}
+
+// Notification metadata.
+message Notification {
+  required string  product = 1; // Product name
+  required Payload payload = 2; // Notification payload
+
+  // Notification target
+  oneof target {
+    uint64 account = 3; // Account ID
+    string group   = 4; // Tag group name
+  }
+
+  optional PushType     type     = 5 [default = PUSH_TYPE_ALERT];    // Push type for the notification
+  optional PushPriority priority = 6 [default = PUSH_PRIORITY_HIGH]; // Notification priority
+
+  optional string uuid        = 7; // Canonical UUID that identifies the notification
+  optional string collapse_id = 8; // The same collapse identifier are displayed as a single notification
+
+  // If both expiration and expired_at are set,
+  // expiration will be ignored.
+  optional google.protobuf.Duration  expiration = 9;  // Valid duration for the notification
+  optional google.protobuf.Timestamp expired_at = 10; // Valid timestamp for the notification
+}
+
+
+// Inner notification service.
+service InnerNotify {
+  // Visible for server side.
+  option (appootb.permission.service.visible) = SERVER;
+
+  // Post add the notification into queue.
+  rpc Post(Notification) returns (appootb.common.UUID) {
+    option (google.api.http) = {
+      post: "/notification/inner/notify/queue"
+      body: "*"
+    };
+  }
+}
