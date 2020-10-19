@@ -60,7 +60,7 @@ func UnaryServerInterceptor(v Authenticator) grpc.UnaryServerInterceptor {
 			}
 			return nil, status.Errorf(codes.PermissionDenied, err.Error())
 		}
-		return handler(context.WithValue(context.WithValue(ctx, componentKey{}, v.ServiceComponentName(info.FullMethod)),
+		return handler(context.WithValue(ContextWithComponentName(ctx, v.ServiceComponentName(info.FullMethod)),
 			secretKey{}, secretInfo), req)
 	}
 }
@@ -99,8 +99,11 @@ type ctxWrapper struct {
 
 func (s *ctxWrapper) Context() context.Context {
 	ctx := s.ServerStream.Context()
-	return context.WithValue(context.WithValue(ctx, componentKey{}, s.component),
-		secretKey{}, s.secret)
+	return context.WithValue(ContextWithComponentName(ctx, s.component), secretKey{}, s.secret)
+}
+
+func ContextWithComponentName(ctx context.Context, component string) context.Context {
+	return context.WithValue(ctx, componentKey{}, component)
 }
 
 func ComponentNameFromContext(ctx context.Context) string {
