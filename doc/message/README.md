@@ -13,6 +13,9 @@
 * [Interact](chat.proto.md#interact) - Chat streaming interaction.
 
 
+* [Send (/message/chat/send)](chat.proto.md#send) - Send chat message.
+
+
 
 
 
@@ -25,7 +28,7 @@
 * [Deliver (/message/inner/chat/deliver)](inner_chat.proto.md#deliver) - Deliver message.
 
 
-* [Kick (/message/inner/chat/conn/{uuid})](inner_chat.proto.md#kick) - Kick the connection.
+* [Kick (/message/inner/chat/conn/{product}/{unique_ids})](inner_chat.proto.md#kick) - Kick the connection.
 
 
 
@@ -38,10 +41,18 @@
 
 
 
-## [InnerSession](inner_session.proto.md#innersession) - TODO
+## [InnerSession](inner_session.proto.md#innersession) - Inner session service.
 
->  TODO
 >  Inner session service.
+
+
+* [Open (/message/inner/session)](inner_session.proto.md#open) - Add user session.
+
+
+* [Close (/message/inner/session/{type}/{account}/{device_id})](inner_session.proto.md#close) - Close user session.
+
+
+* [Gets (/message/inner/sessions)](inner_session.proto.md#gets) - Get user sessions.
 
 
 
@@ -55,6 +66,9 @@
 
 
 * [Interact](room.proto.md#interact) - Room streaming interaction.
+
+
+* [Send (/message/room/send)](room.proto.md#send) - Send room message.
 
 
 

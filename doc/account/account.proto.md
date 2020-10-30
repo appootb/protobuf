@@ -45,8 +45,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|id|int64 (oneof value)|string| Uint64 ID|-|false|
-|uuid|string (oneof value)|string| UUID|-|false|
+|id|int64|string| Unique ID|-|true|
 
 
 
@@ -68,7 +67,8 @@
 |signs|string|string| Zodiac signs|-|false|
 |location|string|string| Location|-|false|
 |secret|[Secret](#secret)|object| Account secret info|-|false|
-|create_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Account created time|-|false|
+|created_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Account created time|-|false|
+|updated_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Account updated time|-|false|
 |extend|[Any](#any)|object| Account extend info|-|false|
 
 
@@ -88,7 +88,8 @@
   "secret": {
     "token": "string"
   },
-  "create_at": "1972-01-01T10:00:20.021Z",
+  "created_at": "1972-01-01T10:00:20.021Z",
+  "updated_at": "1972-01-01T10:00:20.021Z",
   "extend": {
     "type_url": "string",
     "value": "YmFzZTY0IHN0cmluZw=="
@@ -117,8 +118,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|ids|array [int64]|string| Uint64 IDs|-|false|
-|uuids|array [string]|string| UUIDs|-|false|
+|ids|array [int64]|string| Unique IDs|-|false|
 
 
 
@@ -152,7 +152,8 @@
       "secret": {
         "token": "string"
       },
-      "create_at": "1972-01-01T10:00:20.021Z",
+      "created_at": "1972-01-01T10:00:20.021Z",
+      "updated_at": "1972-01-01T10:00:20.021Z",
       "extend": {
         "type_url": "string",
         "value": "YmFzZTY0IHN0cmluZw=="
@@ -219,7 +220,8 @@
 |signs|string|string| Zodiac signs|-|false|
 |location|string|string| Location|-|false|
 |secret|[Secret](#secret)|object| Account secret info|-|false|
-|create_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Account created time|-|false|
+|created_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Account created time|-|false|
+|updated_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Account updated time|-|false|
 |extend|[Any](#any)|object| Account extend info|-|false|
 
 
@@ -239,7 +241,8 @@
   "secret": {
     "token": "string"
   },
-  "create_at": "1972-01-01T10:00:20.021Z",
+  "created_at": "1972-01-01T10:00:20.021Z",
+  "updated_at": "1972-01-01T10:00:20.021Z",
   "extend": {
     "type_url": "string",
     "value": "YmFzZTY0IHN0cmluZw=="
@@ -310,7 +313,8 @@
 |signs|string|string| Zodiac signs|-|false|
 |location|string|string| Location|-|false|
 |secret|[Secret](#secret)|object| Account secret info|-|false|
-|create_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Account created time|-|false|
+|created_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Account created time|-|false|
+|updated_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Account updated time|-|false|
 |extend|[Any](#any)|object| Account extend info|-|false|
 
 

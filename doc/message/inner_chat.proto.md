@@ -12,7 +12,7 @@
 	* [Deliver (/message/inner/chat/deliver)](#deliver) - Deliver message.
 
 
-	* [Kick (/message/inner/chat/conn/{uuid})](#kick) - Kick the connection.
+	* [Kick (/message/inner/chat/conn/{product}/{unique_ids})](#kick) - Kick the connection.
 
 
 
@@ -42,10 +42,10 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|session|[SessionCast](#sessioncast) (oneof target)|object| Forward to specified session IDs|-|false|
-|tag|[TagBroadcast](#tagbroadcast) (oneof target)|object| Broadcast to specified tags|-|false|
-|sn|string|string| Stream sn|-|true|
-|posts|array [[Post](#post)]|array| Messages|-|false|
+|tag|[Tag](#tag) (oneof target)|object| Broadcast to specified tag(s)|-|false|
+|conn|[Connections](#connections) (oneof target)|object| Forward to specified connections|-|false|
+|sn|string|string| Package sn|-|true|
+|posts|array [[Post](#post)]|array| Message posts|-|false|
 
 
 
@@ -54,15 +54,16 @@
 
 ```json
 {
-  "session": {
+  "tag": {
+    "product": "string",
+    "name": "string",
+    "prefixed": true
+  },
+  "conn": {
     "product": "string",
     "unique_ids": [
       "string"
     ]
-  },
-  "tag": {
-    "name": "string",
-    "prefix": true
   },
   "sn": "string",
   "posts": [
@@ -75,7 +76,7 @@
         "expire": "1.000340012s",
         "timestamp": "1972-01-01T10:00:20.021Z"
       },
-      "type": "TYPE_UNSPECIFIED (0) | TYPE_TEXT (1) | TYPE_AUDIO (2) | TYPE_STICKER (3) | TYPE_PHOTO (4) | TYPE_VIDEO (5) | TYPE_GIF (6) | TYPE_FILE (7) | TYPE_LOCATION (8) | TYPE_CONTACT (9) | TYPE_RECALL (10) | TYPE_DELIVERY (11) | TYPE_READ (12)",
+      "type": "TYPE_UNSPECIFIED (0) | TYPE_TEXT (1) | TYPE_AUDIO (2) | TYPE_STICKER (3) | TYPE_PHOTO (4) | TYPE_VIDEO (5) | TYPE_GIF (6) | TYPE_FILE (7) | TYPE_LOCATION (8) | TYPE_CONTACT (9) | TYPE_RECALL (10) | TYPE_READ (11)",
       "text": {
         "content": "string"
       },
@@ -128,18 +129,18 @@
 
 * HTTP Gateway
 
-	* URL: `/message/inner/chat/conn/{uuid}`
+	* URL: `/message/inner/chat/conn/{product}/{unique_ids}`
 	* Method: `DELETE`
 
 
-* Request Type: ***UniqueId***
+* Request Type: ***Connections***
 
->  Unique ID.
+>  Connections.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|id|int64 (oneof value)|string| Uint64 ID|-|false|
-|uuid|string (oneof value)|string| UUID|-|false|
+|product|string|string| Product name|-|true|
+|unique_ids|array [string]|string| Unique IDs|-|false|
 
 
 
@@ -216,14 +217,25 @@
 |TYPE_LOCATION|8| Location|
 |TYPE_CONTACT|9| Contact|
 |TYPE_RECALL|10| Recall|
-|TYPE_DELIVERY|11| Message delivery receipt|
-|TYPE_READ|12| Message read receipt|
+|TYPE_READ|11| Message read receipt|
 
 
 
 
 
 
+
+
+<h3 id="connections">Connections</h3>
+
+>  Connections.
+
+* Fields
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|product|string|string| Product name|-|true|
+|unique_ids|array [string]|string| Unique IDs|-|false|
 
 
 <h3 id="location">Location</h3>
@@ -281,28 +293,17 @@
 |timestamp|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Message timestamp|-|false|
 
 
-<h3 id="sessioncast">SessionCast</h3>
+<h3 id="tag">Tag</h3>
 
->  Forward to session IDs.
+>  Connection tags.
 
 * Fields
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
 |product|string|string| Product name|-|true|
-|unique_ids|array [string]|string| Unique IDs|-|false|
-
-
-<h3 id="tagbroadcast">TagBroadcast</h3>
-
->  Broadcast to tags.
-
-* Fields
-
-|Field|proto type|JSON type|Comment|Default|Required|
-|---|---|---|---|---|---|
-|name|string|string| Tag name|-|false|
-|prefix|bool|true, false| If tag name is prefixed|-|false|
+|name|string|string| Tag name|-|true|
+|prefixed|bool|true, false| If tag name is prefixed|-|false|
 
 
 <h3 id="text">Text</h3>

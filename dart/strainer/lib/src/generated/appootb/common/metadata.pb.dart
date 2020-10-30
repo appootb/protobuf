@@ -10,23 +10,24 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'platform.pbenum.dart' as $0;
-import 'network.pbenum.dart' as $1;
+import 'metadata.pbenum.dart';
+
+export 'metadata.pbenum.dart';
 
 class Metadata extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Metadata', package: const $pb.PackageName('appootb.common'), createEmptyInstance: create)
-    ..a<$fixnum.Int64>(1, 'account', $pb.PbFieldType.QU6, defaultOrMaker: $fixnum.Int64.ZERO)
-    ..aOS(2, 'token')
-    ..e<$0.Platform>(3, 'platform', $pb.PbFieldType.QE, defaultOrMaker: $0.Platform.PLATFORM_UNSPECIFIED, valueOf: $0.Platform.valueOf, enumValues: $0.Platform.values)
-    ..e<$1.Network>(4, 'network', $pb.PbFieldType.OE, defaultOrMaker: $1.Network.NETWORK_UNSPECIFIED, valueOf: $1.Network.valueOf, enumValues: $1.Network.values)
-    ..aOS(5, 'package')
-    ..aQS(6, 'version')
-    ..aOS(7, 'osVersion')
-    ..aOS(8, 'brand')
-    ..aOS(9, 'model')
-    ..aQS(10, 'deviceId')
-    ..a<$fixnum.Int64>(11, 'timestamp', $pb.PbFieldType.Q6, defaultOrMaker: $fixnum.Int64.ZERO)
-    ..a<$core.bool>(12, 'isEmulator', $pb.PbFieldType.OB, defaultOrMaker: true)
+    ..aOS(1, 'token')
+    ..e<Platform>(2, 'platform', $pb.PbFieldType.QE, defaultOrMaker: Platform.PLATFORM_UNSPECIFIED, valueOf: Platform.valueOf, enumValues: Platform.values)
+    ..e<Network>(3, 'network', $pb.PbFieldType.OE, defaultOrMaker: Network.NETWORK_UNSPECIFIED, valueOf: Network.valueOf, enumValues: Network.values)
+    ..aOS(4, 'package')
+    ..aQS(5, 'version')
+    ..aOS(6, 'osVersion')
+    ..aOS(7, 'brand')
+    ..aOS(8, 'model')
+    ..aQS(9, 'deviceId')
+    ..a<$fixnum.Int64>(10, 'timestamp', $pb.PbFieldType.Q6, defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.bool>(11, 'isEmulator', $pb.PbFieldType.OB, defaultOrMaker: true)
+    ..aOB(12, 'isDebug')
     ..aOS(13, 'latitude')
     ..aOS(14, 'longitude')
     ..aOS(15, 'locale')
@@ -34,7 +35,6 @@ class Metadata extends $pb.GeneratedMessage {
     ..aOS(17, 'channel')
     ..aOS(18, 'product')
     ..aOS(19, 'traceId')
-    ..aOB(20, 'isDebug')
   ;
 
   Metadata._() : super();
@@ -53,112 +53,112 @@ class Metadata extends $pb.GeneratedMessage {
   static Metadata _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get account => $_getI64(0);
+  $core.String get token => $_getSZ(0);
   @$pb.TagNumber(1)
-  set account($fixnum.Int64 v) { $_setInt64(0, v); }
+  set token($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasAccount() => $_has(0);
+  $core.bool hasToken() => $_has(0);
   @$pb.TagNumber(1)
-  void clearAccount() => clearField(1);
+  void clearToken() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get token => $_getSZ(1);
+  Platform get platform => $_getN(1);
   @$pb.TagNumber(2)
-  set token($core.String v) { $_setString(1, v); }
+  set platform(Platform v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasToken() => $_has(1);
+  $core.bool hasPlatform() => $_has(1);
   @$pb.TagNumber(2)
-  void clearToken() => clearField(2);
+  void clearPlatform() => clearField(2);
 
   @$pb.TagNumber(3)
-  $0.Platform get platform => $_getN(2);
+  Network get network => $_getN(2);
   @$pb.TagNumber(3)
-  set platform($0.Platform v) { setField(3, v); }
+  set network(Network v) { setField(3, v); }
   @$pb.TagNumber(3)
-  $core.bool hasPlatform() => $_has(2);
+  $core.bool hasNetwork() => $_has(2);
   @$pb.TagNumber(3)
-  void clearPlatform() => clearField(3);
+  void clearNetwork() => clearField(3);
 
   @$pb.TagNumber(4)
-  $1.Network get network => $_getN(3);
+  $core.String get package => $_getSZ(3);
   @$pb.TagNumber(4)
-  set network($1.Network v) { setField(4, v); }
+  set package($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasNetwork() => $_has(3);
+  $core.bool hasPackage() => $_has(3);
   @$pb.TagNumber(4)
-  void clearNetwork() => clearField(4);
+  void clearPackage() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.String get package => $_getSZ(4);
+  $core.String get version => $_getSZ(4);
   @$pb.TagNumber(5)
-  set package($core.String v) { $_setString(4, v); }
+  set version($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasPackage() => $_has(4);
+  $core.bool hasVersion() => $_has(4);
   @$pb.TagNumber(5)
-  void clearPackage() => clearField(5);
+  void clearVersion() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.String get version => $_getSZ(5);
+  $core.String get osVersion => $_getSZ(5);
   @$pb.TagNumber(6)
-  set version($core.String v) { $_setString(5, v); }
+  set osVersion($core.String v) { $_setString(5, v); }
   @$pb.TagNumber(6)
-  $core.bool hasVersion() => $_has(5);
+  $core.bool hasOsVersion() => $_has(5);
   @$pb.TagNumber(6)
-  void clearVersion() => clearField(6);
+  void clearOsVersion() => clearField(6);
 
   @$pb.TagNumber(7)
-  $core.String get osVersion => $_getSZ(6);
+  $core.String get brand => $_getSZ(6);
   @$pb.TagNumber(7)
-  set osVersion($core.String v) { $_setString(6, v); }
+  set brand($core.String v) { $_setString(6, v); }
   @$pb.TagNumber(7)
-  $core.bool hasOsVersion() => $_has(6);
+  $core.bool hasBrand() => $_has(6);
   @$pb.TagNumber(7)
-  void clearOsVersion() => clearField(7);
+  void clearBrand() => clearField(7);
 
   @$pb.TagNumber(8)
-  $core.String get brand => $_getSZ(7);
+  $core.String get model => $_getSZ(7);
   @$pb.TagNumber(8)
-  set brand($core.String v) { $_setString(7, v); }
+  set model($core.String v) { $_setString(7, v); }
   @$pb.TagNumber(8)
-  $core.bool hasBrand() => $_has(7);
+  $core.bool hasModel() => $_has(7);
   @$pb.TagNumber(8)
-  void clearBrand() => clearField(8);
+  void clearModel() => clearField(8);
 
   @$pb.TagNumber(9)
-  $core.String get model => $_getSZ(8);
+  $core.String get deviceId => $_getSZ(8);
   @$pb.TagNumber(9)
-  set model($core.String v) { $_setString(8, v); }
+  set deviceId($core.String v) { $_setString(8, v); }
   @$pb.TagNumber(9)
-  $core.bool hasModel() => $_has(8);
+  $core.bool hasDeviceId() => $_has(8);
   @$pb.TagNumber(9)
-  void clearModel() => clearField(9);
+  void clearDeviceId() => clearField(9);
 
   @$pb.TagNumber(10)
-  $core.String get deviceId => $_getSZ(9);
+  $fixnum.Int64 get timestamp => $_getI64(9);
   @$pb.TagNumber(10)
-  set deviceId($core.String v) { $_setString(9, v); }
+  set timestamp($fixnum.Int64 v) { $_setInt64(9, v); }
   @$pb.TagNumber(10)
-  $core.bool hasDeviceId() => $_has(9);
+  $core.bool hasTimestamp() => $_has(9);
   @$pb.TagNumber(10)
-  void clearDeviceId() => clearField(10);
+  void clearTimestamp() => clearField(10);
 
   @$pb.TagNumber(11)
-  $fixnum.Int64 get timestamp => $_getI64(10);
+  $core.bool get isEmulator => $_getB(10, true);
   @$pb.TagNumber(11)
-  set timestamp($fixnum.Int64 v) { $_setInt64(10, v); }
+  set isEmulator($core.bool v) { $_setBool(10, v); }
   @$pb.TagNumber(11)
-  $core.bool hasTimestamp() => $_has(10);
+  $core.bool hasIsEmulator() => $_has(10);
   @$pb.TagNumber(11)
-  void clearTimestamp() => clearField(11);
+  void clearIsEmulator() => clearField(11);
 
   @$pb.TagNumber(12)
-  $core.bool get isEmulator => $_getB(11, true);
+  $core.bool get isDebug => $_getBF(11);
   @$pb.TagNumber(12)
-  set isEmulator($core.bool v) { $_setBool(11, v); }
+  set isDebug($core.bool v) { $_setBool(11, v); }
   @$pb.TagNumber(12)
-  $core.bool hasIsEmulator() => $_has(11);
+  $core.bool hasIsDebug() => $_has(11);
   @$pb.TagNumber(12)
-  void clearIsEmulator() => clearField(12);
+  void clearIsDebug() => clearField(12);
 
   @$pb.TagNumber(13)
   $core.String get latitude => $_getSZ(12);
@@ -222,14 +222,5 @@ class Metadata extends $pb.GeneratedMessage {
   $core.bool hasTraceId() => $_has(18);
   @$pb.TagNumber(19)
   void clearTraceId() => clearField(19);
-
-  @$pb.TagNumber(20)
-  $core.bool get isDebug => $_getBF(19);
-  @$pb.TagNumber(20)
-  set isDebug($core.bool v) { $_setBool(19, v); }
-  @$pb.TagNumber(20)
-  $core.bool hasIsDebug() => $_has(19);
-  @$pb.TagNumber(20)
-  void clearIsDebug() => clearField(20);
 }
 

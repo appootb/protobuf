@@ -58,7 +58,8 @@ class Info extends $pb.GeneratedMessage {
     ..aOS(7, 'signs')
     ..aOS(8, 'location')
     ..aOM<Secret>(9, 'secret', subBuilder: Secret.create)
-    ..aOM<$0.Timestamp>(98, 'createAt', subBuilder: $0.Timestamp.create)
+    ..aOM<$0.Timestamp>(97, 'createdAt', subBuilder: $0.Timestamp.create)
+    ..aOM<$0.Timestamp>(98, 'updatedAt', subBuilder: $0.Timestamp.create)
     ..aOM<$1.Any>(99, 'extend', subBuilder: $1.Any.create)
   ;
 
@@ -160,27 +161,38 @@ class Info extends $pb.GeneratedMessage {
   @$pb.TagNumber(9)
   Secret ensureSecret() => $_ensure(8);
 
+  @$pb.TagNumber(97)
+  $0.Timestamp get createdAt => $_getN(9);
+  @$pb.TagNumber(97)
+  set createdAt($0.Timestamp v) { setField(97, v); }
+  @$pb.TagNumber(97)
+  $core.bool hasCreatedAt() => $_has(9);
+  @$pb.TagNumber(97)
+  void clearCreatedAt() => clearField(97);
+  @$pb.TagNumber(97)
+  $0.Timestamp ensureCreatedAt() => $_ensure(9);
+
   @$pb.TagNumber(98)
-  $0.Timestamp get createAt => $_getN(9);
+  $0.Timestamp get updatedAt => $_getN(10);
   @$pb.TagNumber(98)
-  set createAt($0.Timestamp v) { setField(98, v); }
+  set updatedAt($0.Timestamp v) { setField(98, v); }
   @$pb.TagNumber(98)
-  $core.bool hasCreateAt() => $_has(9);
+  $core.bool hasUpdatedAt() => $_has(10);
   @$pb.TagNumber(98)
-  void clearCreateAt() => clearField(98);
+  void clearUpdatedAt() => clearField(98);
   @$pb.TagNumber(98)
-  $0.Timestamp ensureCreateAt() => $_ensure(9);
+  $0.Timestamp ensureUpdatedAt() => $_ensure(10);
 
   @$pb.TagNumber(99)
-  $1.Any get extend => $_getN(10);
+  $1.Any get extend => $_getN(11);
   @$pb.TagNumber(99)
   set extend($1.Any v) { setField(99, v); }
   @$pb.TagNumber(99)
-  $core.bool hasExtend() => $_has(10);
+  $core.bool hasExtend() => $_has(11);
   @$pb.TagNumber(99)
   void clearExtend() => clearField(99);
   @$pb.TagNumber(99)
-  $1.Any ensureExtend() => $_ensure(10);
+  $1.Any ensureExtend() => $_ensure(11);
 }
 
 class Infos extends $pb.GeneratedMessage {

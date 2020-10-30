@@ -6,7 +6,16 @@
 > APIs
 
 
-* [InnerSession](#innersession) - TODO
+* [InnerSession](#innersession) - Inner session service.
+
+
+	* [Open (/message/inner/session)](#open) - Add user session.
+
+
+	* [Close (/message/inner/session/{type}/{account}/{device_id})](#close) - Close user session.
+
+
+	* [Gets (/message/inner/sessions)](#gets) - Get user sessions.
 
 
 
@@ -14,8 +23,240 @@
 
 <h2 id="innersession">InnerSession</h2>
 
->  TODO
 >  Inner session service.
+
+
+
+<h3 id="open">Open</h3>
+
+>  Add user session.
+
+
+
+* HTTP Gateway
+
+	* URL: `/message/inner/session`
+	* Method: `POST`
+	* Content-Type: `application/json`
+
+* Request Type: ***Session***
+
+>  Account session.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|type|enum [SessionType](#sessiontype)|string/integer| Session type|-|true|
+|entry|string|string| RPC entry address|-|true|
+|metadata|[Metadata](#metadata)|object| Metadata|-|true|
+|created_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Login timestamp|-|true|
+
+
+
+
+> JSON Demo
+
+```json
+{
+  "type": "SESSION_TYPE_UNSPECIFIED (0) | SESSION_TYPE_CHAT (1) | SESSION_TYPE_ROOM (2)",
+  "entry": "string",
+  "metadata": {
+    "token": "string",
+    "platform": "PLATFORM_UNSPECIFIED (0) | PLATFORM_H5 (1) | PLATFORM_BROWSER (2) | PLATFORM_CHROME (4) | PLATFORM_WEB (7) | PLATFORM_LINUX (16) | PLATFORM_WINDOWS (32) | PLATFORM_DARWIN (64) | PLATFORM_PC (112) | PLATFORM_ANDROID (256) | PLATFORM_IOS (512) | PLATFORM_MOBILE (768) | PLATFORM_SERVER (4096)",
+    "network": "NETWORK_UNSPECIFIED (0) | NETWORK_ETHERNET (1) | NETWORK_WIFI (2) | NETWORK_CELLULAR (3)",
+    "package": "string",
+    "version": "string",
+    "os_version": "string",
+    "brand": "string",
+    "model": "string",
+    "device_id": "string",
+    "timestamp": "string($int64)",
+    "is_emulator": true,
+    "is_debug": true,
+    "latitude": "string",
+    "longitude": "string",
+    "locale": "string",
+    "client_ip": "string",
+    "channel": "string",
+    "product": "string",
+    "trace_id": "string"
+  },
+  "created_at": "1972-01-01T10:00:20.021Z"
+}
+```
+
+
+
+* Response Type: ***Sessions***
+
+>  Account sessions.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|sessions|array [[Session](#session)]|array| Account sessions|-|false|
+
+
+
+> JSON Demo
+
+```json
+{
+  "sessions": [
+    {
+      "type": "SESSION_TYPE_UNSPECIFIED (0) | SESSION_TYPE_CHAT (1) | SESSION_TYPE_ROOM (2)",
+      "entry": "string",
+      "metadata": {
+        "token": "string",
+        "platform": "PLATFORM_UNSPECIFIED (0) | PLATFORM_H5 (1) | PLATFORM_BROWSER (2) | PLATFORM_CHROME (4) | PLATFORM_WEB (7) | PLATFORM_LINUX (16) | PLATFORM_WINDOWS (32) | PLATFORM_DARWIN (64) | PLATFORM_PC (112) | PLATFORM_ANDROID (256) | PLATFORM_IOS (512) | PLATFORM_MOBILE (768) | PLATFORM_SERVER (4096)",
+        "network": "NETWORK_UNSPECIFIED (0) | NETWORK_ETHERNET (1) | NETWORK_WIFI (2) | NETWORK_CELLULAR (3)",
+        "package": "string",
+        "version": "string",
+        "os_version": "string",
+        "brand": "string",
+        "model": "string",
+        "device_id": "string",
+        "timestamp": "string($int64)",
+        "is_emulator": true,
+        "is_debug": true,
+        "latitude": "string",
+        "longitude": "string",
+        "locale": "string",
+        "client_ip": "string",
+        "channel": "string",
+        "product": "string",
+        "trace_id": "string"
+      },
+      "created_at": "1972-01-01T10:00:20.021Z"
+    }
+  ]
+}
+```
+
+
+
+
+<h3 id="close">Close</h3>
+
+>  Close user session.
+
+
+
+* HTTP Gateway
+
+	* URL: `/message/inner/session/{type}/{account}/{device_id}`
+	* Method: `DELETE`
+
+
+* Request Type: ***SessionId***
+
+>  Account session ID.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|type|enum [SessionType](#sessiontype)|string/integer| Session type|-|true|
+|account|int64|string| Account ID|-|true|
+|device_id|string|string| Account device ID|-|false|
+
+
+
+
+
+
+* Response Type: ***Empty***
+
+>  A generic empty message that you can re-use to avoid defining duplicated
+>  empty messages in your APIs. A typical example is to use it as the request
+>  or the response type of an API method. For instance:
+> 
+>      service Foo {
+>        rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
+>      }
+> 
+>  The JSON representation for `Empty` is empty JSON object `{}`.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+
+
+
+> JSON Demo
+
+```json
+{}
+```
+
+
+
+
+<h3 id="gets">Gets</h3>
+
+>  Get user sessions.
+
+
+
+* HTTP Gateway
+
+	* URL: `/message/inner/sessions`
+	* Method: `GET`
+
+
+* Request Type: ***SessionIds***
+
+>  Account session IDs.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|ids|array [[SessionId](#sessionid)]|array| Session IDs|-|false|
+
+
+
+
+
+
+* Response Type: ***Sessions***
+
+>  Account sessions.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|sessions|array [[Session](#session)]|array| Account sessions|-|false|
+
+
+
+> JSON Demo
+
+```json
+{
+  "sessions": [
+    {
+      "type": "SESSION_TYPE_UNSPECIFIED (0) | SESSION_TYPE_CHAT (1) | SESSION_TYPE_ROOM (2)",
+      "entry": "string",
+      "metadata": {
+        "token": "string",
+        "platform": "PLATFORM_UNSPECIFIED (0) | PLATFORM_H5 (1) | PLATFORM_BROWSER (2) | PLATFORM_CHROME (4) | PLATFORM_WEB (7) | PLATFORM_LINUX (16) | PLATFORM_WINDOWS (32) | PLATFORM_DARWIN (64) | PLATFORM_PC (112) | PLATFORM_ANDROID (256) | PLATFORM_IOS (512) | PLATFORM_MOBILE (768) | PLATFORM_SERVER (4096)",
+        "network": "NETWORK_UNSPECIFIED (0) | NETWORK_ETHERNET (1) | NETWORK_WIFI (2) | NETWORK_CELLULAR (3)",
+        "package": "string",
+        "version": "string",
+        "os_version": "string",
+        "brand": "string",
+        "model": "string",
+        "device_id": "string",
+        "timestamp": "string($int64)",
+        "is_emulator": true,
+        "is_debug": true,
+        "latitude": "string",
+        "longitude": "string",
+        "locale": "string",
+        "client_ip": "string",
+        "channel": "string",
+        "product": "string",
+        "trace_id": "string"
+      },
+      "created_at": "1972-01-01T10:00:20.021Z"
+    }
+  ]
+}
+```
+
 
 
 
@@ -29,10 +270,209 @@
 
 
 
+<h3 id="network">Network</h3>
+
+>  Network enums.
+
+* Enum
+
+|Name (string)|Value (integer)|Comment|
+|---|---|---|
+|NETWORK_UNSPECIFIED|0| Unspecified|
+|NETWORK_ETHERNET|1| Ethernet|
+|NETWORK_WIFI|2| Wifi|
+|NETWORK_CELLULAR|3| Cellular|
+
+
+<h3 id="platform">Platform</h3>
+
+>  Platform enum type.
+
+* Enum
+
+|Name (string)|Value (integer)|Comment|
+|---|---|---|
+|PLATFORM_UNSPECIFIED|0| Unspecified|
+|PLATFORM_H5|1| H5|
+|PLATFORM_BROWSER|2| Browser|
+|PLATFORM_CHROME|4| ChromeOS|
+|PLATFORM_WEB|7| WEB，H5 | Browser | ChromeOS|
+|PLATFORM_LINUX|16| Linux|
+|PLATFORM_WINDOWS|32| Windows|
+|PLATFORM_DARWIN|64| MacOS|
+|PLATFORM_PC|112| PC, Linux | Windows | MacOS|
+|PLATFORM_ANDROID|256| Android|
+|PLATFORM_IOS|512| iOS|
+|PLATFORM_MOBILE|768| Mobile, Android | iOS|
+|PLATFORM_SERVER|4096| Internal server|
+
+
+<h3 id="sessiontype">SessionType</h3>
+
+>  Account session type.
+
+* Enum
+
+|Name (string)|Value (integer)|Comment|
+|---|---|---|
+|SESSION_TYPE_UNSPECIFIED|0| Unspecified|
+|SESSION_TYPE_CHAT|1| Chat session|
+|SESSION_TYPE_ROOM|2| Room session|
 
 
 
 
+
+
+
+
+<h3 id="metadata">Metadata</h3>
+
+>  Request metadata.
+
+* Fields
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|token|string|string| Account token, empty for guest account|-|false|
+|platform|enum [Platform](#platform)|string/integer| Device platform, ios or android|-|true|
+|network|enum [Network](#network)|string/integer| Device network type, wifi or 4g|-|false|
+|package|string|string| Application package name|-|false|
+|version|string|string| Application version|-|true|
+|os_version|string|string| Platform os version|-|false|
+|brand|string|string| Device brand or manufacturer|-|false|
+|model|string|string| Device model|-|false|
+|device_id|string|string| Device ID|-|true|
+|timestamp|int64|string| Local device timestamp (in millisecond)|-|true|
+|is_emulator|bool|true, false| If running in an emulator|true|false|
+|is_debug|bool|true, false| If running in debug mode|false|false|
+|latitude|string|string| Device location latitude|-|false|
+|longitude|string|string| Device location longitude|-|false|
+|locale|string|string| Device locale|-|false|
+|client_ip|string|string| Client IP|-|false|
+|channel|string|string| Distribution channel|-|false|
+|product|string|string| Product name|-|false|
+|trace_id|string|string| Trace ID|-|false|
+
+
+<h3 id="session">Session</h3>
+
+>  Account session.
+
+* Fields
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|type|enum [SessionType](#sessiontype)|string/integer| Session type|-|true|
+|entry|string|string| RPC entry address|-|true|
+|metadata|[Metadata](#metadata)|object| Metadata|-|true|
+|created_at|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Login timestamp|-|true|
+
+
+<h3 id="sessionid">SessionId</h3>
+
+>  Account session ID.
+
+* Fields
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|type|enum [SessionType](#sessiontype)|string/integer| Session type|-|true|
+|account|int64|string| Account ID|-|true|
+|device_id|string|string| Account device ID|-|false|
+
+
+<h3 id="timestamp">Timestamp</h3>
+
+>  A Timestamp represents a point in time independent of any time zone or local
+>  calendar, encoded as a count of seconds and fractions of seconds at
+>  nanosecond resolution. The count is relative to an epoch at UTC midnight on
+>  January 1, 1970, in the proleptic Gregorian calendar which extends the
+>  Gregorian calendar backwards to year one.
+> 
+>  All minutes are 60 seconds long. Leap seconds are "smeared" so that no leap
+>  second table is needed for interpretation, using a [24-hour linear
+>  smear](https://developers.google.com/time/smear).
+> 
+>  The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By
+>  restricting to that range, we ensure that we can convert to and from [RFC
+>  3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.
+> 
+>  # Examples
+> 
+>  Example 1: Compute Timestamp from POSIX `time()`.
+> 
+>      Timestamp timestamp;
+>      timestamp.set_seconds(time(NULL));
+>      timestamp.set_nanos(0);
+> 
+>  Example 2: Compute Timestamp from POSIX `gettimeofday()`.
+> 
+>      struct timeval tv;
+>      gettimeofday(&tv, NULL);
+> 
+>      Timestamp timestamp;
+>      timestamp.set_seconds(tv.tv_sec);
+>      timestamp.set_nanos(tv.tv_usec * 1000);
+> 
+>  Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.
+> 
+>      FILETIME ft;
+>      GetSystemTimeAsFileTime(&ft);
+>      UINT64 ticks = (((UINT64)ft.dwHighDateTime) << 32) | ft.dwLowDateTime;
+> 
+>      // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z
+>      // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.
+>      Timestamp timestamp;
+>      timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));
+>      timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));
+> 
+>  Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.
+> 
+>      long millis = System.currentTimeMillis();
+> 
+>      Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)
+>          .setNanos((int) ((millis % 1000) * 1000000)).build();
+> 
+> 
+>  Example 5: Compute Timestamp from current time in Python.
+> 
+>      timestamp = Timestamp()
+>      timestamp.GetCurrentTime()
+> 
+>  # JSON Mapping
+> 
+>  In JSON format, the Timestamp type is encoded as a string in the
+>  [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the
+>  format is "{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z"
+>  where {year} is always expressed using four digits while {month}, {day},
+>  {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional
+>  seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),
+>  are optional. The "Z" suffix indicates the timezone ("UTC"); the timezone
+>  is required. A proto3 JSON serializer should always use UTC (as indicated by
+>  "Z") when printing the Timestamp type and a proto3 JSON parser should be
+>  able to accept both UTC and other timezones (as indicated by an offset).
+> 
+>  For example, "2017-01-15T01:30:15.01Z" encodes 15.01 seconds past
+>  01:30 UTC on January 15, 2017.
+> 
+>  In JavaScript, one can convert a Date object to this format using the
+>  standard
+>  [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
+>  method. In Python, a standard `datetime.datetime` object can be converted
+>  to this format using
+>  [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with
+>  the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use
+>  the Joda Time's [`ISODateTimeFormat.dateTime()`](
+>  http://www.joda.org/joda-time/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime%2D%2D
+>  ) to obtain a formatter capable of generating timestamps in this format.
+
+* Fields
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|seconds|int64|string| Represents seconds of UTC time since Unix epoch<br> 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to<br> 9999-12-31T23:59:59Z inclusive.|-|false|
+|nanos|int|number/string| Non-negative fractions of a second at nanosecond resolution. Negative<br> second values with fractions must still have non-negative nanos values<br> that count forward in time. Must be from 0 to 999,999,999<br> inclusive.|-|false|
 
 
 

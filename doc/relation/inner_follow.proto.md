@@ -9,10 +9,10 @@
 * [InnerFollow](#innerfollow) - Inner follow service.
 
 
-	* [IsFollowing (/relation/inner/follow/is_following)](#isfollowing) - Check following.
+	* [IsFollowing (/relation/inner/follow/is_following/{ids})](#isfollowing) - Check following.
 
 
-	* [IsFriends (/relation/inner/follow/is_friends)](#isfriends) - Check friends.
+	* [IsFriends (/relation/inner/follow/is_friends/{ids})](#isfriends) - Check friends.
 
 
 
@@ -32,9 +32,9 @@
 
 * HTTP Gateway
 
-	* URL: `/relation/inner/follow/is_following`
-	* Method: `POST`
-	* Content-Type: `application/json`
+	* URL: `/relation/inner/follow/is_following/{ids}`
+	* Method: `GET`
+
 
 * Request Type: ***UniqueIds***
 
@@ -42,34 +42,20 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|ids|array [int64]|string| Uint64 IDs|-|false|
-|uuids|array [string]|string| UUIDs|-|false|
+|ids|array [int64]|string| Unique IDs|-|false|
 
 
 
 
-> JSON Demo
-
-```json
-{
-  "ids": [
-    "string($int64)"
-  ],
-  "uuids": [
-    "string"
-  ]
-}
-```
 
 
+* Response Type: ***StatusResponse***
 
-* Response Type: ***FollowCheckResponse***
-
->  Follow check operation response.
+>  Relation status response.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|fm|map\<int64, bool\>|object|***TODO***|-|false|
+|state|map\<int64, bool\>|object| State map|-|false|
 
 
 
@@ -77,7 +63,7 @@
 
 ```json
 {
-  "fm": {
+  "state": {
     "string($int64)": true
   }
 }
@@ -94,9 +80,9 @@
 
 * HTTP Gateway
 
-	* URL: `/relation/inner/follow/is_friends`
-	* Method: `POST`
-	* Content-Type: `application/json`
+	* URL: `/relation/inner/follow/is_friends/{ids}`
+	* Method: `GET`
+
 
 * Request Type: ***UniqueIds***
 
@@ -104,34 +90,20 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|ids|array [int64]|string| Uint64 IDs|-|false|
-|uuids|array [string]|string| UUIDs|-|false|
+|ids|array [int64]|string| Unique IDs|-|false|
 
 
 
 
-> JSON Demo
-
-```json
-{
-  "ids": [
-    "string($int64)"
-  ],
-  "uuids": [
-    "string"
-  ]
-}
-```
 
 
+* Response Type: ***StatusResponse***
 
-* Response Type: ***FollowCheckResponse***
-
->  Follow check operation response.
+>  Relation status response.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|fm|map\<int64, bool\>|object|***TODO***|-|false|
+|state|map\<int64, bool\>|object| State map|-|false|
 
 
 
@@ -139,7 +111,7 @@
 
 ```json
 {
-  "fm": {
+  "state": {
     "string($int64)": true
   }
 }

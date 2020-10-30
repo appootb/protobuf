@@ -42,8 +42,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|id|int64 (oneof value)|string| Uint64 ID|-|false|
-|uuid|string (oneof value)|string| UUID|-|false|
+|id|int64|string| Unique ID|-|true|
 
 
 
@@ -52,8 +51,7 @@
 
 ```json
 {
-  "id": "string($int64)",
-  "uuid": "string"
+  "id": "string($int64)"
 }
 ```
 
@@ -103,8 +101,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|id|int64 (oneof value)|string| Uint64 ID|-|false|
-|uuid|string (oneof value)|string| UUID|-|false|
+|id|int64|string| Unique ID|-|true|
 
 
 

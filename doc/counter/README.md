@@ -5,69 +5,55 @@
 
 
 
-## [InnerHashField](inner_hash_field.proto.md#innerhashfield) - Inner hash field counter service.
+## [InnerHash](inner_hash.proto.md#innerhash) - Inner hash counter service.
 
->  Inner hash field counter service.
-
-
-* [Increase (/counter/inner/hash_field/{product}/{type}/{relate_id}/{field})](inner_hash_field.proto.md#increase) - Increase hash field value.
+>  Inner hash counter service.
 
 
-* [Get (/counter/inner/hash_field/{product}/{type}/{relate_id}/{field})](inner_hash_field.proto.md#get) - Get hash field counter value.
+* [Increase (/counter/inner/hash/field/{product}/{type}/{relate_id}/{field})](inner_hash.proto.md#increase) - Increase hash field value.
 
 
-* [Set (/counter/inner/hash_field/{product}/{type}/{relate_id}/{field})](inner_hash_field.proto.md#set) - Set hash field counter value.
+* [MultiIncrease (/counter/inner/hash/fields/{product}/{type}/{relate_id})](inner_hash.proto.md#multiincrease) - Multiple increase hash fields values.
 
 
+* [Get (/counter/inner/hash/field/{product}/{type}/{relate_id}/{field})](inner_hash.proto.md#get) - Get hash field counter value.
 
 
-## [InnerHashFields](inner_hash_fields.proto.md#innerhashfields) - Inner hash fields counter service.
-
->  Inner hash fields counter service.
+* [Gets (/counter/inner/hash/fields/{product}/{type}/{relate_id}/{fields})](inner_hash.proto.md#gets) - Get hash fields counter values.
 
 
-* [Increase (/counter/inner/hash_fields/{product}/{type}/{relate_id})](inner_hash_fields.proto.md#increase) - Increase hash fields values.
+* [Set (/counter/inner/hash/field/{product}/{type}/{relate_id}/{field})](inner_hash.proto.md#set) - Set hash field counter value.
 
 
-* [Get (/counter/inner/hash_fields/{product}/{type}/{relate_id}/{fields})](inner_hash_fields.proto.md#get) - Get hash fields values.
+* [Sets (/counter/inner/hash/fields/{product}/{type}/{relate_id})](inner_hash.proto.md#sets) - Set hash fields counter values.
 
 
-* [Set (/counter/inner/hash_fields/{product}/{type}/{relate_id})](inner_hash_fields.proto.md#set) - Set hash fields values.
-
-
-* [Gets (/counter/inner/hash/{product}/{type}/{relate_ids})](inner_hash_fields.proto.md#gets) - Get hash keys.
+* [MultiGets (/counter/inner/hash/keys/{product}/{type}/{relate_ids})](inner_hash.proto.md#multigets) - Get hash keys.
 
 
 
 
-## [InnerMulti](inner_multi.proto.md#innermulti) - Inner multi counter service.
+## [InnerKey](inner_key.proto.md#innerkey) - Inner counter service.
 
->  Inner multi counter service.
-
-
-* [Get (/counter/inner/multi/{product}/{type}/{relate_ids})](inner_multi.proto.md#get) - Multi get counter values.
+>  Inner counter service.
 
 
-* [Set (/counter/inner/multi/{product}/{type})](inner_multi.proto.md#set) - Multi set counter values.
+* [Increase (/counter/inner/key/{product}/{type}/{relate_id})](inner_key.proto.md#increase) - Increase counter value.
 
 
-* [Mix (/counter/inner/multi/{product}/{types}/{relate_ids})](inner_multi.proto.md#mix) - Mix gets counter values.
+* [MultiIncrease (/counter/inner/keys/{product}/{type}/{relate_ids})](inner_key.proto.md#multiincrease) - Multiple increase counter values.
 
 
+* [Get (/counter/inner/key/{product}/{type}/{relate_id})](inner_key.proto.md#get) - Get counter value.
 
 
-## [InnerSingle](inner_single.proto.md#innersingle) - Inner single counter service.
-
->  Inner single counter service.
+* [Gets (/counter/inner/keys/{product}/{type}/{relate_ids})](inner_key.proto.md#gets) - Multi get counter values.
 
 
-* [Increase (/counter/inner/single/{product}/{type}/{relate_id})](inner_single.proto.md#increase) - Increase counter value.
+* [Set (/counter/inner/key/{product}/{type}/{relate_id})](inner_key.proto.md#set) - Set counter value.
 
 
-* [Get (/counter/inner/single/{product}/{type}/{relate_id})](inner_single.proto.md#get) - Get counter value.
-
-
-* [Set (/counter/inner/single/{product}/{type}/{relate_id})](inner_single.proto.md#set) - Set counter value.
+* [Sets (/counter/inner/keys/{product}/{type})](inner_key.proto.md#sets) - Multi set counter values.
 
 
 

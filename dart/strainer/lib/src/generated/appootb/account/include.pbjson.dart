@@ -55,7 +55,8 @@ const Info$json = const {
     const {'1': 'signs', '3': 7, '4': 1, '5': 9, '10': 'signs'},
     const {'1': 'location', '3': 8, '4': 1, '5': 9, '10': 'location'},
     const {'1': 'secret', '3': 9, '4': 1, '5': 11, '6': '.appootb.account.Secret', '10': 'secret'},
-    const {'1': 'create_at', '3': 98, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createAt'},
+    const {'1': 'created_at', '3': 97, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
+    const {'1': 'updated_at', '3': 98, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'updatedAt'},
     const {'1': 'extend', '3': 99, '4': 1, '5': 11, '6': '.google.protobuf.Any', '10': 'extend'},
   ],
 };

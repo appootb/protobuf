@@ -18,12 +18,25 @@
 
 
 
+## [Channel](channel.proto.md#channel) - Channel service.
+
+>  Channel service.
+
+
+* [Add (/relation/channel/{target})](channel.proto.md#add) - Follow channel.
+
+
+* [Cancel (/relation/channel/{id})](channel.proto.md#cancel) - Unfollow channel.
+
+
+
+
 ## [Follow](follow.proto.md#follow) - Follow service.
 
 >  Follow service.
 
 
-* [Add (/relation/follow/account/{target_id})](follow.proto.md#add) - Add follow.
+* [Add (/relation/follow/account/{target})](follow.proto.md#add) - Add follow.
 
 
 * [Cancel (/relation/follow/account/{id})](follow.proto.md#cancel) - Cancel follow.
@@ -45,6 +58,23 @@
 >  Group service.
 
 
+* [Create (/relation/group)](group.proto.md#create) - Create group.
+
+
+* [Get (/relation/group/{id})](group.proto.md#get) - Get group info.
+
+
+* [Update (/relation/group/{id})](group.proto.md#update) - Update group info.
+
+
+* [Add (/relation/group/members)](group.proto.md#add) - Add group members.
+
+
+* [Remove (/relation/group/members)](group.proto.md#remove) - Kick group member.
+
+
+
+
 
 
 ## [InnerFollow](inner_follow.proto.md#innerfollow) - Inner follow service.
@@ -52,10 +82,10 @@
 >  Inner follow service.
 
 
-* [IsFollowing (/relation/inner/follow/is_following)](inner_follow.proto.md#isfollowing) - Check following.
+* [IsFollowing (/relation/inner/follow/is_following/{ids})](inner_follow.proto.md#isfollowing) - Check following.
 
 
-* [IsFriends (/relation/inner/follow/is_friends)](inner_follow.proto.md#isfriends) - Check friends.
+* [IsFriends (/relation/inner/follow/is_friends/{ids})](inner_follow.proto.md#isfriends) - Check friends.
 
 
 
@@ -63,6 +93,12 @@
 ## [InnerGroup](inner_group.proto.md#innergroup) - Inner group service.
 
 >  Inner group service.
+
+
+* [GetMembers (/relation/inner/group/{id}/members)](inner_group.proto.md#getmembers) - Get group members.
+
+
+* [IsMembers (/relation/inner/group/{target}/is_members)](inner_group.proto.md#ismembers) - Check is group members.
 
 
 

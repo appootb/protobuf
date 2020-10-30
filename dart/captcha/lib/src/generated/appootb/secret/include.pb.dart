@@ -13,7 +13,7 @@ import 'package:protobuf/protobuf.dart' as $pb;
 import '../../google/protobuf/timestamp.pb.dart' as $0;
 
 import 'include.pbenum.dart';
-import '../permission/method.pbenum.dart' as $2;
+import '../permission/method.pbenum.dart' as $3;
 
 export 'include.pbenum.dart';
 
@@ -25,7 +25,7 @@ class Info extends $pb.GeneratedMessage {
     ..a<$fixnum.Int64>(4, 'account', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
     ..aInt64(5, 'keyId')
     ..pPS(6, 'roles')
-    ..e<$2.Subject>(11, 'subject', $pb.PbFieldType.OE, defaultOrMaker: $2.Subject.NONE, valueOf: $2.Subject.valueOf, enumValues: $2.Subject.values)
+    ..e<$3.Subject>(11, 'subject', $pb.PbFieldType.OE, defaultOrMaker: $3.Subject.NONE, valueOf: $3.Subject.valueOf, enumValues: $3.Subject.values)
     ..aOM<$0.Timestamp>(21, 'issuedAt', subBuilder: $0.Timestamp.create)
     ..aOM<$0.Timestamp>(22, 'expiredAt', subBuilder: $0.Timestamp.create)
     ..hasRequiredFields = false
@@ -95,9 +95,9 @@ class Info extends $pb.GeneratedMessage {
   $core.List<$core.String> get roles => $_getList(5);
 
   @$pb.TagNumber(11)
-  $2.Subject get subject => $_getN(6);
+  $3.Subject get subject => $_getN(6);
   @$pb.TagNumber(11)
-  set subject($2.Subject v) { setField(11, v); }
+  set subject($3.Subject v) { setField(11, v); }
   @$pb.TagNumber(11)
   $core.bool hasSubject() => $_has(6);
   @$pb.TagNumber(11)

@@ -9,7 +9,7 @@
 * [Follow](#follow) - Follow service.
 
 
-	* [Add (/relation/follow/account/{target_id})](#add) - Add follow.
+	* [Add (/relation/follow/account/{target})](#add) - Add follow.
 
 
 	* [Cancel (/relation/follow/account/{id})](#cancel) - Cancel follow.
@@ -41,17 +41,17 @@
 
 * HTTP Gateway
 
-	* URL: `/relation/follow/account/{target_id}`
+	* URL: `/relation/follow/account/{target}`
 	* Method: `POST`
 	* Content-Type: `application/json`
 
-* Request Type: ***FollowRequest***
+* Request Type: ***ApplyRequest***
 
->  Add follow request.
+>  Relation apply request.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|target_id|int64|string| Target account ID|-|true|
+|target|int64|string| Target ID, e.g. group ID, account ID or channel ID|-|true|
 |reason|string|string| Action reason|-|false|
 
 
@@ -61,7 +61,7 @@
 
 ```json
 {
-  "target_id": "string($int64)",
+  "target": "string($int64)",
   "reason": "string"
 }
 ```
@@ -112,8 +112,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|id|int64 (oneof value)|string| Uint64 ID|-|false|
-|uuid|string (oneof value)|string| UUID|-|false|
+|id|int64|string| Unique ID|-|true|
 
 
 
@@ -164,8 +163,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|id|int64 (oneof value)|string| Uint64 ID|-|false|
-|uuid|string (oneof value)|string| UUID|-|false|
+|id|int64|string| Unique ID|-|true|
 
 
 
@@ -178,8 +176,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|ids|array [int64]|string| Uint64 IDs|-|false|
-|uuids|array [string]|string| UUIDs|-|false|
+|ids|array [int64]|string| Unique IDs|-|false|
 
 
 
@@ -189,9 +186,6 @@
 {
   "ids": [
     "string($int64)"
-  ],
-  "uuids": [
-    "string"
   ]
 }
 ```
@@ -211,9 +205,9 @@
 	* Method: `GET`
 
 
-* Request Type: ***PaginationRequest***
+* Request Type: ***PaginationIdRequest***
 
->  Pagination request.
+>  Pagination ID request.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
@@ -226,9 +220,9 @@
 
 
 
-* Response Type: ***PaginationResponse***
+* Response Type: ***PaginationIdResponse***
 
->  Pagination response.
+>  Pagination ID response.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
@@ -247,9 +241,6 @@
   "data": {
     "ids": [
       "string($int64)"
-    ],
-    "uuids": [
-      "string"
     ]
   }
 }
@@ -296,8 +287,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|ids|array [int64]|string| Uint64 IDs|-|false|
-|uuids|array [string]|string| UUIDs|-|false|
+|ids|array [int64]|string| Unique IDs|-|false|
 
 
 
@@ -307,9 +297,6 @@
 {
   "ids": [
     "string($int64)"
-  ],
-  "uuids": [
-    "string"
   ]
 }
 ```
@@ -341,8 +328,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|id|int64 (oneof value)|string| Uint64 ID|-|false|
-|uuid|string (oneof value)|string| UUID|-|false|
+|id|int64|string| Unique ID|-|true|
 
 
 <h3 id="uniqueids">UniqueIds</h3>
@@ -353,8 +339,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|ids|array [int64]|string| Uint64 IDs|-|false|
-|uuids|array [string]|string| UUIDs|-|false|
+|ids|array [int64]|string| Unique IDs|-|false|
 
 
 

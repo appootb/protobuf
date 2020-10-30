@@ -9,12 +9,115 @@
 * [InnerGroup](#innergroup) - Inner group service.
 
 
+	* [GetMembers (/relation/inner/group/{id}/members)](#getmembers) - Get group members.
+
+
+	* [IsMembers (/relation/inner/group/{target}/is_members)](#ismembers) - Check is group members.
+
+
 
 
 
 <h2 id="innergroup">InnerGroup</h2>
 
 >  Inner group service.
+
+
+
+<h3 id="getmembers">GetMembers</h3>
+
+>  Get group members.
+
+
+
+* HTTP Gateway
+
+	* URL: `/relation/inner/group/{id}/members`
+	* Method: `GET`
+
+
+* Request Type: ***UniqueId***
+
+>  Unique ID.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|id|int64|string| Unique ID|-|true|
+
+
+
+
+
+
+* Response Type: ***UniqueIds***
+
+>  Unique IDs.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|ids|array [int64]|string| Unique IDs|-|false|
+
+
+
+> JSON Demo
+
+```json
+{
+  "ids": [
+    "string($int64)"
+  ]
+}
+```
+
+
+
+
+<h3 id="ismembers">IsMembers</h3>
+
+>  Check is group members.
+
+
+
+* HTTP Gateway
+
+	* URL: `/relation/inner/group/{target}/is_members`
+	* Method: `GET`
+
+
+* Request Type: ***StatusRequest***
+
+>  Relation status request.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|target|int64|string| Target ID|-|true|
+|ids|array [int64]|string| Account IDs|-|false|
+
+
+
+
+
+
+* Response Type: ***StatusResponse***
+
+>  Relation status response.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|state|map\<int64, bool\>|object| State map|-|false|
+
+
+
+> JSON Demo
+
+```json
+{
+  "state": {
+    "string($int64)": true
+  }
+}
+```
+
 
 
 

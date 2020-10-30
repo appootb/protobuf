@@ -15,6 +15,9 @@
 	* [Interact](#interact) - Room streaming interaction.
 
 
+	* [Send (/message/room/send)](#send) - Send room message.
+
+
 
 
 
@@ -42,15 +45,14 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
-|id|int64 (oneof value)|string| Uint64 ID|-|false|
-|uuid|string (oneof value)|string| UUID|-|false|
+|id|int64|string| Unique ID|-|true|
 
 
 
 
 
 
-* Response Type: ***RoomConnOption***
+* Response Type: ***RoomServerOption***
 
 >  Room server connect option.
 
@@ -89,15 +91,15 @@
 
 * Request Type: ***Stream***
 
->  Message stream message.
+>  Message streaming.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
 |sn|string|string| Stream SN|-|true|
+|target|int64|string| Target ID, e.g. room ID for room streaming|-|false|
 |type|enum [PayloadType](#payloadtype)|string/integer| Stream payload type|-|true|
-|message|[Post](#post) (oneof payload)|object| Upstream message request (type: PAYLOAD_TYPE_MESSAGE)|-|false|
-|postmark|[Postmark](#postmark) (oneof payload)|object| Downstream message response (type: PAYLOAD_TYPE_MESSAGE_ACK)|-|false|
-|posts|[Postbox](#postbox) (oneof payload)|object| Downstream message notify (type: PAYLOAD_TYPE_POSTS)|-|false|
+|local|[ClientIds](#clientids) (oneof payload)|object| Upstream sync message request (type: PAYLOAD_TYPE_SYNC)|-|false|
+|postbox|[Postbox](#postbox) (oneof payload)|object| Downstream message notify (type: PAYLOAD_TYPE_MESSAGES)|-|false|
 |receipts|[Receipts](#receipts) (oneof payload)|object| Upstream receipts (type: PAYLOAD_TYPE_RECEIPTS)|-|false|
 
 
@@ -108,38 +110,17 @@
 ```json
 {
   "sn": "string",
-  "type": "PAYLOAD_TYPE_UNSPECIFIED (0) | PAYLOAD_TYPE_PING (1) | PAYLOAD_TYPE_PONG (2) | PAYLOAD_TYPE_MESSAGE (3) | PAYLOAD_TYPE_MESSAGE_ACK (4) | PAYLOAD_TYPE_POSTS (5) | PAYLOAD_TYPE_RECEIPTS (6)",
-  "message": {
-    "postmark": {
-      "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
-      "sender": "string($int64)",
-      "receiver": "string($int64)",
-      "unique_id": "string($int64)",
-      "expire": "1.000340012s",
-      "timestamp": "1972-01-01T10:00:20.021Z"
-    },
-    "type": "TYPE_UNSPECIFIED (0) | TYPE_TEXT (1) | TYPE_AUDIO (2) | TYPE_STICKER (3) | TYPE_PHOTO (4) | TYPE_VIDEO (5) | TYPE_GIF (6) | TYPE_FILE (7) | TYPE_LOCATION (8) | TYPE_CONTACT (9) | TYPE_RECALL (10) | TYPE_DELIVERY (11) | TYPE_READ (12)",
-    "text": {
-      "content": "string"
-    },
-    "resource": {
-      "url": "string",
-      "thumbnail": "string"
-    },
-    "coordinate": {
-      "latitude": 3.1415926,
-      "longitude": 3.1415926
-    }
+  "target": "string($int64)",
+  "type": "PAYLOAD_TYPE_UNSPECIFIED (0) | PAYLOAD_TYPE_SYNC (1) | PAYLOAD_TYPE_MESSAGES (2) | PAYLOAD_TYPE_RECEIPTS (3)",
+  "local": {
+    "ids": [
+      {
+        "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
+        "last_id": "string($int64)"
+      }
+    ]
   },
-  "postmark": {
-    "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
-    "sender": "string($int64)",
-    "receiver": "string($int64)",
-    "unique_id": "string($int64)",
-    "expire": "1.000340012s",
-    "timestamp": "1972-01-01T10:00:20.021Z"
-  },
-  "posts": {
+  "postbox": {
     "posts": [
       {
         "postmark": {
@@ -150,7 +131,7 @@
           "expire": "1.000340012s",
           "timestamp": "1972-01-01T10:00:20.021Z"
         },
-        "type": "TYPE_UNSPECIFIED (0) | TYPE_TEXT (1) | TYPE_AUDIO (2) | TYPE_STICKER (3) | TYPE_PHOTO (4) | TYPE_VIDEO (5) | TYPE_GIF (6) | TYPE_FILE (7) | TYPE_LOCATION (8) | TYPE_CONTACT (9) | TYPE_RECALL (10) | TYPE_DELIVERY (11) | TYPE_READ (12)",
+        "type": "TYPE_UNSPECIFIED (0) | TYPE_TEXT (1) | TYPE_AUDIO (2) | TYPE_STICKER (3) | TYPE_PHOTO (4) | TYPE_VIDEO (5) | TYPE_GIF (6) | TYPE_FILE (7) | TYPE_LOCATION (8) | TYPE_CONTACT (9) | TYPE_RECALL (10) | TYPE_READ (11)",
         "text": {
           "content": "string"
         },
@@ -166,6 +147,12 @@
     ]
   },
   "receipts": {
+    "local_ids": [
+      {
+        "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
+        "last_id": "string($int64)"
+      }
+    ],
     "postmarks": [
       {
         "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
@@ -184,15 +171,15 @@
 
 * Response Type: ***Stream***
 
->  Message stream message.
+>  Message streaming.
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
 |sn|string|string| Stream SN|-|true|
+|target|int64|string| Target ID, e.g. room ID for room streaming|-|false|
 |type|enum [PayloadType](#payloadtype)|string/integer| Stream payload type|-|true|
-|message|[Post](#post) (oneof payload)|object| Upstream message request (type: PAYLOAD_TYPE_MESSAGE)|-|false|
-|postmark|[Postmark](#postmark) (oneof payload)|object| Downstream message response (type: PAYLOAD_TYPE_MESSAGE_ACK)|-|false|
-|posts|[Postbox](#postbox) (oneof payload)|object| Downstream message notify (type: PAYLOAD_TYPE_POSTS)|-|false|
+|local|[ClientIds](#clientids) (oneof payload)|object| Upstream sync message request (type: PAYLOAD_TYPE_SYNC)|-|false|
+|postbox|[Postbox](#postbox) (oneof payload)|object| Downstream message notify (type: PAYLOAD_TYPE_MESSAGES)|-|false|
 |receipts|[Receipts](#receipts) (oneof payload)|object| Upstream receipts (type: PAYLOAD_TYPE_RECEIPTS)|-|false|
 
 
@@ -202,38 +189,17 @@
 ```json
 {
   "sn": "string",
-  "type": "PAYLOAD_TYPE_UNSPECIFIED (0) | PAYLOAD_TYPE_PING (1) | PAYLOAD_TYPE_PONG (2) | PAYLOAD_TYPE_MESSAGE (3) | PAYLOAD_TYPE_MESSAGE_ACK (4) | PAYLOAD_TYPE_POSTS (5) | PAYLOAD_TYPE_RECEIPTS (6)",
-  "message": {
-    "postmark": {
-      "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
-      "sender": "string($int64)",
-      "receiver": "string($int64)",
-      "unique_id": "string($int64)",
-      "expire": "1.000340012s",
-      "timestamp": "1972-01-01T10:00:20.021Z"
-    },
-    "type": "TYPE_UNSPECIFIED (0) | TYPE_TEXT (1) | TYPE_AUDIO (2) | TYPE_STICKER (3) | TYPE_PHOTO (4) | TYPE_VIDEO (5) | TYPE_GIF (6) | TYPE_FILE (7) | TYPE_LOCATION (8) | TYPE_CONTACT (9) | TYPE_RECALL (10) | TYPE_DELIVERY (11) | TYPE_READ (12)",
-    "text": {
-      "content": "string"
-    },
-    "resource": {
-      "url": "string",
-      "thumbnail": "string"
-    },
-    "coordinate": {
-      "latitude": 3.1415926,
-      "longitude": 3.1415926
-    }
+  "target": "string($int64)",
+  "type": "PAYLOAD_TYPE_UNSPECIFIED (0) | PAYLOAD_TYPE_SYNC (1) | PAYLOAD_TYPE_MESSAGES (2) | PAYLOAD_TYPE_RECEIPTS (3)",
+  "local": {
+    "ids": [
+      {
+        "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
+        "last_id": "string($int64)"
+      }
+    ]
   },
-  "postmark": {
-    "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
-    "sender": "string($int64)",
-    "receiver": "string($int64)",
-    "unique_id": "string($int64)",
-    "expire": "1.000340012s",
-    "timestamp": "1972-01-01T10:00:20.021Z"
-  },
-  "posts": {
+  "postbox": {
     "posts": [
       {
         "postmark": {
@@ -244,7 +210,7 @@
           "expire": "1.000340012s",
           "timestamp": "1972-01-01T10:00:20.021Z"
         },
-        "type": "TYPE_UNSPECIFIED (0) | TYPE_TEXT (1) | TYPE_AUDIO (2) | TYPE_STICKER (3) | TYPE_PHOTO (4) | TYPE_VIDEO (5) | TYPE_GIF (6) | TYPE_FILE (7) | TYPE_LOCATION (8) | TYPE_CONTACT (9) | TYPE_RECALL (10) | TYPE_DELIVERY (11) | TYPE_READ (12)",
+        "type": "TYPE_UNSPECIFIED (0) | TYPE_TEXT (1) | TYPE_AUDIO (2) | TYPE_STICKER (3) | TYPE_PHOTO (4) | TYPE_VIDEO (5) | TYPE_GIF (6) | TYPE_FILE (7) | TYPE_LOCATION (8) | TYPE_CONTACT (9) | TYPE_RECALL (10) | TYPE_READ (11)",
         "text": {
           "content": "string"
         },
@@ -260,6 +226,12 @@
     ]
   },
   "receipts": {
+    "local_ids": [
+      {
+        "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
+        "last_id": "string($int64)"
+      }
+    ],
     "postmarks": [
       {
         "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
@@ -271,6 +243,93 @@
       }
     ]
   }
+}
+```
+
+
+
+
+<h3 id="send">Send</h3>
+
+>  Send room message.
+
+
+
+* HTTP Gateway
+
+	* URL: `/message/room/send`
+	* Method: `POST`
+	* Content-Type: `application/json`
+
+* Request Type: ***Post***
+
+>  Message post.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|postmark|[Postmark](#postmark)|object| Message postmark|-|true|
+|type|enum [Type](#type)|string/integer| Message type|-|true|
+|text|[Text](#text) (oneof envelope)|object| Text content|-|false|
+|resource|[Media](#media) (oneof envelope)|object| Media resource|-|false|
+|coordinate|[Location](#location) (oneof envelope)|object| Location coordinate|-|false|
+
+
+
+
+> JSON Demo
+
+```json
+{
+  "postmark": {
+    "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
+    "sender": "string($int64)",
+    "receiver": "string($int64)",
+    "unique_id": "string($int64)",
+    "expire": "1.000340012s",
+    "timestamp": "1972-01-01T10:00:20.021Z"
+  },
+  "type": "TYPE_UNSPECIFIED (0) | TYPE_TEXT (1) | TYPE_AUDIO (2) | TYPE_STICKER (3) | TYPE_PHOTO (4) | TYPE_VIDEO (5) | TYPE_GIF (6) | TYPE_FILE (7) | TYPE_LOCATION (8) | TYPE_CONTACT (9) | TYPE_RECALL (10) | TYPE_READ (11)",
+  "text": {
+    "content": "string"
+  },
+  "resource": {
+    "url": "string",
+    "thumbnail": "string"
+  },
+  "coordinate": {
+    "latitude": 3.1415926,
+    "longitude": 3.1415926
+  }
+}
+```
+
+
+
+* Response Type: ***Postmark***
+
+>  Message postmark.
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|category|enum [Category](#category)|string/integer| Message category|-|true|
+|sender|int64|string| Sender ID|-|true|
+|receiver|int64|string| Receiver/group/room/channel ID|-|true|
+|unique_id|int64|string| Message ID, generated in server-side|-|false|
+|expire|[Duration](#duration)|string ("1.000340012s")| Message expiration|-|false|
+|timestamp|[Timestamp](#timestamp)|string ("1972-01-01T10:00:20.021Z")| Message timestamp|-|false|
+
+
+
+> JSON Demo
+
+```json
+{
+  "category": "CATEGORY_UNSPECIFIED (0) | CATEGORY_PRIVATE (1) | CATEGORY_GROUP (2) | CATEGORY_CHANNEL (3) | CATEGORY_ROOM (4)",
+  "sender": "string($int64)",
+  "receiver": "string($int64)",
+  "unique_id": "string($int64)",
+  "expire": "1.000340012s",
+  "timestamp": "1972-01-01T10:00:20.021Z"
 }
 ```
 
@@ -311,12 +370,9 @@
 |Name (string)|Value (integer)|Comment|
 |---|---|---|
 |PAYLOAD_TYPE_UNSPECIFIED|0| Unspecified|
-|PAYLOAD_TYPE_PING|1| Heartbeat ping|
-|PAYLOAD_TYPE_PONG|2| Heartbeat pong|
-|PAYLOAD_TYPE_MESSAGE|3| Send message request (client -> server)|
-|PAYLOAD_TYPE_MESSAGE_ACK|4| Send message ack response (server -> client)|
-|PAYLOAD_TYPE_POSTS|5| Message notify (server -> client)|
-|PAYLOAD_TYPE_RECEIPTS|6| Message notify receipts (client -> server)|
+|PAYLOAD_TYPE_SYNC|1| Sync messages (client -> server)|
+|PAYLOAD_TYPE_MESSAGES|2| Message notify (server -> client)|
+|PAYLOAD_TYPE_RECEIPTS|3| Message notify receipts (client -> server)|
 
 
 <h3 id="type">Type</h3>
@@ -338,14 +394,36 @@
 |TYPE_LOCATION|8| Location|
 |TYPE_CONTACT|9| Contact|
 |TYPE_RECALL|10| Recall|
-|TYPE_DELIVERY|11| Message delivery receipt|
-|TYPE_READ|12| Message read receipt|
+|TYPE_READ|11| Message read receipt|
 
 
 
 
 
 
+
+
+<h3 id="clientid">ClientId</h3>
+
+>  Client local ID.
+
+* Fields
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|category|enum [Category](#category)|string/integer| Message category|-|true|
+|last_id|int64|string| Client latest ID|-|false|
+
+
+<h3 id="clientids">ClientIds</h3>
+
+>  Client local IDs.
+
+* Fields
+
+|Field|proto type|JSON type|Comment|Default|Required|
+|---|---|---|---|---|---|
+|ids|array [[ClientId](#clientid)]|array| Client latest IDs|-|false|
 
 
 <h3 id="location">Location</h3>
@@ -422,6 +500,7 @@
 
 |Field|proto type|JSON type|Comment|Default|Required|
 |---|---|---|---|---|---|
+|local_ids|array [[ClientId](#clientid)]|array| Client latest IDs|-|false|
 |postmarks|array [[Postmark](#postmark)]|array| Message postmarks|-|false|
 
 
