@@ -69,4 +69,5 @@ message Metadata {
   optional string channel  = 17; // Distribution channel
   optional string product  = 18; // Product name
   optional string trace_id = 19; // Trace ID
+  optional string risk_id  = 20; // Risk ID
 }

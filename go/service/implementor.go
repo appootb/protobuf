@@ -117,5 +117,5 @@ func AccountSecretFromContext(ctx context.Context) *secret.Info {
 	if secretInfo := ctx.Value(secretKey{}); secretInfo != nil {
 		return secretInfo.(*secret.Info)
 	}
-	return nil
+	return &secret.Info{}
 }
