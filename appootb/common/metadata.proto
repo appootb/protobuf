@@ -70,4 +70,6 @@ message Metadata {
   optional string product  = 18; // Product name
   optional string trace_id = 19; // Trace ID
   optional string risk_id  = 20; // Risk ID
+  optional string uuid     = 21; // Device UUID
+  optional string udid     = 22; // Device UDID
 }

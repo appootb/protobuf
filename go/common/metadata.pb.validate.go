@@ -85,6 +85,10 @@ func (m *Metadata) Validate() error {
 
 	// no validation rules for RiskId
 
+	// no validation rules for Uuid
+
+	// no validation rules for Udid
+
 	return nil
 }
 
