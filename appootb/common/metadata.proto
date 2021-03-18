@@ -72,4 +72,8 @@ message Metadata {
   optional string risk_id  = 20; // Risk ID
   optional string uuid     = 21; // Device UUID
   optional string udid     = 22; // Device UDID
+
+  optional string user_agent = 23; // User-agent
+  optional string device_mac = 24; // Device MAC
+  optional string android_id = 25; // Android ID
 }

@@ -89,6 +89,12 @@ func (m *Metadata) Validate() error {
 
 	// no validation rules for Udid
 
+	// no validation rules for UserAgent
+
+	// no validation rules for DeviceMac
+
+	// no validation rules for AndroidId
+
 	return nil
 }
 
