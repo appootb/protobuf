@@ -18,5 +18,5 @@ option php_namespace = "Appootb\\Proto\\Permission";
 
 // ProtoBuffer method extend.
 extend google.protobuf.MethodOptions {
-  repeated string required = 3507; // Required roles
+  repeated string required = 4507; // Required roles
 }

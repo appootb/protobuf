@@ -36,7 +36,7 @@ type Authenticator interface {
 
 	// Register required method subjects of the service.
 	// The map key of the parameter is the full url path of the method.
-	RegisterServiceSubjects(component string, serviceMethodSubjects map[string][]permission.Subject)
+	RegisterServiceSubjects(component string, serviceMethodSubjects map[string][]permission.Subject, serviceMethodRoles map[string][]string)
 
 	// Authenticate a request specified by the full url path of the method.
 	Authenticate(ctx context.Context, serviceMethod string) (*secret.Info, error)
