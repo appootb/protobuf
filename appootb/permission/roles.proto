@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package appootb.permission.roles;
+
+import "google/protobuf/descriptor.proto";
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+option csharp_namespace = "Permission";
+option go_package = "github.com/appootb/protobuf/go/permission";
+option java_multiple_files = true;
+option java_outer_classname = "RolesProto";
+option java_package = "com.appootb.permission";
+option objc_class_prefix = "CPB";
+option php_namespace = "Appootb\\Proto\\Permission";
+
+
+// ProtoBuffer method extend.
+extend google.protobuf.MethodOptions {
+  repeated string required = 3507; // Required roles
+}
